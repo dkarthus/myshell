@@ -19,11 +19,14 @@ typedef struct	s_source
 	char	*ref_str;
 }				t_src;
 
-int		ft_parse(char *line, t_inst *inst);
+typedef struct s_env t_env;
+
+int		ft_parse(char *line);
 
 //Env vars parser
 t_env	**ft_parse_env(char *env[]);
 int		ft_add_env_elem(char *src, t_env **head);
+void	ft_del_elem(t_env *elem);
 
 //Utils
 int		ft_check_input_line(char *line);
