@@ -16,12 +16,14 @@ typedef struct	s_source
 	char	*str;
 	int 	len;
 	int		pos;
-	char	*ref_str;
+	char	**args;
+	int		args_cnt;
 }				t_src;
 
 typedef struct s_env t_env;
+typedef struct	s_instance t_inst;
 
-int		ft_parse(char *line);
+int		ft_parse(char *line, t_inst *inst);
 
 //Env vars parser
 t_env	**ft_parse_env(char *env[]);
@@ -32,6 +34,12 @@ void	ft_del_elem(t_env *elem);
 int		ft_check_input_line(char *line);
 void	skip_wspace(t_src *src);
 int		ft_single_qt(t_src *src);
+int		ft_double_qt(t_src *src, t_env **head);
+int		ft_dolla(t_src *src, t_env **head);
+int		ft_proc_pipe(t_src *src);
+int		ft_redir_in(t_src *src);
+int		ft_redir_out(t_src *src);
+int		ft_check_symbol(char c);
 
 //Error handler
 int		ft_err_parser(const char *str, t_src *src, char *to_free1, char *to_free2);

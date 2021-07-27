@@ -125,25 +125,18 @@ void	ft_free_env(t_env **head)
 {
 	t_env *tmp;
 
-	tmp = *head;
-	while(tmp->next)
+	while(*head)
 	{
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp->line);
-		tmp->key = NULL;
-		tmp->value = NULL;
-		tmp->line = NULL;
-		tmp = tmp->next;
+		tmp = (*head)->next;
+		free((*head)->key);
+		free((*head)->value);
+		free((*head)->line);
+		(*head)->key = NULL;
+		(*head)->value = NULL;
+		(*head)->line = NULL;
+		free((*head));
+		(*head) = tmp;
 	}
-	free(tmp->key);
-	free(tmp->value);
-	free(tmp->line);
-	tmp->key = NULL;
-	tmp->value = NULL;
-	tmp->line = NULL;
-	free(tmp);
-	tmp = NULL;
 	free(head);
 	head = NULL;
 }

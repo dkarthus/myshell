@@ -11,9 +11,8 @@ int	main(int argc, char *argv[], char *env[])
 		return (1);
 	inst.env_head = ft_parse_env(env);
 	if (!(inst.env_head))
-		return (ft_err_parser("Malloc Error in env vars parsing", NULL, NULL,
-							  NULL))
-	while ()
+		return (1);
+	while (inst.env_head)
 	{
 		line = readline("<<minishell>>");
 		if (!(ft_check_input_line(line)))

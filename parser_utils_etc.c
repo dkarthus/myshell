@@ -3,7 +3,7 @@
 /*
  * Func for shrinking whitespaces in input line into one
  *
- * @param	input line struct;
+ * @param	src main parser struck -> check header parser.h;
  * @return	N/A;
  */
 void	skip_wspace(t_src *src)
@@ -12,6 +12,7 @@ void	skip_wspace(t_src *src)
 	{
 		while (ft_isspace(src->str[src->pos]))
 			src->pos++;
+		src->args_cnt++;
 	}
 }
 

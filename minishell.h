@@ -9,14 +9,7 @@
 # include "libft/libft.h"
 # include "parser.h"
 
-/*
-typedef struct	s_instance
-{
-	t_env	**env_head;
-	int		pipes_cnt;
-	t_args **args_head;
-}				t_inst;
-*/
+typedef struct s_env t_env;
 
 typedef struct	s_env
 {
@@ -24,8 +17,26 @@ typedef struct	s_env
 	char *key;
 	char *value;
 	t_env *next;
-//	t_env *prev;
 }				t_env;
+
+typedef struct	s_instance
+{
+	t_env	**env_head;
+//	t_args	**args_head;
+	int		args_cnt;
+}				t_inst;
+
+/*struct	s_arg	t_arg;
+
+typedef struct	s_arg
+{
+	char	*arg;
+	int		fd_in;
+	int		fd_out;
+	t_arg	*next;
+}				t_arg;*/
+
+
 
 
 //Env vars utils

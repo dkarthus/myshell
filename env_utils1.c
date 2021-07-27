@@ -53,36 +53,36 @@ static void	ft_update_elem(t_env *old_elem, t_env *new_elem)
  * Compares keys on env vars and inserts elems in alphbetical oreder;
  *
  * @param head of two-way linked list of env vars;
- * @param elm to insert in this list;
+ * @param elem to insert in this list;
  * @return N/A;
  */
-static void	ft_insert_elem(t_env **head, t_env *elm)
+static void	ft_insert_elem(t_env **head, t_env *elem)
 {
-	t_env	*itr;
+	t_env	*iter;
 
-	itr = *head;
-	if (ft_strncmp(itr->key, elm->key, ft_strlen(itr->key)) > 0)
+	iter = *head;
+	if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key)) > 0)
 	{
-		*head = elm;
-		elm->next = itr;
+		*head = elem;
+		elem->next = iter;
 		return ;
 	}
-	while (itr->next && ft_strncmp(itr->next->key, elm->key,
-					ft_strlen(itr->key)) < 0)
-		itr = itr->next;
-	if (!itr->next)
+	while (iter->next && ft_strncmp(iter->next->key, elem->key,
+									ft_strlen(iter->key)) < 0)
+		iter = iter->next;
+	if (!iter->next)
 	{
-		itr->next = elm;
+		iter->next = elem;
 		return ;
 	}
-	if (ft_strncmp(itr->next->key, elm->key, ft_strlen(itr->key)) == 0)
-		ft_update_elem(itr->next, elm);
-	else if (ft_strncmp(itr->key, elm->key, ft_strlen(itr->key)) == 0)
-		ft_update_elem(itr, elm);
+	if (ft_strncmp(iter->next->key, elem->key, ft_strlen(iter->key)) == 0)
+		ft_update_elem(iter->next, elem);
+	else if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key)) == 0)
+		ft_update_elem(iter, elem);
 	else
 	{
-		elm->next = itr->next;
-		itr->next = elm;
+		elem->next = iter->next;
+		iter->next = elem;
 	}
 }
 
