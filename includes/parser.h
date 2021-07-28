@@ -35,7 +35,7 @@ int		ft_check_input_line(char *line);
 void	skip_wspace(t_src *src);
 int		ft_single_qt(t_src *src);
 int		ft_double_qt(t_src *src, t_env **head);
-int		ft_dolla(t_src *src, t_env **head);
+int		ft_dolla(t_src *src, t_env **head, int *upstart);
 int		ft_proc_pipe(t_src *src);
 int		ft_redir_in(t_src *src);
 int		ft_redir_out(t_src *src);

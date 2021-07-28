@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../includes/parser.h"
 
 /*
  *
@@ -18,7 +18,7 @@ int	ft_proc_pipe(t_src *src)
 	}
 	if (!(src->args[src->args_cnt]))
 		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
-	src->args_cnt++;
+	src->pos++;
 	return (0);
 }
 
@@ -89,7 +89,6 @@ int ft_redir_out(t_src *src)
 			src->pos++;
 		}
 	}
-	src->args_cnt++;
 	return (0);
 }
 
@@ -125,7 +124,6 @@ int ft_redir_in(t_src *src)
 			src->pos++;
 		}
 	}
-	src->args_cnt++;
 	return (0);
 }
 

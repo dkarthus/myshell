@@ -1,5 +1,5 @@
-#include "parser.h"
-#include "minishell.h"
+#include "../includes/parser.h"
+#include "../includes/minishell.h"
 
 /*
  *
@@ -58,16 +58,16 @@ int	ft_parse(char *line, t_inst *inst)
 	ret = 0;
 	if (!(ft_init_src(&src, line)))
 		return (ft_err_parser("Malloc err in parser", &src, NULL, NULL));
-	while(src.pos <= src.len && !ret)
+	while(src.pos <= src.len && !ret && src.str[src.pos])
 	{
-		if (line[src.pos] == '\'' && !ret)
+		if (line[src.pos] == '\'')
 			ret = ft_single_qt(&src);
 		if (line[src.pos] == '\"' && !ret)
 			ret = ft_double_qt(&src, inst->env_head);
 		if (line[src.pos] == '|' && !ret)
 			ret = ft_proc_pipe(&src);
 		if (line[src.pos] == '$' && !ret)
-			ret = ft_dolla(&src, inst->env_head);
+			ret = ft_dolla(&src, inst->env_head, NULL);
 		if (line[src.pos] == '>' && !ret)
 			ret = ft_redir_out(&src);
 		if (line[src.pos] == '<' && !ret)
@@ -79,7 +79,7 @@ int	ft_parse(char *line, t_inst *inst)
 	int i =0;
 	while(src.args[i])
 	{
-		printf("> %s\n", src.args[i]);
+		printf("ARG:   %s\n", src.args[i]);
 		i++;
 	}
 	return (ret);
@@ -91,6 +91,6 @@ int main(void)
 
 	char *src[] = { "b=first", "c=second", "e=frth", "g=fifth", NULL};
 	inst.env_head = ft_parse_env(src);
-	int i = ft_parse("one two \"three $c fo$bb'ur'\" $e", &inst);
-	printf("i %d\n", i);
+	ft_parse("one\'sdf\' \'dsf\' |two\" th>> >re< <<e $c fo\" sdf$bbur $e<<< "
+			 ">>$c", &inst);
 }

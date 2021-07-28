@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../includes/parser.h"
 
 /*
  * Checks if the symbol is one that needs to be interpret;
@@ -20,13 +20,11 @@ static int ft_append_arg( t_src *src, char *str, int *start, int *len)
 	char *arg;
 	char *tmp;
 
-	arg = ft_substr(str, *start, *len - 1);
+	arg = ft_substr(str, *start, *len);
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))
 		return (ft_err_parser("Malloc error in parser", src, arg, tmp));
-	*start = src->pos;
-	*len = 0;
 	free (arg);
 	free (tmp);
 	arg = NULL;
@@ -45,13 +43,15 @@ static int ft_dissect_value(t_src *src, char *value)
 
 	start = 0;
 	i = 0;
+	len = 0;
 	while (value[i])
 	{
 		if (ft_isspace(value[i]))
 		{
 			if (ft_append_arg(src, value, &start, &len))
 				return (1);
-			while (ft_isspace(value[i++]));
+			while (ft_isspace(value[i]))
+				i++;
 			start = i;
 			len = 0;
 		}
@@ -72,28 +72,34 @@ static int ft_dissect_value(t_src *src, char *value)
  * @param head of linked list of env vars;
  * @return returns 0 - no errors, and 1 on malloc mistake;
  */
-int ft_dolla(t_src *src, t_env **head)
+int ft_dolla(t_src *src, t_env **head, int *upstart)
 {
 	int		start;
 	int		len;
 	char	*key;
 	char	*value;
 
-	start = ++src->pos;
+	src->pos++;
+	start = src->pos;
 	len = 0;
-	while (!(ft_check_symbol(src->str[src->pos++])))
+	while (!(ft_check_symbol(src->str[src->pos])))
+	{
+		src->pos++;
 		len++;
+	}
+	if (upstart)
+		*upstart = src->pos;
 	key = ft_substr(src->str, start, len);
 	if (!(key))
 		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
 	value = ft_get_env_value(key, head);
 	if (!value)
-		return (0);
+		return (!ft_err_parser(NULL, NULL, key, NULL));
 	if (!src->args[src->args_cnt])
 		src->args[src->args_cnt] = ft_strdup("");
 	if (ft_dissect_value(src, value))
-		return (ft_err_parser(NULL, src, key, value));
-	ft_err_parser(NULL, NULL, key, value);
+		return (ft_err_parser(NULL, src, key, NULL));
+	ft_err_parser(NULL, NULL, key, NULL);
 	return (0);
 }
 

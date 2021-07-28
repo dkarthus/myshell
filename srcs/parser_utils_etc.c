@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../includes/parser.h"
 
 /*
  * Func for shrinking whitespaces in input line into one

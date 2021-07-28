@@ -1,4 +1,4 @@
-#include "parser.h"
+#include "../includes/parser.h"
 
 /*
  *
@@ -10,10 +10,11 @@ static int	ft_append_arg(t_src *src, int *start, int *len)
 
 	arg = ft_substr(src->str, *start, *len);
 	tmp = src->args[src->args_cnt];
+	printf("app %s\n", arg);
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))
 		return (ft_err_parser("Malloc error in parser", src, arg, tmp));
-	*start = src->pos;
+//	*start = src->pos;
 	*len = 0;
 	free (arg);
 	free (tmp);
@@ -32,7 +33,8 @@ int	ft_double_qt(t_src *src, t_env **head)
 	int		len;
 
 	len = 0;
-	start = ++src->pos;
+	src->pos++;
+	start = src->pos;
 	if (!(src->args[src->args_cnt]))
 		src->args[src->args_cnt] = ft_strdup("");
 	while (src->str[src->pos] != '\"')
@@ -41,8 +43,8 @@ int	ft_double_qt(t_src *src, t_env **head)
 			return (ft_err_parser("Unclosed double quotes", src, NULL, NULL));
 		if (src->str[src->pos] == '$')
 		{
-			if (ft_append_arg(src, &start, &len) || ft_dolla(src, head))
-				return (1);
+			ft_append_arg(src, &start, &len);
+			ft_dolla(src, head, &start);
 		}
 		len++;
 		src->pos++;
