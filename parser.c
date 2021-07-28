@@ -35,7 +35,7 @@ static int ft_add_arg(t_src  *src)
 		len++;
 		src->pos++;
 	}
-	arg = ft_substr(src->str, start, len - 1);
+	arg = ft_substr(src->str, start, len);
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))
@@ -91,6 +91,6 @@ int main(void)
 
 	char *src[] = { "b=first", "c=second", "e=frth", "g=fifth", NULL};
 	inst.env_head = ft_parse_env(src);
-	int i = ft_parse("one two \"three four\" $e", &inst);
+	int i = ft_parse("one two \"three $c fo$bb'ur'\" $e", &inst);
 	printf("i %d\n", i);
 }

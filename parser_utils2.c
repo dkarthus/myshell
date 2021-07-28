@@ -8,7 +8,7 @@ static int	ft_append_arg(t_src *src, int *start, int *len)
 	char *arg;
 	char *tmp;
 
-	arg = ft_substr(src->str, *start, *len - 1);
+	arg = ft_substr(src->str, *start, *len);
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))

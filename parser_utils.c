@@ -49,7 +49,7 @@ static int ft_dissect_value(t_src *src, char *value)
 	{
 		if (ft_isspace(value[i]))
 		{
-			if (!(ft_append_arg(src, value, &start, &len)))
+			if (ft_append_arg(src, value, &start, &len))
 				return (1);
 			while (ft_isspace(value[i++]));
 			start = i;
@@ -58,6 +58,8 @@ static int ft_dissect_value(t_src *src, char *value)
 		i++;
 		len++;
 	}
+	if (ft_append_arg(src, value, &start, &len))
+		return (1);
 	return (0);
 }
 
@@ -81,7 +83,7 @@ int ft_dolla(t_src *src, t_env **head)
 	len = 0;
 	while (!(ft_check_symbol(src->str[src->pos++])))
 		len++;
-	key = ft_substr(src->str, start, len - 1);
+	key = ft_substr(src->str, start, len);
 	if (!(key))
 		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
 	value = ft_get_env_value(key, head);
