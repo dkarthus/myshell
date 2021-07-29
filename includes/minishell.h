@@ -19,6 +19,8 @@ typedef struct	s_env
 	t_env *next;
 }				t_env;
 
+typedef struct	s_token t_tkn;
+
 typedef struct	s_token
 {
 	char	*cmd;
@@ -26,7 +28,7 @@ typedef struct	s_token
 	int		fd_in;
 	int		fd_out;
 	int		is_pipe;
-	t_arg	*next;
+	t_tkn	*next;
 }				t_tkn;
 
 typedef struct	s_instance

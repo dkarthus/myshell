@@ -25,10 +25,20 @@ typedef struct	s_instance t_inst;
 
 int		ft_parse(char *line, t_inst *inst);
 
+
 //Env vars parser
 t_env	**ft_parse_env(char *env[]);
 int		ft_add_env_elem(char *src, t_env **head);
 void	ft_del_elem(t_env *elem);
+
+
+//Token creation
+int		ft_create_blank_file(t_src *src, int *arg_iter);
+int		ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter);
+t_tkn	*ft_init_token(char *cmd);
+int		ft_ch_symbl(char c);
+int		ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter);
+int		ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter);
 
 //Utils
 int		ft_check_input_line(char *line);
