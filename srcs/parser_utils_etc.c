@@ -15,14 +15,14 @@ void	skip_wspace(t_src *src)
 		src->args_cnt++;
 	}
 }
-
 /*
+*//*
  * Check input line if it's good for saving in 'history', meaning
  * if there characters other than whitespaces or if its blank;
  *
  * @param str string input from readline;
  * @return 0 - valid string, 1 - invalid string;
-*/
+*//*
 int ft_check_input_line(char *line)
 {
 	int	i;
@@ -39,4 +39,4 @@ int ft_check_input_line(char *line)
 		i++;
 	}
 	return (1);
-}
+}*/

@@ -2,7 +2,8 @@ DIR_HEADERS	= ./includes/
 
 DIR_SRCS	= ./srcs/
 
-SRC			=	parser.c \
+SRC			=	minishell.c \
+				parser.c \
 				env_utils.c \
 				env_utils1.c \
 				parser_err_handler.c \
@@ -10,6 +11,10 @@ SRC			=	parser.c \
 				parser_utils1.c \
 				parser_utils2.c \
 				parser_utils_etc.c \
+				token_util.c \
+				token_utils1.c \
+				token_utils2.c \
+				tokenizer.c
 
 SRCS		= $(addprefix $(DIR_SRCS), $(SRC))
 
@@ -31,7 +36,7 @@ CFLAGS		= -Wall -Werror -Wextra -g
 $(NAME):	$(OBJS)
 			make -C ./libft
 			cp ./libft/libft.a .
-			$(GCC) $(CFLAGS) -L. $(LIBFT) -ltermcap -I./$(DIR_HEADERS) $(OBJS) -o $(NAME)
+			$(GCC) $(CFLAGS) -L. $(LIBFT) -lreadline -I./$(DIR_HEADERS) $(OBJS) -o $(NAME)
 
 all:		$(NAME)
 

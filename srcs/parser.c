@@ -9,7 +9,7 @@ static int	ft_init_src(t_src *src, char *line)
 	src->str = line;
 	src->pos = 0;
 	src->args_cnt = 0;
-	src->len = ft_strlen(line);
+	src->len = (int)ft_strlen(line);
 	src->args = ft_calloc(255, sizeof(char *));
 	if (!(src->args))
 		return (0);
@@ -50,40 +50,35 @@ static int ft_add_arg(t_src  *src)
 /*
  *
  */
-int	ft_parse(char *line, t_inst *inst)
+int	ft_parse(char *line, t_inst *inst, t_src *src)
 {
-	t_src	src;
 	int 	ret;
 
 	ret = 0;
-	if (!(ft_init_src(&src, line)))
-		return (ft_err_parser("Malloc err in parser", &src, NULL, NULL));
-	while(src.pos <= src.len && !ret && src.str[src.pos])
+	if (!(ft_init_src(src, line)))
+		return (ft_err_parser("Malloc err in parser", src, NULL, NULL));
+	while(src->pos <= src->len && !ret && src->str[src->pos])
 	{
-		if (line[src.pos] == '\'')
-			ret = ft_single_qt(&src);
-		if (line[src.pos] == '\"' && !ret)
-			ret = ft_double_qt(&src, inst->env_head);
-		if (line[src.pos] == '|' && !ret)
-			ret = ft_proc_pipe(&src);
-		if (line[src.pos] == '$' && !ret)
-			ret = ft_dolla(&src, inst->env_head, NULL);
-		if (line[src.pos] == '>' && !ret)
-			ret = ft_redir_out(&src);
-		if (line[src.pos] == '<' && !ret)
-			ret = ft_redir_in(&src);
-		if (!ft_check_symbol(line[src.pos]) && !ret)
-			ret = ft_add_arg(&src);
-		skip_wspace(&src);
+		if (line[src->pos] == '\'')
+			ret = ft_single_qt(src);
+		if (line[src->pos] == '\"' && !ret)
+			ret = ft_double_qt(src, inst->env_head);
+		if (line[src->pos] == '|' && !ret)
+			ret = ft_proc_pipe(src);
+		if (line[src->pos] == '$' && !ret)
+			ret = ft_dolla(src, inst->env_head, NULL);
+		if (line[src->pos] == '>' && !ret)
+			ret = ft_redir_out(src);
+		if (line[src->pos] == '<' && !ret)
+			ret = ft_redir_in(src);
+		if (!ft_check_symbol(line[src->pos]) && !ret)
+			ret = ft_add_arg(src);
+		skip_wspace(src);
 	}
-	int i =0;
-	while(src.args[i])
-	{
-		printf("ARG:   %s\n", src.args[i]);
-		i++;
-	}
+
 	return (ret);
 }
+/*
 
 int main(void)
 {
@@ -93,4 +88,4 @@ int main(void)
 	inst.env_head = ft_parse_env(src);
 	ft_parse("one\'sdf\' \'dsf\' |two\" th>> >re< <<e $c fo\" sdf$bbur $e<<< "
 			 ">>$c", &inst);
-}
+}*/

@@ -22,8 +22,9 @@ typedef struct	s_source
 
 typedef struct s_env t_env;
 typedef struct	s_instance t_inst;
+typedef struct	s_token t_tkn;
 
-int		ft_parse(char *line, t_inst *inst);
+int		ft_parse(char *line, t_inst *inst, t_src *src);
 
 
 //Env vars parser
@@ -33,12 +34,16 @@ void	ft_del_elem(t_env *elem);
 
 
 //Token creation
+int		ft_tokenize(t_src *src, t_inst *inst);
 int		ft_create_blank_file(t_src *src, int *arg_iter);
+int		ft_blank_check_file(t_src *src, int *arg_iter);
 int		ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter);
 t_tkn	*ft_init_token(char *cmd);
+int		ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i);
 int		ft_ch_symbl(char c);
 int		ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter);
 int		ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter);
+int		ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter);
 
 //Utils
 int		ft_check_input_line(char *line);

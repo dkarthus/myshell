@@ -28,6 +28,8 @@ typedef struct	s_token
 	int		fd_in;
 	int		fd_out;
 	int		is_pipe;
+	int		is_here_doc;
+	char	*stop_word;
 	t_tkn	*next;
 }				t_tkn;
 
