@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 #include "../includes/parser.h"
+#include "../includes/cd.h"
 
 
 int	main(int argc, char *argv[], char *env[])
@@ -9,7 +10,7 @@ int	main(int argc, char *argv[], char *env[])
 	char	*line;
 	t_tkn *tmp;
 	(void)argv;
-	//char	*prompt;
+	char	*prompt;
 
 	if (argc != 1)
 		return (1);
@@ -27,6 +28,7 @@ int	main(int argc, char *argv[], char *env[])
 		if (ft_tokenize(&src, &inst))
 			continue ;
 		tmp = *(inst.tkn_head);
+		your_wish_is_my_command(&inst);
 		while (tmp)
 		{
 			printf("cmd-%s  fd_in-%d  fd_out-%d  is_pipe-%d  is_h_d %d  s_w "
@@ -37,6 +39,11 @@ int	main(int argc, char *argv[], char *env[])
 			printf("arg3 %s\n", tmp->args[2]);
 			tmp = tmp->next;
 		}
+
+		prompt = ft_get_env_value("PWD", inst.env_head);
+		printf("pwd  %s\n", prompt);
+		prompt = ft_get_env_value("OLDPWD", inst.env_head);
+		printf("oldpwd  %s\n", prompt);
 		free (line);
 	}
 }
