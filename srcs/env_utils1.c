@@ -50,7 +50,7 @@ static void	ft_update_elem(t_env *old_elem, t_env *new_elem)
 }
 
 /*
- * Compares keys on env vars and inserts elems in alphbetical oreder;
+ * Compares keys on env vars and inserts elems in alphabetical order;
  *
  * @param head of two-way linked list of env vars;
  * @param elem to insert in this list;
@@ -127,33 +127,3 @@ void	ft_del_elem(t_env *elem)
 	free(elem);
 	elem = NULL;
 }
-/*
-
-int main(void)
-{
-//	t_env *tmp;
-
-	char *src[] = { "b=first", "c=second", "e=frth", "g=fifth", NULL};
-	t_env **env = ft_parse_env(src);
-//	tmp = *env;
-	*/
-/*printf("@ %s %s %s\n", tmp->line, tmp->key, tmp->value);
-	printf("@ %s %s %s\n", tmp->next->line, tmp->next->key, tmp->next->value);
-	printf("@ %s %s %s\n", tmp->next->next->line, tmp->next->next->key,  tmp->next->next->value);*//*
-
-	ft_add_env_elem("d=test", env);
-	char **dst = ft_group_envs(env);
-	while(*dst)
-	{
-		printf("%s\n", *dst);
-		dst++;
-	}
-	printf("\n");
-	ft_unset_env_var("g", env);
-	dst = ft_group_envs(env);
-	while(*dst)
-	{
-		printf("%s\n", *dst);
-		dst++;
-	}
-}*/

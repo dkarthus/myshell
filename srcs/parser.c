@@ -78,14 +78,3 @@ int	ft_parse(char *line, t_inst *inst, t_src *src)
 
 	return (ret);
 }
-/*
-
-int main(void)
-{
-	t_inst inst;
-
-	char *src[] = { "b=first", "c=second", "e=frth", "g=fifth", NULL};
-	inst.env_head = ft_parse_env(src);
-	ft_parse("one\'sdf\' \'dsf\' |two\" th>> >re< <<e $c fo\" sdf$bbur $e<<< "
-			 ">>$c", &inst);
-}*/

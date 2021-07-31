@@ -102,23 +102,3 @@ int ft_dolla(t_src *src, t_env **head, int *upstart)
 	ft_err_parser(NULL, NULL, key, NULL);
 	return (0);
 }
-
-
-/*
-static void ft_init_src(t_src *src, char *line)
-{
-	src->str = line;
-	src->pos = 0;
-	src->len = ft_strlen(line);
-	src->args = ft_strdup("");
-}
-int main(void)
-{
-	t_src src;
-	char kkk[] = {"'qwert' 'lk"};
-
-	ft_init_src(&src, kkk);
-	printf("%s\n", src.str);
-	ft_single_qt(&src);
-	printf("out %s\n", src.args);
-}*/

@@ -319,8 +319,9 @@ int		your_wish_is_my_command(t_inst *inst)
 	tmp = *(inst->tkn_head);
 	while (tmp)
 	{
-		if (ft_strncmp(tmp->cmd, "cd", ft_strlen(tmp->cmd)))
+		if (ft_strncmp(tmp->cmd, "cd", ft_strlen(tmp->cmd)) == 0)
 			cd(inst);
+
 		tmp = tmp->next;
 	}
 		return (0);

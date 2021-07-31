@@ -10,7 +10,8 @@ int	main(int argc, char *argv[], char *env[])
 	char	*line;
 	t_tkn *tmp;
 	(void)argv;
-	char	*prompt;
+//	t_env *tenv;
+//	char	*prompt;
 
 	if (argc != 1)
 		return (1);
@@ -39,11 +40,10 @@ int	main(int argc, char *argv[], char *env[])
 			printf("arg3 %s\n", tmp->args[2]);
 			tmp = tmp->next;
 		}
-
-		prompt = ft_get_env_value("PWD", inst.env_head);
+/*		prompt = ft_get_env_value("PWD", inst.env_head);
 		printf("pwd  %s\n", prompt);
 		prompt = ft_get_env_value("OLDPWD", inst.env_head);
-		printf("oldpwd  %s\n", prompt);
+		printf("oldpwd  %s\n", prompt);*/
 		free (line);
 	}
 }

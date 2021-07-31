@@ -8,7 +8,6 @@ t_tkn *ft_fill_token(t_src *src, int *arg_iter)
 	t_tkn *new;
 
 	new = ft_init_token(src->args[*arg_iter]);
-	printf("tkn-cmd %s\n", new->cmd);
 	(*arg_iter)++;
 	if (!new)
 	{
@@ -17,27 +16,20 @@ t_tkn *ft_fill_token(t_src *src, int *arg_iter)
 	}
 	while (src->args[*arg_iter] && src->args[*arg_iter][0] != '|')
 	{
-		printf("STR %s\n", src->args[*arg_iter]);
 		if (src->args[*arg_iter][0] == '>')
 		{
-			printf("1fdout update\n");
 			if (ft_update_token_fdout(new, src, arg_iter))
 				return (0);
-			printf("fdout update\n");
 		}
 		if (src->args[*arg_iter] && src->args[*arg_iter][0] == '<')
 		{
-			printf("1fdin update\n");
 			if (ft_update_token_fdin(new, src, arg_iter))
 				return (0);
-			printf("fdin update\n");
 		}
 		if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]))
 		{
-			printf("1arg update\n");
 			if (ft_update_args(new, src, arg_iter))
 				return (0);
-			printf("arg update\n");
 		}
 	}
 	if (ft_is_pipe_tkn(new, src, arg_iter))
@@ -54,7 +46,6 @@ int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter)
 
 	if (!*head)
 	{
-		printf("1str %s\n", src->args[*arg_iter]);
 		*head = ft_fill_token(src, arg_iter);
 		if (!*head)
 			return (1);
@@ -64,7 +55,6 @@ int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter)
 		iter = *head;
 		while (iter->next)
 			iter = iter->next;
-		printf("1str %s\n", src->args[*arg_iter]);
 		iter->next = ft_fill_token(src, arg_iter);
 		if (!iter->next)
 			return (1);

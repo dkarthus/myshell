@@ -1,5 +1,4 @@
 #include "../includes/minishell.h"
-
 /*
  * Finds and returns value from linked list of envs vars all accroding the key
  *
@@ -14,7 +13,7 @@ char *ft_get_env_value(char *key, t_env **head)
 	iter = *head;
 	while(iter)
 	{
-		if ((ft_strncmp(key, iter->key, ft_strlen(key))) == 0)
+		if (ft_strncmp(key, iter->key, ft_strlen(key)) == 0)
 			return (iter->value);
 		iter = iter->next;
 	}

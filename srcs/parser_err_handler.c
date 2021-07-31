@@ -11,7 +11,7 @@ int ft_err_parser(const char *str, t_src *src, char *to_free1, char *to_free2)
 		printf("%s\n", str);
 	if (src)
 	{
-		//free(src->str);
+		free(src->str);
 		src->str = NULL;
 		i = 0;
 		while(src->args[i])

@@ -22,7 +22,6 @@ int	ft_proc_pipe(t_src *src)
 	return (0);
 }
 
-
 /*
  * Parser execs this func when encounters single quotes '
  *
