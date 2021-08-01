@@ -29,6 +29,7 @@ typedef struct	s_token
 	int		fd_out;
 	int		is_pipe;
 	int		is_here_doc;
+	int		id;
 	char	*stop_word;
 	t_tkn	*next;
 }				t_tkn;
@@ -37,8 +38,11 @@ typedef struct	s_instance
 {
 	t_env	**env_head;
 	t_tkn	**tkn_head;
-	int		args_cnt;
+	int		pipes_cnt;
 }				t_inst;
+
+//Built-in exec
+int		your_wish_is_my_command(t_inst *inst);
 
 //Env vars utils
 char	**ft_group_envs(t_env **head);

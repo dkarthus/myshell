@@ -37,8 +37,8 @@ void	ft_del_elem(t_env *elem);
 int		ft_tokenize(t_src *src, t_inst *inst);
 int		ft_create_blank_file(t_src *src, int *arg_iter);
 int		ft_blank_check_file(t_src *src, int *arg_iter);
-int		ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter);
-t_tkn	*ft_init_token(char *cmd);
+int		ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter, int tkn_id);
+t_tkn	*ft_init_token(char *cmd, int tkn_id);
 int		ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i);
 int		ft_ch_symbl(char c);
 int		ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter);
@@ -46,7 +46,6 @@ int		ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter);
 int		ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter);
 
 //Utils
-int		ft_check_input_line(char *line);
 void	skip_wspace(t_src *src);
 int		ft_single_qt(t_src *src);
 int		ft_double_qt(t_src *src, t_env **head);

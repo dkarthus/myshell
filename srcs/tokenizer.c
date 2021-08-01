@@ -3,11 +3,11 @@
 /*
  *
  */
-t_tkn *ft_fill_token(t_src *src, int *arg_iter)
+static t_tkn *ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
 {
 	t_tkn *new;
 
-	new = ft_init_token(src->args[*arg_iter]);
+	new = ft_init_token(src->args[*arg_iter], tkn_id);
 	(*arg_iter)++;
 	if (!new)
 	{
@@ -40,13 +40,13 @@ t_tkn *ft_fill_token(t_src *src, int *arg_iter)
 /*
  *
  */
-int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter)
+int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter, int tkn_id)
 {
 	t_tkn *iter;
 
 	if (!*head)
 	{
-		*head = ft_fill_token(src, arg_iter);
+		*head = ft_fill_token(src, arg_iter, tkn_id);
 		if (!*head)
 			return (1);
 	}
@@ -55,7 +55,7 @@ int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter)
 		iter = *head;
 		while (iter->next)
 			iter = iter->next;
-		iter->next = ft_fill_token(src, arg_iter);
+		iter->next = ft_fill_token(src, arg_iter, tkn_id);
 		if (!iter->next)
 			return (1);
 	}
@@ -76,8 +76,10 @@ int ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 		return (ft_blank_check_file(src, arg_iter));
 	if (!ft_ch_symbl(src->args[*arg_iter][0]))
 	{
+		if (ft_token_cmd(src, head, arg_iter, *tkn_cnt))
+			return (1);
 		(*tkn_cnt)++;
-		return (ft_token_cmd(src, head, arg_iter));
+		return (0);
 	}
 	return (0);
 }

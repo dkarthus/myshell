@@ -84,7 +84,7 @@ int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 /*
  *
  */
-t_tkn *ft_init_token(char *cmd)
+t_tkn *ft_init_token(char *cmd, int tkn_id)
 {
 	t_tkn *new_tkn;
 
@@ -95,6 +95,7 @@ t_tkn *ft_init_token(char *cmd)
 	new_tkn->args = ft_calloc(sizeof(char *), 255);
 	if (!new_tkn->args || !new_tkn->cmd)
 		return (NULL);
+	new_tkn->id = tkn_id;
 	new_tkn->next = NULL;
 	new_tkn->fd_in = 0;
 	new_tkn->fd_out = 1;
