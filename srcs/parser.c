@@ -73,7 +73,8 @@ int	ft_parse(char *line, t_inst *inst, t_src *src)
 			ret = ft_redir_in(src);
 		if (!ft_check_symbol(line[src->pos]) && !ret)
 			ret = ft_add_arg(src);
-		skip_wspace(src);
+		if (!ret)
+			skip_wspace(src);
 	}
 
 	return (ret);

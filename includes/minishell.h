@@ -6,8 +6,13 @@
 # include <unistd.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/stat.h>
 # include "../libft/libft.h"
 # include "parser.h"
+# include "cd.h"
+# include "env.h"
+# include "pwd.h"
+# include "error_exit.h"
 
 typedef struct s_env t_env;
 
@@ -39,10 +44,14 @@ typedef struct	s_instance
 	t_env	**env_head;
 	t_tkn	**tkn_head;
 	int		pipes_cnt;
+	int 	exit_status;
 }				t_inst;
 
 //Built-in exec
-int		your_wish_is_my_command(t_inst *inst);
+int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn);
+
+//Binary exec
+char	*ft_find_binary(char *name, t_env **head);
 
 //Env vars utils
 char	**ft_group_envs(t_env **head);

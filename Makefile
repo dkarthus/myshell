@@ -16,7 +16,9 @@ SRC			=	minishell.c \
 				token_utils2.c \
 				tokenizer.c \
 				executor/cd.c \
-				error_exit.c
+				error_exit.c \
+				executor/pwd.c \
+				executor/env.c
 
 SRCS		= $(addprefix $(DIR_SRCS), $(SRC))
 

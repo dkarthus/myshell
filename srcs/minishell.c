@@ -29,7 +29,7 @@ int	main(int argc, char *argv[], char *env[])
 		if (ft_tokenize(&src, &inst))
 			continue ;
 		tmp = *(inst.tkn_head);
-		your_wish_is_my_command(&inst);
+		your_wish_is_my_command(&inst, tmp);
 		while (tmp)
 		{
 			printf("cmd-%s  fd_in-%d  fd_out-%d  is_pipe-%d  is_h_d %d  s_w "
