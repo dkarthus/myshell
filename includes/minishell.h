@@ -8,6 +8,9 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 # include "parser.h"
+# include "../includes/pwd.h"
+# include "../includes/cd.h"
+# include "../includes/error_exit.h"
 
 typedef struct s_env t_env;
 
@@ -41,8 +44,14 @@ typedef struct	s_instance
 	int		pipes_cnt;
 }				t_inst;
 
-//Built-in exec
+//Builtin exec
 int		your_wish_is_my_command(t_inst *inst);
+
+//Builtins
+
+void	pwd(t_inst	*inst);
+void	cd(t_inst	*inst);
+
 
 //Env vars utils
 char	**ft_group_envs(t_env **head);

@@ -1,5 +1,5 @@
 #include "../../includes/minishell.h"
-#include "../../includes/error_exit.h"
+//#include "../../includes/error_exit.h"
 
 int		no_such_file_or_directory(int error_check, const char *str)
 {
@@ -331,6 +331,17 @@ int		cd_plus_minus(t_inst *inst)
 	return (0);
 }
 
+void	cd_somewhere(t_inst *inst)
+{
+	int		error_check;
+	t_tkn	*tkn;
+
+	tkn = *(inst->tkn_head);
+	error_check = chdir(tkn->args[0]);
+	no_such_file_or_directory(error_check, tkn->args[0]);
+	return ;
+}
+
 void	cd(t_inst *inst)
 {
 	int		error_check;
@@ -341,7 +352,7 @@ void	cd(t_inst *inst)
 	if (tkn->args[0] == NULL)
 		cd_home(inst);
 	else if (check_arg(inst, tkn->args[0]) == 0 && tkn->args[0][0] != '~')
-		chdir(tkn->args[0]);
+		cd_somewhere(inst);
 	else if (check_arg(inst, "~") == 0 || check_arg(inst, "~/") == 0)
 		cd_tilde_home(inst);
 	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(tkn->args[0]) > 1)
@@ -356,8 +367,7 @@ void	cd(t_inst *inst)
 			update_pwd(inst);
 			return ;
 		}
-		error_check = chdir(tkn->args[0]);
-		no_such_file_or_directory(error_check, tkn->args[0]);
+		cd_somewhere(inst);
 	}
 	update_pwd(inst);
 	return ;
@@ -444,8 +454,10 @@ int		your_wish_is_my_command(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	while (tkn)
 	{
-		if (ft_strncmp(tkn->cmd, "cd", ft_strlen(tkn->cmd)) == 0)
+		if (check_cmd(inst, "cd") == 0)
 			cd(inst);
+		else if (check_pwd(inst) == 0)
+			pwd(inst);
 		else if (tkn->cmd[0] != '~' && tkn->cmd[0] != '/')
 			printf("minishell: %s: command not found\n", tkn->cmd);
 		else if (it_is_a_directory_there(inst) == 0)
