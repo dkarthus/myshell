@@ -7,9 +7,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
-# include "parser.h"
+# include "../includes/parser.h"
 # include "../includes/pwd.h"
 # include "../includes/cd.h"
+# include "../includes/env.h"
 # include "../includes/error_exit.h"
 
 typedef struct s_env t_env;
@@ -22,7 +23,7 @@ typedef struct	s_env
 	t_env *next;
 }				t_env;
 
-typedef struct	s_token t_tkn;
+typedef struct s_token t_tkn;
 
 typedef struct	s_token
 {
@@ -37,6 +38,8 @@ typedef struct	s_token
 	t_tkn	*next;
 }				t_tkn;
 
+typedef struct	s_instance t_inst;
+
 typedef struct	s_instance
 {
 	t_env	**env_head;
@@ -45,12 +48,11 @@ typedef struct	s_instance
 }				t_inst;
 
 //Builtin exec
-int		your_wish_is_my_command(t_inst *inst);
+int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn);
 
 //Builtins
 
-void	pwd(t_inst	*inst);
-void	cd(t_inst	*inst);
+//void	cd(t_inst	*inst);
 
 
 //Env vars utils

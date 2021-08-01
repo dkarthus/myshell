@@ -1,5 +1,5 @@
 #include "../../includes/minishell.h"
-//#include "../../includes/error_exit.h"
+#include "../../includes/error_exit.h"
 
 int		no_such_file_or_directory(int error_check, const char *str)
 {
@@ -447,17 +447,19 @@ int		it_is_a_directory_there(t_inst *inst)
 	return (1);
 }
 
-int		your_wish_is_my_command(t_inst *inst)
+int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 {
-	t_tkn *tkn;
-
-	tkn = *(inst->tkn_head);
+//	t_tkn *tkn;
+//
+//	tkn = *(inst->tkn_head);
 	while (tkn)
 	{
 		if (check_cmd(inst, "cd") == 0)
 			cd(inst);
 		else if (check_pwd(inst) == 0)
 			pwd(inst);
+		else if (check_env(inst) == 0)
+			env(inst);
 		else if (tkn->cmd[0] != '~' && tkn->cmd[0] != '/')
 			printf("minishell: %s: command not found\n", tkn->cmd);
 		else if (it_is_a_directory_there(inst) == 0)
