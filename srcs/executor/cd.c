@@ -71,13 +71,13 @@ void 	if_for_updating_old_pwd(t_inst *inst)
 	{
 		error_check_char_p = getenv("HOME");
 		if (error_check_char_p == NULL)
-			error_exit(inst, -5);
+			error_exit(-5);
 		else
 		{
 			old_pwd = ft_strjoin("OLDPWD=", error_check_char_p);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
-				error_exit(inst, -3);
+				error_exit(-3);
 			free(old_pwd);
 			return ;
 		}
@@ -98,13 +98,13 @@ void	update_old_pwd(t_inst *inst)
 	{
 		error_check_char_p = getenv("HOME");
 		if (error_check_char_p == NULL)
-			error_exit(inst, -5);
+			error_exit(-5);
 		else
 		{
 			old_pwd = ft_strjoin("OLDPWD=", error_check_char_p);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
-				error_exit(inst, -3);
+				error_exit(-3);
 			free(old_pwd);
 			return ;
 		}
@@ -119,11 +119,11 @@ void	update_old_pwd(t_inst *inst)
 		{
 			error_check_char_p = getcwd(dir, 2048);
 			if (error_check_char_p == NULL)
-				error_exit(inst, -2);
+				error_exit(-2);
 			old_pwd = ft_strjoin("OLDPWD=", dir);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
-				error_exit(inst, -3);
+				error_exit(-3);
 			free(old_pwd);
 			return;
 		}
@@ -139,11 +139,11 @@ int		update_pwd(t_inst *inst)
 
 	error_check_char_p = getcwd(dir, 2048);
 	if (error_check_char_p == NULL)
-		error_exit(inst, -2);
+		error_exit(-2);
 	pwd = ft_strjoin("PWD=", dir);
 	error_check_int = ft_add_env_elem(pwd, inst->env_head);
 	if (error_check_int == 0)
-		error_exit(inst, -4);
+		error_exit(-4);
 	free(pwd);
 	return (0);
 }
@@ -162,7 +162,7 @@ int		no_such_file_or_directory_1(int error_check, const char *str)
 	return (1);
 }
 
-void	cd_tilde_home(t_inst *inst)
+void	cd_tilde_home(void)
 {
 	int		error_check_int;
 	char	*home_value;
@@ -170,7 +170,7 @@ void	cd_tilde_home(t_inst *inst)
 	error_check_int = 0;
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(inst, -5);
+		error_exit(-5);
 	else
 	{
 		error_check_int = chdir(home_value);
@@ -206,7 +206,7 @@ char	*check_tilde_slash_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(inst,-5);
+		error_exit(-5);
 	else
 	{
 		if (tkn->args[0][0] == '~' && tkn->args[0][1] == '/')
@@ -303,9 +303,6 @@ char	*check_tilde_plus_path(t_inst *inst)
 	return (tkn->args[0]);
 }
 
-
-
-
 int		cd_plus_minus(t_inst *inst)
 {
 	int		error_check;
@@ -354,7 +351,7 @@ void	cd(t_inst *inst, char *arg)
 	else if (check_arg(inst, arg) == 0 && arg[0] != '~')
 		cd_somewhere(inst);
 	else if (check_arg(inst, "~") == 0 || check_arg(inst, "~/") == 0)
-		cd_tilde_home(inst);
+		cd_tilde_home();
 	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(arg) > 1)
 	{
 		error_check = chdir(check_tilde_slash_path(inst));
@@ -391,7 +388,7 @@ void	real_substitution(t_inst *inst, int check)
 	tkn = *(inst->tkn_head);
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(inst, -5);
+		error_exit(-5);
 	if (check == 0)
 	{
 		free(tkn->cmd);
@@ -436,7 +433,7 @@ int		it_is_a_directory_there(t_inst *inst)
 		return (substitute_tilde(inst, 0));
 	else if (ft_strncmp(tkn->cmd, "~/", ft_strlen(tkn->cmd)) == 0)
 		return (substitute_tilde(inst, 1));
-	else if (tkn->cmd[0] == '~')
+	else if (tkn->cmd[0] == '~' && tkn->cmd[1] == '\0')
 		return (substitute_tilde(inst, 2));
 	else if (ft_strncmp(tkn->cmd, "/", ft_strlen(tkn->cmd)) == 0)
 		return (0);
@@ -449,9 +446,10 @@ int		it_is_a_directory_there(t_inst *inst)
 
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 {
-	char	*hold_cmd_for_me;
+	char 	*hold_cmd_for_me;
 
-	hold_cmd_for_me = ft_strdup(tkn->cmd);
+	if (tkn->cmd != NULL)
+		hold_cmd_for_me = ft_strdup(tkn->cmd);
 	while (tkn)
 	{
 		if (check_cmd(inst, "cd") == 0)
@@ -462,7 +460,7 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 			env(inst);
 		else if (check_cmd(inst, "unset") == 0)
 			unset(inst, tkn->args);
-		else if (tkn->cmd[0] != '~' && tkn->cmd[0] != '/')
+		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
 			printf("minishell: %s: command not found\n", hold_cmd_for_me);
 		else if (it_is_a_directory_there(inst) == 0)
 			is_a_directory(inst);
