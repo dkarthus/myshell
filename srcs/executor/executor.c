@@ -24,7 +24,7 @@ int ft_exec_single_cmd(t_inst *inst)
 		return (1);
 	else if (pid == 0)
 	{
-		cmd_path = ft_find_binary(tkn->cmd, inst->env_head);
+		cmd_path = ft_get_bin_path(tkn->cmd, inst->env_head);
 		if (!cmd_path)
 			return (1);
 		return (ft_exec_util(tkn, cmd_path));

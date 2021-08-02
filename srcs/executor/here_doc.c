@@ -3,7 +3,7 @@
 /*
  *
  */
-static int ft_closefd(char *err, int *pipe_fd, int fd)
+int ft_closefd(char *err, int *pipe_fd, int fd)
 {
 	if (err)
 		printf("%s\n", err);
@@ -118,7 +118,7 @@ int	ft_here_doc(const char *stop_w, int mode)
 		return (0);
 	}
 	waitpid(pid, &status, 0);
-	dup2(tmp_stdin, 0);
+//	dup2(tmp_stdin, 0);
 	if (!WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	ft_closefd(NULL, pipe_fd, tmp_stdin);

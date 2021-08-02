@@ -44,14 +44,19 @@ typedef struct	s_instance
 	t_env	**env_head;
 	t_tkn	**tkn_head;
 	int		pipes_cnt;
+	int		fd_in_save;
 	int 	exit_status;
 }				t_inst;
 
+
 //Built-in exec
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn);
+int		ft_here_doc(const char *stop_w, int mode);
 
 //Binary exec
-char	*ft_find_binary(char *name, t_env **head);
+int		ft_executor(t_inst *inst);
+char	*ft_get_bin_path(char *name, t_env **head);
+int		ft_closefd(char *err, int *pipe_fd, int fd);
 
 //Env vars utils
 char	**ft_group_envs(t_env **head);

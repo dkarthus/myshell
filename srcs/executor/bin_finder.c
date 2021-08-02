@@ -12,7 +12,7 @@ static char **ft_free(char *print, char **str)
 	if (str)
 	{
 		i = 0;
-		while (i < 10)
+		while (str[i])
 		{
 			free(str[i]);
 			str[i] = 0;
@@ -70,6 +70,11 @@ static char *ft_find_bin(char **path_combos)
 		return (0);
 	}
 	path = ft_strdup(path_combos[i]);
+	if (!path)
+	{
+		ft_free("Malloc error in bin.finder", path_combos);
+		return (0);
+	}
 	ft_free(NULL, path_combos);
 	return (path);
 }
@@ -77,7 +82,7 @@ static char *ft_find_bin(char **path_combos)
 /*
  *
  */
-char	*ft_find_binary(char *name, t_env **head)
+char	*ft_get_bin_path(char *name, t_env **head)
 {
 	char *path;
 	char **split_path;
@@ -87,13 +92,13 @@ char	*ft_find_binary(char *name, t_env **head)
 	if (!path || !*path)
 	{
 		printf("Please set PATH variable\n");
-		return (1);
+		return (0);
 	}
 	split_path = ft_split(path, ':');
 	if (!split_path)
 	{
 		printf("Malloc error\n");
-		return (1);
+		return (0);
 	}
 	combos = ft_combine(name, split_path);
 	if (!combos)

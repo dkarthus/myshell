@@ -9,9 +9,9 @@ int	main(int argc, char *argv[], char *env[])
 	t_src src;
 	char	*line;
 	t_tkn *tmp;
+//	char *path;
 	(void)argv;
-//	t_env *tenv;
-	char	*prompt;
+//	char	*prompt;
 
 	if (argc != 1)
 		return (1);
@@ -20,6 +20,7 @@ int	main(int argc, char *argv[], char *env[])
 		return (1);
 	while (inst.env_head)
 	{
+		inst.fd_in_save = dup(0);
 		line = readline("<<minishell>>");
 		if (!line)
 			continue ;
@@ -29,8 +30,9 @@ int	main(int argc, char *argv[], char *env[])
 		if (ft_tokenize(&src, &inst))
 			continue ;
 		tmp = *(inst.tkn_head);
-		your_wish_is_my_command(&inst, tmp);
-		while (tmp)
+		ft_executor(&inst);
+//		ft_executor(&inst);
+/*		while (tmp)
 		{
 			printf("cmd-%s  fd_in-%d  fd_out-%d  is_pipe-%d  is_h_d %d  s_w "
 				   "%s\n",
@@ -43,8 +45,9 @@ int	main(int argc, char *argv[], char *env[])
 		prompt = ft_get_env_value("PWD", inst.env_head);
 		printf("pwd  %s\n", prompt);
 		prompt = ft_get_env_value("OLDPWD", inst.env_head);
-		printf("oldpwd  %s\n", prompt);
+		printf("oldpwd  %s\n", prompt);*/
 		free (line);
+		dup2(inst.fd_in_save, 0);
 	}
 }
 

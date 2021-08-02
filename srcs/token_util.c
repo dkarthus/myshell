@@ -93,7 +93,8 @@ t_tkn *ft_init_token(char *cmd, int tkn_id)
 		return (NULL);
 	new_tkn->cmd = ft_strdup(cmd);
 	new_tkn->args = ft_calloc(sizeof(char *), 255);
-	if (!new_tkn->args || !new_tkn->cmd)
+	new_tkn->args[0] = ft_strdup(cmd);
+	if (!new_tkn->args || !new_tkn->cmd || !new_tkn->args[0])
 		return (NULL);
 	new_tkn->id = tkn_id;
 	new_tkn->next = NULL;
