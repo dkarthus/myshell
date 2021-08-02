@@ -342,25 +342,25 @@ void	cd_somewhere(t_inst *inst)
 	return ;
 }
 
-void	cd(t_inst *inst)
+void	cd(t_inst *inst, char *arg)
 {
 	int		error_check;
 	t_tkn *tkn;
 
 	tkn = *(inst->tkn_head);
 	update_old_pwd(inst);
-	if (tkn->args[0] == NULL)
+	if (arg == NULL)
 		cd_home(inst);
-	else if (check_arg(inst, tkn->args[0]) == 0 && tkn->args[0][0] != '~')
+	else if (check_arg(inst, arg) == 0 && arg[0] != '~')
 		cd_somewhere(inst);
 	else if (check_arg(inst, "~") == 0 || check_arg(inst, "~/") == 0)
 		cd_tilde_home(inst);
-	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(tkn->args[0]) > 1)
+	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(arg) > 1)
 	{
 		error_check = chdir(check_tilde_slash_path(inst));
 		no_such_file_or_directory(error_check, check_tilde_slash_path(inst));
 	}
-	else if (tkn->args[0] != NULL)
+	else if (arg != NULL)
 	{
 		if (cd_plus_minus(inst) == 0)
 		{
@@ -455,11 +455,13 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 	while (tkn)
 	{
 		if (check_cmd(inst, "cd") == 0)
-			cd(inst);
+			cd(inst, tkn->args[0]);
 		else if (check_pwd(inst) == 0)
 			pwd(inst);
 		else if (check_env(inst) == 0)
 			env(inst);
+		else if (check_cmd(inst, "unset") == 0)
+			unset(inst, tkn->args);
 		else if (tkn->cmd[0] != '~' && tkn->cmd[0] != '/')
 			printf("minishell: %s: command not found\n", hold_cmd_for_me);
 		else if (it_is_a_directory_there(inst) == 0)

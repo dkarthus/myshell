@@ -18,6 +18,7 @@ SRC			=	minishell.c \
 				executor/cd.c \
 				executor/pwd.c \
 				executor/env.c \
+				executor/unset.c \
 				error_exit.c
 
 SRCS		= $(addprefix $(DIR_SRCS), $(SRC))

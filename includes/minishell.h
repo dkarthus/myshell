@@ -12,6 +12,7 @@
 # include "../includes/cd.h"
 # include "../includes/env.h"
 # include "../includes/error_exit.h"
+# include "../includes/unset.h"
 
 typedef struct s_env t_env;
 
