@@ -48,6 +48,24 @@ typedef struct	s_instance
 	int 	exit_status;
 }				t_inst;
 
+typedef struct	s_unset t_unset;
+
+typedef struct	s_unset
+{
+	unsigned int	error_check;
+	unsigned int	semicolon;
+	unsigned int	tilde;
+	unsigned int	tilde_slash;
+	unsigned int	tilde_slash_something;
+	unsigned int	tilde_minus;
+	unsigned int	tilde_minus_slash;
+	unsigned int	tilde_minus_slash_something;
+	unsigned int	tilde_plus;
+	unsigned int	tilde_plus_slash;
+	unsigned int	tilde_plus_slash_something;
+	unsigned int	i;
+}				t_unset;
+
 //Builtin exec
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn);
 
