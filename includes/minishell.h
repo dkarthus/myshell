@@ -51,7 +51,7 @@ typedef struct	s_instance
 
 //Built-in exec
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn);
-int		ft_here_doc(const char *stop_w, int mode);
+int		ft_here_doc(t_inst *inst, const char *stop_w, int mode);
 
 //Binary exec
 int		ft_executor(t_inst *inst);
