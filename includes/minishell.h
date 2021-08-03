@@ -45,7 +45,7 @@ typedef struct	s_instance
 {
 	t_env	**env_head;
 	t_tkn	**tkn_head;
-	int		pipes_cnt;
+	int 	exit_status;
 }				t_inst;
 
 //Builtin exec

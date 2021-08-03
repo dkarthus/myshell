@@ -117,10 +117,10 @@ unsigned int	env_name_is_not_correct(char *str)
 	return (1);
 }
 
-void	unset(t_inst *inst, char **args)
+int		unset(t_inst *inst, char **args)
 {
 	int				error_check;
-	unsigned int	semicolon_underscore;
+	unsigned int	semicolon;
 	unsigned int	tilde;
 	unsigned int	tilde_slash;
 	unsigned int	tilde_slash_something;
@@ -130,8 +130,12 @@ void	unset(t_inst *inst, char **args)
 	unsigned int	tilde_plus;
 	unsigned int	tilde_plus_slash;
 	unsigned int	tilde_plus_slash_something;
+	int 			exit_status;
+	int 			i;
 
-	semicolon_underscore = 2;
+	i = 0;
+	exit_status = 0;
+	semicolon = 2;
 	tilde = 3;
 	tilde_slash = 4;
 	tilde_slash_something = 5;
@@ -143,128 +147,146 @@ void	unset(t_inst *inst, char **args)
 	tilde_plus_slash_something = 11;
 	if (args[0] != NULL)
 	{
-		if (env_name_is_not_correct(args[0]) == 0)
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		else if (env_name_is_not_correct(args[0]) == semicolon_underscore)
-			return ;
-		else if (env_name_is_not_correct(args[0]) == tilde)
+		while (args[i] != NULL)
 		{
-			char	*home_value;
+			if (env_name_is_not_correct(args[i]) == 0)
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			else if (env_name_is_not_correct(args[i]) == semicolon)
+				return (exit_status);
+			else if (env_name_is_not_correct(args[i]) == tilde)
+			{
+				char *home_value;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strdup(home_value);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_slash)
-		{
-			char	*home_value;
+				home_value = getenv("HOME");
+				if (home_value == NULL)
+					error_exit(-5);
+				free(args[i]);
+				args[i] = ft_strdup(home_value);
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) == tilde_slash)
+			{
+				char *home_value;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strjoin(home_value, "/");
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_slash_something)
-		{
-			char	*home_value;
-			char	*hold_str_for_me;
+				home_value = getenv("HOME");
+				if (home_value == NULL)
+					error_exit(-5);
+				free(args[i]);
+				args[i] = ft_strjoin(home_value, "/");
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) == tilde_slash_something)
+			{
+				char *home_value;
+				char *hold_str_for_me;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			hold_str_for_me = ft_substr(args[0], 1, ft_strlen(args[0]) - 1);
-			free(args[0]);
-			args[0] = ft_strjoin(home_value, hold_str_for_me);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_minus)
-		{
-			char	*old_pwd;
+				home_value = getenv("HOME");
+				if (home_value == NULL)
+					error_exit(-5);
+				hold_str_for_me = ft_substr(args[i], 1, ft_strlen(args[i]) - 1);
+				free(args[i]);
+				args[i] = ft_strjoin(home_value, hold_str_for_me);
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) == tilde_minus)
+			{
+				char *old_pwd;
 
-			old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
-			if (old_pwd == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strdup(home_value);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_minus_slash)
-		{
-			char	*home_value;
+				old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
+				if (old_pwd == NULL)
+					printf("minishell: unset: `%s': not a valid identifier\n",
+						   args[i]);
+				free(args[i]);
+				args[i] = ft_strdup(old_pwd);
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) == tilde_minus_slash)
+			{
+				char *old_pwd;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strdup(home_value);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_minus_slash_something)
-		{
-			char	*home_value;
+				old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
+				if (old_pwd == NULL)
+					printf("minishell: unset: `%s': not a valid identifier\n",
+						   args[i]);
+				free(args[i]);
+				args[i] = ft_strjoin(old_pwd, "/");
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) ==
+					   tilde_minus_slash_something)
+			{
+				char *old_pwd;
+				char *hold_str_for_me;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strdup(home_value);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_plus)
-		{
-			char	*home_value;
+				old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
+				if (old_pwd == NULL)
+					printf("minishell: unset: `%s': not a valid identifier\n",
+						   args[i]);
+				hold_str_for_me = ft_substr(args[i], 2, ft_strlen(args[i]) - 1);
+				free(args[i]);
+				args[i] = ft_strjoin(old_pwd, hold_str_for_me);
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) == tilde_plus)
+			{
+				char *pwd;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strdup(home_value);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_plus_slash)
-		{
-			char	*home_value;
+				pwd = ft_get_env_value("PWD", inst->env_head);
+				if (pwd == NULL)
+					printf("minishell: unset: `%s': not a valid identifier\n",
+						   args[i]);
+				free(args[i]);
+				args[i] = ft_strdup(pwd);
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) == tilde_plus_slash)
+			{
+				char *pwd;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strdup(home_value);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
-		}
-		else if (env_name_is_not_correct(args[0]) == tilde_plus_slash_something)
-		{
-			char	*home_value;
+				pwd = ft_get_env_value("PWD", inst->env_head);
+				if (pwd == NULL)
+					printf("minishell: unset: `%s': not a valid identifier\n",
+						   args[i]);
+				free(args[i]);
+				args[i] = ft_strjoin(pwd, "/");
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else if (env_name_is_not_correct(args[i]) ==
+					   tilde_plus_slash_something)
+			{
+				char *pwd;
+				char *hold_str_for_me;
 
-			home_value = getenv("HOME");
-			if (home_value == NULL)
-				error_exit(-5);
-			free(args[0]);
-			args[0] = ft_strdup(home_value);
-			printf("minishell: unset: `%s': not a valid identifier\n", args[0]);
+				pwd = ft_get_env_value("PWD", inst->env_head);
+				if (pwd == NULL)
+					printf("minishell: unset: `%s': not a valid identifier\n",
+						   args[i]);
+				hold_str_for_me = ft_substr(args[i], 2, ft_strlen(args[i]) - 1);
+				free(args[i]);
+				args[i] = ft_strjoin(pwd, hold_str_for_me);
+				printf("minishell: unset: `%s': not a valid identifier\n",
+					   args[i]);
+			}
+			else
+			{
+				error_check = ft_unset_env_var(args[0], inst->env_head);
+				if (error_check == 0)
+				{
+					inst->exit_status = 1;
+					return (inst->exit_status);
+				}
+			}
+			i++;
 		}
-		else
-		{
-			error_check = ft_unset_env_var(args[0], inst->env_head);
-			if (error_check == 0)
-				printf("key was not found\n");
-		}
-
-//		while (args[i] != NULL)
-//		{
-//			if (check_unset_arg(args[i], "~") == 0 && args[i][1] == '\0')
-//				arg = ft_strdup(substitute_unset_tilde(&args[i], 0, i));
-//			else if (check_unset_arg(args[i], "~/") == 0)
-//				arg = ft_strdup(substitute_unset_tilde(&args[i], 1, i));
-//			else if (args[i][0] == '~' && args[i][1] == '/' && args[i][2] != '\0')
-//				arg = ft_strdup(substitute_unset_tilde(&args[i], 2, i));
-//			i++;
-//		}
 	}
-	return ;
+	return (exit_status);
 }

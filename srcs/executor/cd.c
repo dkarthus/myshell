@@ -447,7 +447,9 @@ int		it_is_a_directory_there(t_inst *inst)
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 {
 	char 	*hold_cmd_for_me;
+	int 	exit_status;
 
+	exit_status = 0;
 	if (tkn->cmd != NULL)
 		hold_cmd_for_me = ft_strdup(tkn->cmd);
 	while (tkn)
@@ -459,7 +461,7 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 		else if (check_env(inst) == 0)
 			env(inst);
 		else if (check_cmd(inst, "unset") == 0)
-			unset(inst, tkn->args);
+			 exit_status = unset(inst, tkn->args);
 		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
 			printf("minishell: %s: command not found\n", hold_cmd_for_me);
 		else if (it_is_a_directory_there(inst) == 0)
@@ -469,5 +471,5 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 		tkn = tkn->next;
 	}
 	free(hold_cmd_for_me);
-		return (0);
+	return (exit_status);
 }
