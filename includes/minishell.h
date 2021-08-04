@@ -13,6 +13,7 @@
 # include "../includes/env.h"
 # include "../includes/error_exit.h"
 # include "../includes/unset.h"
+# include "../includes/export.h"
 
 typedef struct s_env t_env;
 
@@ -48,12 +49,12 @@ typedef struct	s_instance
 	int 	exit_status;
 }				t_inst;
 
-typedef struct	s_unset t_unset;
+typedef struct	s_u_e t_u_e;
 
-typedef struct	s_unset
+typedef struct	s_u_e
 {
 	unsigned int	error_check;
-	unsigned int	semicolon;
+	unsigned int	semicolon_underscore;
 	unsigned int	tilde;
 	unsigned int	tilde_slash;
 	unsigned int	tilde_slash_something;
@@ -64,7 +65,8 @@ typedef struct	s_unset
 	unsigned int	tilde_plus_slash;
 	unsigned int	tilde_plus_slash_something;
 	unsigned int	i;
-}				t_unset;
+	unsigned int	comment_symbol;
+}				t_u_e;
 
 //Builtin exec
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn);

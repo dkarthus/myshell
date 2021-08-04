@@ -85,12 +85,13 @@ int		check_env(t_inst *inst)
 
 int 	env(t_inst *inst)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = *(inst->env_head);
 	while (env->next != NULL)
 	{
-		printf("%s\n", env->line);
+		if (ft_strchr(env->line, '=') != NULL)
+			printf("%s\n", env->line);
 		env = env->next;
 	}
 	return (0);
