@@ -39,7 +39,7 @@ void	if_for_unset_1(t_inst *inst, t_unset *u, char *arg, char *first_arg)
 
 void	initialize_variables_for_unset(t_inst *inst, t_unset *u)
 {
-	u->i = 0;
+	u->i = 1;
 	inst->exit_status = 0;
 	u->semicolon = 2;
 	u->tilde = 3;
@@ -58,14 +58,14 @@ int	unset(t_inst *inst, char **args)
 	t_unset	u;
 
 	initialize_variables_for_unset(inst, &u);
-	if (args[0] != NULL)
+	if (args[1] != NULL)
 	{
 		while (args[u.i] != NULL)
 		{
 			inst->exit_status = if_for_unset(inst, &u, args[u.i]);
 			if (inst->exit_status == 0)
 				return (inst->exit_status);
-			if_for_unset_1(inst, &u, args[u.i], args[0]);
+			if_for_unset_1(inst, &u, args[u.i], args[1]);
 			u.i++;
 		}
 	}
