@@ -45,6 +45,10 @@ char **ft_combine(char *name, char **spl_path)
 			return (ft_free("Malloc error", spl_path));
 		i++;
 	}
+	free(spl_path[i - 1]);
+	spl_path[i - 1] = ft_strdup(name);
+	if (!spl_path[i - 1])
+		return (ft_free("Malloc error", spl_path));
 	return (spl_path);
 }
 

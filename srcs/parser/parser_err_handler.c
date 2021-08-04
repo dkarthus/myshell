@@ -1,4 +1,4 @@
-#include "../includes/parser.h"
+#include "../../includes/parser.h"
 
 /*
  * Func prints ERR MSG, frees all received params and returns 1;

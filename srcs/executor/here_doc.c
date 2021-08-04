@@ -84,6 +84,7 @@ static int ft_here_doc_loop(int fd_out, const char *stop_word)
 		}
 		if (ft_strncmp(stop_word, line, ft_strlen(stop_word)) == 0)
 		{
+			printf("break\n");
 			free(line);
 			break ;
 		}
@@ -91,6 +92,7 @@ static int ft_here_doc_loop(int fd_out, const char *stop_word)
 	}
 	if (ret)
 		ft_putstr_fd(ret, fd_out);
+	close(fd_out);
 	return (0);
 }
 
@@ -138,38 +140,29 @@ static int ft_here_doc_loop(int fd_out, const char *stop_word)
 {
 	int	pid;
 	int	pipe_fd[2];
-//	int	tmp_stdin;
 	int status;
 
 	pipe(pipe_fd);
-//	tmp_stdin = dup(0);
-	if (mode == -1)
-	{
-		if (dup2(pipe_fd[0], 0) == -1)
-			ft_putstr_fd("child dup fd0\n", inst->fd_in_save);
-	}
 	pid = fork();
 	if (pid < 0)
 		return (ft_closefd("Fork error in here_doc", pipe_fd, -1));
-	if (pid == 0)
+	if (pid > 0)
 	{
+		waitpid(pid, &status, 0);
+		close(pipe_fd[1]);
+		if (mode == -1)
+		{
+			if (dup2(pipe_fd[0], 0) == -1)
+				ft_putstr_fd("child dup fd0\n", inst->fd_in_save);
+		}
 		close(pipe_fd[0]);
-		if (dup2(inst->fd_in_save, 0) == -1)
-			ft_putstr_fd("child dup fd_in", inst->fd_in_save);
-		if (ft_here_doc_loop(pipe_fd[1], stop_w))
-			return (1);
-//		dup2(pipe_fd[0], 0);
-//		ft_closefd(NULL, pipe_fd, -1);
-		close (pipe_fd[1]);
+		if (!WIFEXITED(status))
+			return (WEXITSTATUS(status));
 		return (0);
 	}
-	waitpid(pid, &status, 0);
-	close(pipe_fd[0]);
-	close(pipe_fd[1]);
-//	ft_closefd(NULL, pipe_fd, -1);
-//	if (dup2(tmp_stdin, 0) == -1)
-//		printf("here_doc after wait\n");
-	if (!WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	return (0);
+	dup2(inst->fd_in_save, 0);
+	close(inst->fd_in_save);
+	if (ft_here_doc_loop(pipe_fd[1], stop_w))
+		return (1);
+	exit(0);
 }

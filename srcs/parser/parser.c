@@ -1,5 +1,5 @@
-#include "../includes/parser.h"
-#include "../includes/minishell.h"
+#include "../../includes/parser.h"
+#include "../../includes/minishell.h"
 
 /*
  *

@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 /*
  * Finds and returns value from linked list of envs vars all accroding the key
  *

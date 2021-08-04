@@ -1,4 +1,4 @@
-#include "../includes/parser.h"
+#include "../../includes/parser.h"
 
 /*
  * Checks if the symbol is one that needs to be interpret;

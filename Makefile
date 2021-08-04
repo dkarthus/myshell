@@ -3,18 +3,18 @@ DIR_HEADERS	= ./includes/
 DIR_SRCS	= ./srcs/
 
 SRC			=	minishell.c \
-				parser.c \
-				env_utils.c \
-				env_utils1.c \
-				parser_err_handler.c \
-				parser_utils.c \
-				parser_utils1.c \
-				parser_utils2.c \
-				parser_utils_etc.c \
-				token_util.c \
-				token_utils1.c \
-				token_utils2.c \
-				tokenizer.c \
+				parser/parser.c \
+				env_vars/env_utils.c \
+				env_vars/env_utils1.c \
+				parser/parser_err_handler.c \
+				parser/parser_utils.c \
+				parser/ parser_utils1.c \
+				parser/parser_utils2.c \
+				parser/parser_utils_etc.c \
+				tokens/token_util.c \
+				tokens/token_utils1.c \
+				tokens/token_utils2.c \
+				tokens/tokenizer.c \
 				executor/cd.c \
 				error_exit.c \
 				executor/pwd.c \

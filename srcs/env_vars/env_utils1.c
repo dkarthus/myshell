@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /*
  * Creates new elem in two-way linked list of env vars, then fills elems line,
