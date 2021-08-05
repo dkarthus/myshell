@@ -33,12 +33,22 @@ int	main(int argc, char *argv[], char *env[])
 	inst.env_head = ft_parse_env(env);
 	if (!(inst.env_head) || ft_update_shell_lvl(inst.env_head))
 		return (1);
+	signal(SIGQUIT, ft_sig_handle);
+	exit_status = 0;
 	while (inst.env_head)
 	{
+		signal(SIGINT, ft_sig_handle);
 		inst.fd_in_save = dup(0);
 		line = readline("<<minishell>>");
-		if (!line)
-			continue ;
+		if (line == NULL)
+		{
+/*			rl_redisplay();
+			rl_on_new_line();*/
+			write(1, "exit\n", 6);
+			exit(0);
+		}
+/*		if (!line)
+			continue ;*/
 		add_history(line);
 		if (ft_parse(line, &inst, &src))
 			continue ;

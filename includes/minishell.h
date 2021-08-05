@@ -7,12 +7,16 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/stat.h>
+# include <signal.h>
+# include <errno.h>
 # include "../libft/libft.h"
 # include "parser.h"
 # include "cd.h"
 # include "env.h"
 # include "pwd.h"
 # include "error_exit.h"
+
+int exit_status;
 
 typedef struct s_env t_env;
 
@@ -63,5 +67,8 @@ char	**ft_group_envs(t_env **head);
 int		ft_unset_env_var(char *key, t_env **head);
 char	*ft_get_env_value(char *key, t_env **head);
 void	ft_free_env(t_env **head);
+
+//Signals
+void	ft_sig_handle(int sig);
 
 #endif

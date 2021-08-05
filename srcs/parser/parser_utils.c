@@ -1,4 +1,5 @@
 #include "../../includes/parser.h"
+#include "../../includes/minishell.h"
 
 /*
  * Checks if the symbol is one that needs to be interpret;
@@ -64,6 +65,27 @@ static int ft_dissect_value(t_src *src, char *value)
 }
 
 /*
+ *
+ */
+static int ft_exit_status(t_src *src, int *upstart)
+{
+	char *ext_st;
+	char *tmp;
+
+	ext_st = ft_itoa(exit_status);
+	src->pos++;
+	if (upstart)
+		*upstart = src->pos;
+	tmp = src->args[src->args_cnt];
+	src->args[src->args_cnt] = ft_strjoin(tmp, ext_st);
+	if (!src->args[src->args_cnt])
+		return (1);
+	free(tmp);
+	free(ext_st);
+	return (0);
+}
+
+/*
  * Parser execs this func when encounters dollar sign $, func finds a value
  * corresponded to a key after $ and copies it in args str in other case
  * skips $key entirely;
@@ -79,7 +101,11 @@ int ft_dolla(t_src *src, t_env **head, int *upstart)
 	char	*key;
 	char	*value;
 
+	if (!src->args[src->args_cnt])
+		src->args[src->args_cnt] = ft_strdup("");
 	src->pos++;
+	if (src->str[src->pos] == '?')
+		return (ft_exit_status(src, upstart));
 	start = src->pos;
 	len = 0;
 	while (!(ft_check_symbol(src->str[src->pos])))
@@ -95,8 +121,6 @@ int ft_dolla(t_src *src, t_env **head, int *upstart)
 	value = ft_get_env_value(key, head);
 	if (!value)
 		return (!ft_err_parser(NULL, NULL, key, NULL));
-	if (!src->args[src->args_cnt])
-		src->args[src->args_cnt] = ft_strdup("");
 	if (ft_dissect_value(src, value))
 		return (ft_err_parser(NULL, src, key, NULL));
 	ft_err_parser(NULL, NULL, key, NULL);

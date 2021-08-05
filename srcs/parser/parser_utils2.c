@@ -44,6 +44,8 @@ int	ft_double_qt(t_src *src, t_env **head)
 			ft_append_arg(src, &start, &len);
 			ft_dolla(src, head, &start);
 		}
+		if (src->str[src->pos] == '\"')
+			break ;
 		len++;
 		src->pos++;
 	}

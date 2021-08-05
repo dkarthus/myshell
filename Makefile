@@ -8,7 +8,7 @@ SRC			=	minishell.c \
 				env_vars/env_utils1.c \
 				parser/parser_err_handler.c \
 				parser/parser_utils.c \
-				parser/ parser_utils1.c \
+				parser/parser_utils1.c \
 				parser/parser_utils2.c \
 				parser/parser_utils_etc.c \
 				tokens/token_util.c \
@@ -21,7 +21,8 @@ SRC			=	minishell.c \
 				executor/env.c \
 				executor/executor_v2.c \
 				executor/here_doc.c \
-				executor/bin_finder.c
+				executor/bin_finder.c \
+				signals/signal.c
 
 SRCS		= $(addprefix $(DIR_SRCS), $(SRC))
 
