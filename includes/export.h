@@ -6,7 +6,7 @@ typedef struct	s_u_e t_u_e;
 
 int				export(t_inst *inst, char **args);
 void			print_export(t_inst *inst);
-unsigned int	export_env_var(char *str);
+unsigned int	export_e_v(t_inst *inst, char *str);
 void			print_export_not_a_valid_identifier(t_inst *inst, char *arg);
 void			export_tilde(t_inst *inst, char *arg);
 void			export_tilde_slash(t_inst *inst, char *arg);
@@ -20,5 +20,7 @@ int				export_tilde_plus_slash_s(t_inst *inst, char *arg);
 int				export_comment_symbol(t_inst *inst);
 int				export_var(t_inst *inst, t_u_e *e, char *next_arg);
 
+unsigned int	key(t_u_e *e, char *key);
+unsigned int	value(char *key);
 
 #endif

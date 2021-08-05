@@ -10,7 +10,7 @@ int	if_for_unset(t_inst *inst, t_u_e *u, char *arg)
 		unset_tilde(inst, arg);
 	else if (unset_env_name(arg) == u->tilde_slash)
 		unset_tilde_slash(inst, arg);
-	else if (unset_env_name(arg) == u->tilde_slash_something)
+	else if (unset_env_name(arg) == u->tilde_slash_s)
 		unset_tilde_slash_s(inst, arg);
 	return (1);
 }
@@ -21,13 +21,13 @@ int	if_for_unset_1(t_inst *inst, t_u_e *u, char *arg, char *next_arg)
 		inst->exit_status = unset_tilde_minus(inst, arg);
 	else if (unset_env_name(arg) == u->tilde_minus_slash)
 		inst->exit_status = unset_tilde_minus_slash(inst, arg);
-	else if (unset_env_name(arg) == u->tilde_minus_slash_something)
+	else if (unset_env_name(arg) == u->tilde_minus_slash_s)
 		inst->exit_status = unset_tilde_minus_slash_s(inst, arg);
 	else if (unset_env_name(arg) == u->tilde_plus)
 		inst->exit_status = unset_tilde_plus(inst, arg);
 	else if (unset_env_name(arg) == u->tilde_plus_slash)
 		inst->exit_status = unset_tilde_plus_slash(inst, arg);
-	else if (unset_env_name(arg) == u->tilde_plus_slash_something)
+	else if (unset_env_name(arg) == u->tilde_plus_slash_s)
 		inst->exit_status = unset_tilde_plus_slash_s(inst, arg);
 	else if (unset_env_name(arg) == u->comment_symbol)
 		return (inst->exit_status);
@@ -48,13 +48,13 @@ void	initialize_variables_for_unset(t_inst *inst, t_u_e *u)
 	u->semicolon_underscore = 2;
 	u->tilde = 3;
 	u->tilde_slash = 4;
-	u->tilde_slash_something = 5;
+	u->tilde_slash_s = 5;
 	u->tilde_minus = 6;
 	u->tilde_minus_slash = 7;
-	u->tilde_minus_slash_something = 8;
+	u->tilde_minus_slash_s = 8;
 	u->tilde_plus = 9;
 	u->tilde_plus_slash = 10;
-	u->tilde_plus_slash_something = 11;
+	u->tilde_plus_slash_s = 11;
 	u->comment_symbol = 12;
 }
 

@@ -64,19 +64,83 @@ void	print_export(t_inst *inst)
 void	initialize_variables_for_export(t_inst *inst, t_u_e *e)
 {
 	e->i = 0;
+	e->failure = 1;
 	e->error_check = 0;
 	inst->exit_status = 0;
+	e->semicolon = 13;
+	e->arg = 0;
+	e->underscore = 2;
 	e->semicolon_underscore = 2;
 	e->tilde = 3;
 	e->tilde_slash = 4;
-	e->tilde_slash_something = 5;
+	e->tilde_slash_s = 5;
 	e->tilde_minus = 6;
 	e->tilde_minus_slash = 7;
-	e->tilde_minus_slash_something = 8;
+	e->tilde_minus_slash_s = 8;
 	e->tilde_plus = 9;
 	e->tilde_plus_slash = 10;
-	e->tilde_plus_slash_something = 11;
+	e->tilde_plus_slash_s = 11;
 	e->comment_symbol = 12;
+	e->semicolon_s = 14;
+	e->equal_sign = 15;
+	e->key = NULL;
+	e->value = NULL;
+}
+
+void	free_key_and_value(t_u_e *e)
+{
+	if (e->key != NULL)
+		free(e->key);
+	if (e->value != NULL)
+		free(e->value);
+}
+
+void	split_the_line_for_key_and_value(t_inst *inst, t_u_e *e, char *arg)
+{
+	int		i;
+
+	free_key_and_value(e);
+	if (ft_strchr(arg, '=') != NULL)
+	{
+		i = 0;
+		while (arg[i] != '=')
+			i++;
+		e->key = ft_substr(arg, 0, i);
+		if (e->key == NULL)
+			error_exit(inst, -6);
+		e->value = ft_substr(arg, i + 1, ft_strlen(arg));
+		if (e->value == NULL)
+			error_exit(inst, -6);
+//		printf("export %s=\"%s\"\n", e->key, e->value);
+	}
+}
+
+void	export_semicolon_equal(t_inst *inst, t_u_e *e)
+{
+	print_export(inst);
+	printf("minishell: =%s: command not found\n", e->value);
+}
+
+void	export_semicolon(t_inst *inst, char *arg)
+{
+	char *str;
+
+	print_export(inst);
+	str = ft_substr(arg, 1, ft_strlen(arg) - 1);
+	printf("minishell: %s: command not found\n", str);
+	if (str != NULL)
+		free(str);
+}
+
+unsigned int	export_arg(t_inst *inst, t_u_e *e, char *arg)
+{
+	e->error_check = ft_add_env_elem(arg, inst->env_head);
+	if (e->error_check == 0)
+	{
+		inst->exit_status = 1;
+		return (inst->exit_status);
+	}
+	return (0);
 }
 
 int	export(t_inst *inst, char **args)
@@ -91,42 +155,50 @@ int	export(t_inst *inst, char **args)
 	}
 	else if (args[0] != NULL)
 	{
-		while (args[e.i] != NULL)
+		if (ft_strchr(args[e.i], '=') != NULL)
 		{
-			if (export_env_var(args[e.i]) == 0)
+			split_the_line_for_key_and_value(inst, &e, args[e.i]);
+			if (key(&e, args[e.i]) == e.semicolon_s)
+				export_semicolon_equal(inst, &e);
+			else if (key(&e, args[e.i]) == e.equal_sign)
 				print_export_not_a_valid_identifier(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.semicolon_underscore)
-				return (inst->exit_status);
-			else if (export_env_var(args[e.i]) == e.tilde)
+			else if (key(&e, args[e.i]) == e.arg)
+				inst->exit_status = export_arg(inst, &e, args[e.i]);
+			else if (key(&e, args[e.i]) == e.failure)
+				print_export_not_a_valid_identifier(inst, args[e.i]);
+		}
+		else
+		{
+			if (key(&e, args[e.i]) == e.semicolon)
+				print_export(inst);
+			else if (key(&e, args[e.i]) == e.semicolon_s)
+				export_semicolon(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.underscore)
+				return (0);
+			else if (key(&e, args[e.i]) == e.tilde)
 				export_tilde(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_slash)
+			else if (key(&e, args[e.i]) == e.tilde_slash)
 				export_tilde_slash(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_slash_something)
+			else if (key(&e, args[e.i]) == e.tilde_slash_s)
 				export_tilde_slash_s(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_minus)
+			else if (key(&e, args[e.i]) == e.tilde_minus)
 				inst->exit_status = export_tilde_minus(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_minus_slash)
+			else if (key(&e, args[e.i]) == e.tilde_minus_slash)
 				inst->exit_status = export_tilde_minus_slash(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_minus_slash_something)
+			else if (key(&e, args[e.i]) == e.tilde_minus_slash_s)
 				inst->exit_status =	export_tilde_minus_slash_s(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_plus)
+			else if (key(&e, args[e.i]) == e.tilde_plus)
 				inst->exit_status = export_tilde_plus(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_plus_slash)
+			else if (key(&e, args[e.i]) == e.tilde_plus_slash)
 				inst->exit_status = export_tilde_plus_slash(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.tilde_plus_slash_something)
+			else if (key(&e, args[e.i]) == e.tilde_plus_slash_s)
 				inst->exit_status = export_tilde_plus_slash_s(inst, args[e.i]);
-			else if (export_env_var(args[e.i]) == e.comment_symbol)
+			else if (key(&e, args[e.i]) == e.comment_symbol)
 				inst->exit_status = export_comment_symbol(inst);
-			else
-			{
-				e.error_check = ft_add_env_elem(args[e.i], inst->env_head);
-				if (e.error_check == 0)
-				{
-					inst->exit_status = 1;
-					return (inst->exit_status);
-				}
-			}
-			e.i++;
+			else if (key(&e, args[e.i]) == e.arg)
+				inst->exit_status = export_arg(inst, &e, args[e.i]);
+			else if (key(&e, args[e.i]) == e.failure)
+				print_export_not_a_valid_identifier(inst, args[e.i]);
 		}
 	}
 	return (0);

@@ -14,9 +14,10 @@ void	export_tilde(t_inst *inst, char *arg)
 	if (home_value == NULL)
 	{
 		inst->exit_status = 1;
-		error_exit(-5);
+		error_exit(inst, -5);
 	}
-	free(arg);
+	if (arg != NULL)
+		free(arg);
 	arg = ft_strdup(home_value);
 	print_export_not_a_valid_identifier(inst, arg);
 }
@@ -29,9 +30,10 @@ void	export_tilde_slash(t_inst *inst, char *arg)
 	if (home_value == NULL)
 	{
 		inst->exit_status = 1;
-		error_exit(-5);
+		error_exit(inst, -5);
 	}
-	free(arg);
+	if (arg != NULL)
+		free(arg);
 	arg = ft_strjoin(home_value, "/");
 	print_export_not_a_valid_identifier(inst, arg);
 }
@@ -45,7 +47,7 @@ void	export_tilde_slash_s(t_inst *inst, char *arg)
 	if (home_value == NULL)
 	{
 		inst->exit_status = 1;
-		error_exit(-5);
+		error_exit(inst, -5);
 	}
 	hold_str_for_me = ft_substr(arg, 1, ft_strlen(arg) - 1);
 	free(arg);

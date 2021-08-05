@@ -75,9 +75,9 @@ static void	ft_insert_elem(t_env **head, t_env *elem)
 		iter->next = elem;
 		return ;
 	}
-	if (ft_strncmp(iter->next->key, elem->key, ft_strlen(iter->key)) == 0)
+	if (ft_strncmp(iter->next->key, elem->key, ft_strlen(iter->key) + 1) == 0)
 		ft_update_elem(iter->next, elem);
-	else if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key)) == 0)
+	else if (ft_strncmp(iter->key, elem->key, ft_strlen(elem->key)) == 0)
 		ft_update_elem(iter, elem);
 	else
 	{

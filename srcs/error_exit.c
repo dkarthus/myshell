@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	error_exit(int err_code)
+void	error_exit(t_inst *inst, int err_code)
 {
 	write(1, "\033[31mError\033[0m\n", 15);
 	if (err_code == -1)
@@ -18,6 +18,7 @@ void	error_exit(int err_code)
 	else if (err_code == -5)
 		write(STDOUT_FILENO, "getenv(\"HOME\") returned NULL\n", 31);
 	else if (err_code == -6)
-		write(STDOUT_FILENO, "getenv(\"HOME\") returned NULL\n", 31);
+		write(STDOUT_FILENO, "Malloc in export_env_var)failed\n", 32);
+	inst->exit_status = 1;
 }
 
