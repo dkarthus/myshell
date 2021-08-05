@@ -17,5 +17,7 @@ void	error_exit(int err_code)
 							 "returned 0\ncould not add env variable\n", 80);
 	else if (err_code == -5)
 		write(STDOUT_FILENO, "getenv(\"HOME\") returned NULL\n", 31);
+	else if (err_code == -6)
+		write(STDOUT_FILENO, "getenv(\"HOME\") returned NULL\n", 31);
 }
 
