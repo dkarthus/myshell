@@ -1,44 +1,5 @@
 #include "../../../includes/minishell.h"
 
-//int	if_for_export(t_inst *inst, t_u_e *e, char *arg)
-//{
-//	if (export_env_name(arg) == 0)
-//		print_export_not_a_valid_identifier(inst, arg);
-//	else if (export_env_name(arg) == e->semicolon_underscore)
-//		return (inst->exit_status);
-//	else if (export_env_name(arg) == e->tilde)
-//		export_tilde(inst, arg);
-//	else if (export_env_name(arg) == e->tilde_slash)
-//		export_tilde_slash(inst, arg);
-//	else if (export_env_name(arg) == e->tilde_slash_something)
-//		export_tilde_slash_s(inst, arg);
-//	return (1);
-//}
-//
-//void	if_for_export_1(t_inst *inst, t_u_e *e, char *arg, char *next_arg)
-//{
-//	if (export_env_name(arg) == e->tilde_minus)
-//		inst->exit_status = export_tilde_minus(inst, arg);
-//	else if (export_env_name(arg) == e->tilde_minus_slash)
-//		inst->exit_status = export_tilde_minus_slash(inst, arg);
-//	else if (export_env_name(arg) == e->tilde_minus_slash_something)
-//		inst->exit_status =	export_tilde_minus_slash_s(inst, arg);
-//	else if (export_env_name(arg) == e->tilde_plus)
-//		inst->exit_status = export_tilde_plus(inst, arg);
-//	else if (export_env_name(arg) == e->tilde_plus_slash)
-//		inst->exit_status = export_tilde_plus_slash(inst, arg);
-//	else if (export_env_name(arg) == e->tilde_plus_slash_something)
-//		inst->exit_status = export_tilde_plus_slash_s(inst, arg);
-//	else if (export_env_name(arg) == e->comment_symbol)
-//		inst->exit_status = export_comment_symbol(inst->env_head);
-//	else
-//	{
-//		e->error_check = export_var(inst, e, next_arg);
-//		if (e->error_check == 0)
-//			inst->exit_status = 1;
-//	}
-//}
-
 void	print_export(t_inst *inst)
 {
 	t_env	*env;
@@ -51,8 +12,7 @@ void	print_export(t_inst *inst)
 			printf("declare -x %s\n", env->key);
 			env = env->next;
 			continue;
-		}
-		else
+		} else
 		{
 			printf("declare -x %s", env->key);
 			printf("=\"%s\"\n", env->value);
@@ -127,7 +87,6 @@ void	split_the_line_for_key_and_value(t_inst *inst, t_u_e *e, char *arg)
 		e->value = ft_substr(arg, i + 1, ft_strlen(arg));
 		if (e->value == NULL)
 			error_exit(inst, -6);
-//		printf("export %s=\"%s\"\n", e->key, e->value);
 	}
 }
 
