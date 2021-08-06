@@ -64,57 +64,6 @@ int	if_for_check_value(char *str)
 	return (-1);
 }
 
-int	if_for_check_key_2(t_u_e *e, char *str)
-{
-	unsigned int	i;
-
-	i = 1;
-	if (str[0] == 126 && str[1] == '+' && str[2] == '/' && str[3] != '\0')
-		return (11);
-	else if (str[0] == 35)
-		return (12);
-	else if (str[0] == 61 && str[1] == '\0')
-		return (15);
-	else if (str[0] == 61 && str[1] != '\0')
-		return (15);
-	else if (str[0] == '\0')
-		return (1);
-	else if (str[0] != '\0' && str[1] == '\0')
-	{
-		if ((str[0] > 64 && str[0] < 91)
-			|| (str[0] > 96 && str[0] < 123)
-			|| (str[0] == 95))
-			return (if_for_check_value(e->value));
-		else
-			return (1);
-	}
-	else
-	{
-		while (str[i] != '\0')
-		{
-			if ((str[0] > 64 && str[0] < 91)
-				|| (str[0] > 96 && str[0] < 123)
-				|| (str[0] == 95))
-			{
-				if ((str[i] > 47 && str[i] < 58)
-					|| (str[i] > 64 && str[i] < 91)
-					|| (str[i] > 96 && str[i] < 123)
-					|| (str[i] == 95))
-				{
-					i++;
-					continue ;
-				}
-				else
-					return (1);
-			}
-			else
-				return (1);
-			i++;
-		}
-	}
-	return (0);
-}
-
 int	if_for_check_key_1(char *str)
 {
 	unsigned int	i;
