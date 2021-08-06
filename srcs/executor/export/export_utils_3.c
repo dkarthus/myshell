@@ -10,6 +10,8 @@ int	if_for_check_key(char *str)
 		return (2);
 	else if (str[0] == '_' && str[1] == '=' && str[2] == '\0')
 		return (2);
+	else if (str[0] == '_' && str[1] != '\0' && ft_isalpha(str[1]))
+		return (2);
 	else if (str[0] == '~' && str[1] == '\0')
 		return (3);
 	else if (str[0] == '~' && str[1] == '/' && str[2] == '\0')
