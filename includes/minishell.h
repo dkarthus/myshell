@@ -10,9 +10,6 @@
 # include <signal.h>
 # include <errno.h>
 # include "../libft/libft.h"
-
-
-int exit_status;
 # include "../includes/parser.h"
 # include "../includes/pwd.h"
 # include "../includes/cd.h"
@@ -20,6 +17,8 @@ int exit_status;
 # include "../includes/error_exit.h"
 # include "../includes/unset.h"
 # include "../includes/export.h"
+
+int exit_status;
 
 typedef struct s_env t_env;
 

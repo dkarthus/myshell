@@ -5,22 +5,12 @@
  */
 static int ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 {
-/*	if (tkn->id == 0 && tkn->fd_in == 0)
-	{
-		if (dup2(inst->fd_in_save, 0) == -1)
-			return (ft_closefd("1Couldn't dup2", pipe_fd, -1));
-	}*/
 	if(tkn->fd_in > 0)
 	{
 		if (dup2(tkn->fd_in, 0) == -1)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(tkn->fd_in);
 	}
-/*	else if (tkn->is_here_doc && tkn->stop_word)
-	{
-		if (ft_here_doc(inst, tkn->stop_word, tkn->fd_in))
-			return (ft_closefd("3Couldn't open fd", pipe_fd, -1));
-	}*/
 	if (tkn->fd_out != 1)
 	{
 		if (dup2(tkn->fd_out, 1) == -1)
@@ -99,15 +89,17 @@ int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
 	int	pipe_fd[2] = {-1, -1};
-	int	ret;
 
 	if ((*tkn)->is_pipe)
 	{
-		ret = pipe(pipe_fd);
-		ret += dup2(pipe_fd[0], 0);
-		close(pipe_fd[0]);
+		if (pipe(pipe_fd) || dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]))
+		{
+			perror("Error: ");
+			return (1);
+		}
 	}
-	ft_manage_fds((*tkn), pipe_fd);
+	if (ft_manage_fds((*tkn), pipe_fd))
+		return (1);
 	if(your_wish_is_my_command(inst, (*tkn)) == -1)
 	{
 		close(pipe_fd[1]);
@@ -124,17 +116,13 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 int ft_executor(t_inst *inst)
 {
 	t_tkn *tkn;
-//	int pipe_fd[2];
 	tkn = *(inst->tkn_head);
 	ft_exec_first_tkn(inst, &tkn);
 	while (tkn)
 	{
-/*		pipe(pipe_fd);
-		dup2(pipe_fd[0], 0);*/
 		if (ft_fork_cmd(inst, tkn))
 			return (1);
 		tkn = tkn->next;
-	//	ft_closefd(NULL, pipe_fd, -1);
 	}
 	return (0);
 }

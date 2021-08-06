@@ -1,11 +1,12 @@
 #include "../../includes/parser.h"
 
 /*
- * Func prints ERR MSG, frees all received params and returns 1;
+ * Error handling function for parser, frees all incoming params
+ * always returns 1
  */
-int ft_err_parser(const char *str, t_src *src, char *to_free1, char *to_free2)
+int	ft_err_parser(const char *str, t_src *src, char *to_free1, char *to_free2)
 {
-	int i;
+	int	i;
 
 	if (str)
 		printf("%s\n", str);
@@ -14,7 +15,7 @@ int ft_err_parser(const char *str, t_src *src, char *to_free1, char *to_free2)
 		free(src->str);
 		src->str = NULL;
 		i = 0;
-		while(src->args[i])
+		while (src->args[i])
 		{
 			free(src->args[i]);
 			src->args[i] = NULL;

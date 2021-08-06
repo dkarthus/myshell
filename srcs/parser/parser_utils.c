@@ -10,16 +10,21 @@
 int	ft_check_symbol(char c)
 {
 	return (c == ' ' || c == '\'' || c == '\"' || c == '$' || c == '<' || c
-	=='>' || c == '|' || c == '\0');
+		=='>' || c == '|' || c == '\0');
 }
 
 /*
- *
+ * Appends delimited args to str in src
+ * @param src parsers master struct contains args str to be updated here;
+ * @param str to append;
+ * @param start of argument in str;
+ * @param len of argument in str;
+ * @return 0 = OK, 1 = KO malloc error
  */
-static int ft_append_arg( t_src *src, char *str, int *start, int *len)
+static int	ft_append_arg( t_src *src, char *str, int *start, int *len)
 {
-	char *arg;
-	char *tmp;
+	char	*arg;
+	char	*tmp;
 
 	arg = ft_substr(str, *start, *len);
 	tmp = src->args[src->args_cnt];
@@ -34,13 +39,16 @@ static int ft_append_arg( t_src *src, char *str, int *start, int *len)
 }
 
 /*
- *
+ * Dissects env var value into different args if finds space delimiter
+ * @param src parser master struct with args str that we need to update here
+ * @param value to be dissected
+ * @returns 0 = OK, 1 = KO malloc error;
  */
-static int ft_dissect_value(t_src *src, char *value)
+static int	ft_dissect_value(t_src *src, char *value)
 {
-	int i;
-	int len;
-	int start;
+	int	i;
+	int	len;
+	int	start;
 
 	start = 0;
 	i = 0;
@@ -65,12 +73,15 @@ static int ft_dissect_value(t_src *src, char *value)
 }
 
 /*
- *
+ *	Func for pulling $? var from global exit_status var;
+ *	@param src parsers master struct contains args str that will be modified here
+ *	@param upstart offset parameter for correct argument parsing
+ *	@returns 1 = KO(malloc error), 0 = OK
  */
-static int ft_exit_status(t_src *src, int *upstart)
+static int	ft_exit_status(t_src *src, int *upstart)
 {
-	char *ext_st;
-	char *tmp;
+	char	*ext_st;
+	char	*tmp;
 
 	ext_st = ft_itoa(exit_status);
 	src->pos++;
@@ -79,7 +90,7 @@ static int ft_exit_status(t_src *src, int *upstart)
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(tmp, ext_st);
 	if (!src->args[src->args_cnt])
-		return (1);
+		return (ft_err_parser("Malloc error", src, NULL, NULL));
 	free(tmp);
 	free(ext_st);
 	return (0);
@@ -94,16 +105,15 @@ static int ft_exit_status(t_src *src, int *upstart)
  * @param head of linked list of env vars;
  * @return returns 0 - no errors, and 1 on malloc mistake;
  */
-int ft_dolla(t_src *src, t_env **head, int *upstart)
+int	ft_dolla(t_src *src, t_env **head, int *upstart)
 {
 	int		start;
 	int		len;
 	char	*key;
 	char	*value;
 
-	if (!src->args[src->args_cnt])
+	if (++src->pos && !src->args[src->args_cnt])
 		src->args[src->args_cnt] = ft_strdup("");
-	src->pos++;
 	if (src->str[src->pos] == '?')
 		return (ft_exit_status(src, upstart));
 	start = src->pos;
@@ -116,13 +126,10 @@ int ft_dolla(t_src *src, t_env **head, int *upstart)
 	if (upstart)
 		*upstart = src->pos;
 	key = ft_substr(src->str, start, len);
-	if (!(key))
-		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
 	value = ft_get_env_value(key, head);
 	if (!value)
 		return (!ft_err_parser(NULL, NULL, key, NULL));
-	if (ft_dissect_value(src, value))
-		return (ft_err_parser(NULL, src, key, NULL));
-	ft_err_parser(NULL, NULL, key, NULL);
+	if (ft_err_parser(NULL, NULL, key, NULL) && ft_dissect_value(src, value))
+		return (ft_err_parser(NULL, src, NULL, NULL));
 	return (0);
 }
