@@ -86,6 +86,15 @@ typedef struct	s_u_e
 	unsigned int	tilde_plus;
 	unsigned int	tilde_plus_slash;
 	unsigned int	tilde_plus_slash_s;
+	unsigned int	tilde_1;
+	unsigned int	tilde_slash_1;
+	unsigned int	tilde_slash_s_1;
+	unsigned int	tilde_minus_1;
+	unsigned int	tilde_minus_slash_1;
+	unsigned int	tilde_minus_slash_s_1;
+	unsigned int	tilde_plus_1;
+	unsigned int	tilde_plus_slash_1;
+	unsigned int	tilde_plus_slash_s_1;
 	unsigned int	i;
 	unsigned int	comment_symbol;
 	unsigned int	failure;

@@ -83,6 +83,15 @@ void	initialize_variables_for_export(t_inst *inst, t_u_e *e)
 	e->comment_symbol = 12;
 	e->semicolon_s = 14;
 	e->equal_sign = 15;
+	e->tilde_1 = 16;
+	e->tilde_slash_1 = 17;
+	e->tilde_slash_s_1 = 18;
+	e->tilde_minus_1 = 19;
+	e->tilde_minus_slash_1 = 20;
+	e->tilde_minus_slash_s_1 = 21;
+	e->tilde_plus_1 = 22;
+	e->tilde_plus_slash_1 = 23;
+	e->tilde_plus_slash_s_1 = 24;
 	e->key = NULL;
 	e->value = NULL;
 }
@@ -162,6 +171,24 @@ int	export(t_inst *inst, char **args)
 				export_semicolon_equal(inst, &e);
 			else if (key(&e, args[e.i]) == e.equal_sign)
 				print_export_not_a_valid_identifier(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde)
+				export_tilde(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_slash)
+				export_tilde_slash(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_slash_s)
+				export_tilde_slash_s(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_minus)
+				inst->exit_status = export_tilde_minus(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_minus_slash)
+				inst->exit_status = export_tilde_minus_slash(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_minus_slash_s)
+				inst->exit_status =	export_tilde_minus_slash_s(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_plus)
+				inst->exit_status = export_tilde_plus(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_plus_slash)
+				inst->exit_status = export_tilde_plus_slash(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.tilde_plus_slash_s)
+				inst->exit_status = export_tilde_plus_slash_s(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.arg)
 				inst->exit_status = export_arg(inst, &e, args[e.i]);
 			else if (key(&e, args[e.i]) == e.failure)

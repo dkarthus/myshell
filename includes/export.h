@@ -21,6 +21,6 @@ int				export_comment_symbol(t_inst *inst);
 int				export_var(t_inst *inst, t_u_e *e, char *next_arg);
 
 unsigned int	key(t_u_e *e, char *key);
-unsigned int	value(char *key);
+unsigned int	value(t_u_e *e);
 
 #endif

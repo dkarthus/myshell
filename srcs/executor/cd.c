@@ -84,7 +84,7 @@ void 	if_for_updating_old_pwd(t_inst *inst)
 	}
 }
 
-void	update_old_pwd(t_inst *inst)
+int		update_old_pwd(t_inst *inst)
 {
 	char  dir[2048];
 	char   *error_check_char_p;
@@ -98,15 +98,15 @@ void	update_old_pwd(t_inst *inst)
 	{
 		error_check_char_p = getenv("HOME");
 		if (error_check_char_p == NULL)
-			error_exit(inst, -5);
+			return (error_exit(inst, -5));
 		else
 		{
 			old_pwd = ft_strjoin("OLDPWD=", error_check_char_p);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
-				error_exit(inst, -3);
+				return (error_exit(inst, -3));
 			free(old_pwd);
-			return ;
+			return (1);
 		}
 	}
 	else if (tkn->args[1] != NULL && ((check_arg(inst, "~-") == 0 || check_arg(inst, "~-/") == 0)))
@@ -125,9 +125,10 @@ void	update_old_pwd(t_inst *inst)
 			if (error_check_int == 0)
 				error_exit(inst, -3);
 			free(old_pwd);
-			return;
+			return (1);
 		}
 	}
+	return (0);
 }
 
 int		update_pwd(t_inst *inst)
@@ -179,7 +180,7 @@ void	cd_tilde_home(t_inst *inst)
 	return ;
 }
 
-void	cd_home(t_inst *inst)
+int	cd_home(t_inst *inst)
 {
 	int		error_check_int;
 	char	*home_value;
@@ -190,8 +191,9 @@ void	cd_home(t_inst *inst)
 	else
 	{
 		error_check_int = chdir(home_value);
-		no_such_file_or_directory(error_check_int, home_value);
+		return (no_such_file_or_directory(error_check_int, home_value));
 	}
+	return (0);
 }
 
 char	*check_tilde_slash_path(t_inst *inst)
@@ -339,7 +341,7 @@ void	cd_somewhere(t_inst *inst)
 	return ;
 }
 
-void	cd(t_inst *inst, char *arg)
+int	cd(t_inst *inst, char *arg)
 {
 	int		error_check;
 	t_tkn *tkn;
@@ -362,12 +364,12 @@ void	cd(t_inst *inst, char *arg)
 		if (cd_plus_minus(inst) == 0)
 		{
 			update_pwd(inst);
-			return ;
+			return (0);
 		}
 		cd_somewhere(inst);
 	}
 	update_pwd(inst);
-	return ;
+	return (0);
 }
 
 void	is_a_directory(t_inst *inst)
@@ -444,6 +446,12 @@ int		it_is_a_directory_there(t_inst *inst)
 	return (1);
 }
 
+int		execute_cd(t_inst *inst, t_tkn *tkn)
+{
+	inst->exit_status = cd(inst, tkn->args[1]);
+	return (inst->exit_status);
+}
+
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 {
 	char 	*hold_cmd_for_me;
@@ -454,11 +462,11 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 	while (tkn)
 	{
 		if (check_cmd(inst, "cd") == 0)
-			cd(inst, tkn->args[1]);
+			return (execute_cd(inst, tkn));
 		else if (check_pwd(inst) == 0)
-			pwd(inst);
+			inst->exit_status = pwd(inst);
 		else if (check_env(inst) == 0)
-			env(inst);
+			inst->exit_status = env(inst);
 		else if (check_cmd(inst, "unset") == 0)
 			inst->exit_status = unset(inst, tkn->args);
 		else if (check_cmd(inst, "export") == 0)
