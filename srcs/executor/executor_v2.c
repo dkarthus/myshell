@@ -109,19 +109,15 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	}
 	else if ((*tkn)->next && (*tkn)->fd_out == 1)
 	{
-		printf("check\n");
 		if (dup2(pipe_fd[1], 1) == -1)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 	//	close(pipe_fd[1]);
 	}
-	ft_putstr_fd("before wish \n", save);
 	if(your_wish_is_my_command(inst, (*tkn)) == -1)
 	{
-		printf("NOT FOUND\n");
 		close(pipe_fd[1]);
 		return (0);
 	}
-	ft_putstr_fd("after wish \n", save);
 	if ((*tkn)->is_pipe)
 	{
 		close(pipe_fd[1]);

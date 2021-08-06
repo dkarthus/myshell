@@ -3,9 +3,9 @@
 /*
  *
  */
-int ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
+int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = src->args[*i];
 	if (!tmp)

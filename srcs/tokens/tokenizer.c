@@ -1,36 +1,45 @@
 #include "../../includes/parser.h"
 
 /*
+ * Util for shrink ft_fill_token;
+ */
+static int	ft_fill_util(t_src *src, int *arg_iter, t_tkn *new)
+{
+	if (src->args[*arg_iter][0] == '>')
+	{
+		if (ft_update_token_fdout(new, src, arg_iter))
+			return (0);
+	}
+	if (src->args[*arg_iter] && src->args[*arg_iter][0] == '<')
+	{
+		if (ft_update_token_fdin(new, src, arg_iter))
+			return (0);
+	}
+	if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]))
+	{
+		if (ft_update_args(new, src, arg_iter))
+			return (0);
+	}
+	return (1);
+}
+
+/*
  *
  */
-static t_tkn *ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
+static t_tkn	*ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
 {
-	t_tkn *new;
+	t_tkn	*new;
 
 	new = ft_init_token(src->args[*arg_iter], tkn_id);
-	(*arg_iter)++;
-	if (!new)
+	if (++(*arg_iter) && !new)
 	{
-		ft_err_parser("Malloc error in tokenaizer1", src, NULL, NULL);
+		ft_err_parser("Malloc error", src, NULL, NULL);
 		return (0);
 	}
 	while (src->args[*arg_iter] && src->args[*arg_iter][0] != '|')
 	{
-		if (src->args[*arg_iter][0] == '>')
-		{
-			if (ft_update_token_fdout(new, src, arg_iter))
-				return (0);
-		}
-		if (src->args[*arg_iter] && src->args[*arg_iter][0] == '<')
-		{
-			if (ft_update_token_fdin(new, src, arg_iter))
-				return (0);
-		}
-		if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]))
-		{
-			if (ft_update_args(new, src, arg_iter))
-				return (0);
-		}
+		if (!ft_fill_util(src, arg_iter, new))
+			return (0);
 	}
 	if (ft_is_pipe_tkn(new, src, arg_iter))
 		return (0);
@@ -42,7 +51,7 @@ static t_tkn *ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
  */
 int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter, int tkn_id)
 {
-	t_tkn *iter;
+	t_tkn	*iter;
 
 	if (!*head)
 	{
@@ -65,9 +74,8 @@ int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter, int tkn_id)
 /*
  *
  */
-int ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
+int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 {
-
 	if (*tkn_cnt == 0 && src->args[0][0] == '|')
 		return (ft_err_parser("Syntax error near '|' token", src, NULL, NULL));
 	if (src->args[*arg_iter][0] == '>' && *tkn_cnt == 0)
@@ -89,8 +97,8 @@ int ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
  */
 int	ft_tokenize(t_src *src, t_inst *inst)
 {
-	int args_cnt;
-	int tkn_cnt;
+	int	args_cnt;
+	int	tkn_cnt;
 
 	args_cnt = 0;
 	tkn_cnt = 0;
