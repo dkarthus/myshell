@@ -3,26 +3,31 @@ DIR_HEADERS	= ./includes/
 DIR_SRCS	= ./srcs/
 
 SRC			=	minishell.c \
-				parser/parser.c \
-				env_vars/env_utils.c \
-				env_vars/env_utils1.c \
-				parser/parser_err_handler.c \
-				parser/parser_utils.c \
-				parser/parser_utils1.c \
-				parser/parser_utils2.c \
-				parser/parser_utils_etc.c \
-				tokens/token_util.c \
-				tokens/token_utils1.c \
-				tokens/token_utils2.c \
-				tokens/tokenizer.c \
+				parser.c \
+				env_utils.c \
+				env_utils1.c \
+				parser_err_handler.c \
+				parser_utils.c \
+				parser_utils1.c \
+				parser_utils2.c \
+				parser_utils_etc.c \
+				token_util.c \
+				token_utils1.c \
+				token_utils2.c \
+				tokenizer.c \
 				executor/cd.c \
-				error_exit.c \
 				executor/pwd.c \
 				executor/env.c \
-				executor/executor_v2.c \
-				executor/here_doc.c \
-				executor/bin_finder.c \
-				signals/signal.c
+				executor/unset/unset.c \
+				executor/unset/unset_utils.c \
+				executor/unset/unset_utils_1.c \
+				executor/unset/unset_utils_2.c \
+				executor/export/export.c \
+				executor/export/export_utils.c \
+				executor/export/export_utils_1.c \
+				executor/export/export_utils_2.c \
+				executor/export/export_utils_3.c \
+				error_exit.c
 
 SRCS		= $(addprefix $(DIR_SRCS), $(SRC))
 

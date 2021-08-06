@@ -206,7 +206,7 @@ char	*check_tilde_slash_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(inst,-5);
+		error_exit(inst, -5);
 	else
 	{
 		if (tkn->args[0][0] == '~' && tkn->args[0][1] == '/')
@@ -303,9 +303,6 @@ char	*check_tilde_plus_path(t_inst *inst)
 	return (tkn->args[0]);
 }
 
-
-
-
 int		cd_plus_minus(t_inst *inst)
 {
 	int		error_check;
@@ -331,10 +328,10 @@ int		cd_plus_minus(t_inst *inst)
 	return (0);
 }
 
-void cd_somewhere(t_inst *inst)
+void	cd_somewhere(t_inst *inst)
 {
-	int  error_check;
-	t_tkn *tkn;
+	int		error_check;
+	t_tkn	*tkn;
 
 	tkn = *(inst->tkn_head);
 	error_check = chdir(tkn->args[0]);
@@ -342,33 +339,32 @@ void cd_somewhere(t_inst *inst)
 	return ;
 }
 
-void	cd(t_inst *inst)
+void	cd(t_inst *inst, char *arg)
 {
 	int		error_check;
 	t_tkn *tkn;
 
 	tkn = *(inst->tkn_head);
 	update_old_pwd(inst);
-	if (tkn->args[0] == NULL)
+	if (arg == NULL)
 		cd_home(inst);
-	else if (check_arg(inst, tkn->args[0]) == 0 && tkn->args[0][0] != '~')
+	else if (check_arg(inst, arg) == 0 && arg[0] != '~')
 		cd_somewhere(inst);
 	else if (check_arg(inst, "~") == 0 || check_arg(inst, "~/") == 0)
 		cd_tilde_home(inst);
-	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(tkn->args[0]) > 1)
+	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(arg) > 1)
 	{
 		error_check = chdir(check_tilde_slash_path(inst));
 		no_such_file_or_directory(error_check, check_tilde_slash_path(inst));
 	}
-	else if (tkn->args[0] != NULL)
+	else if (arg != NULL)
 	{
 		if (cd_plus_minus(inst) == 0)
 		{
 			update_pwd(inst);
 			return ;
 		}
-		error_check = chdir(tkn->args[0]);
-		no_such_file_or_directory(error_check, tkn->args[0]);
+		cd_somewhere(inst);
 	}
 	update_pwd(inst);
 	return ;
@@ -437,7 +433,7 @@ int		it_is_a_directory_there(t_inst *inst)
 		return (substitute_tilde(inst, 0));
 	else if (ft_strncmp(tkn->cmd, "~/", ft_strlen(tkn->cmd)) == 0)
 		return (substitute_tilde(inst, 1));
-	else if (tkn->cmd[0] == '~')
+	else if (tkn->cmd[0] == '~' && tkn->cmd[1] == '\0')
 		return (substitute_tilde(inst, 2));
 	else if (ft_strncmp(tkn->cmd, "/", ft_strlen(tkn->cmd)) == 0)
 		return (0);
@@ -450,21 +446,32 @@ int		it_is_a_directory_there(t_inst *inst)
 
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 {
+	char 	*hold_cmd_for_me;
+
+	hold_cmd_for_me = NULL;
+	if (tkn->cmd != NULL)
+		hold_cmd_for_me = ft_strdup(tkn->cmd);
 	while (tkn)
 	{
-		if (ft_strncmp(tkn->cmd, "cd", ft_strlen(tkn->cmd)) == 0)
-			cd(inst);
+		if (check_cmd(inst, "cd") == 0)
+			cd(inst, tkn->args[0]);
 		else if (check_pwd(inst) == 0)
 			pwd(inst);
 		else if (check_env(inst) == 0)
 			env(inst);
-		else if (tkn->cmd[0] != '~' && tkn->cmd[0] != '/')
-			printf("minishell: %s: command not found\n", tkn->cmd);
+		else if (check_cmd(inst, "unset") == 0)
+			inst->exit_status = unset(inst, tkn->args);
+		else if (check_cmd(inst, "export") == 0)
+			inst->exit_status = export(inst, tkn->args);
+		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
+			printf("minishell: %s: command not found\n",
+				   hold_cmd_for_me);
 		else if (it_is_a_directory_there(inst) == 0)
 			is_a_directory(inst);
 		else if (it_is_a_directory_there(inst) == 1)
 			no_such_file_or_directory_1(1, tkn->cmd);
 		tkn = tkn->next;
 	}
-		return (0);
+	free(hold_cmd_for_me);
+	return (inst->exit_status);
 }

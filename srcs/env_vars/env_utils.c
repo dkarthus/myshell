@@ -13,12 +13,13 @@ char *ft_get_env_value(char *key, t_env **head)
 	iter = *head;
 	while(iter)
 	{
-		if (ft_strncmp(key, iter->key, ft_strlen(key)) == 0)
+		if (ft_strncmp(key, iter->key, ft_strlen(key) + 1) == 0)
 			return (iter->value);
 		iter = iter->next;
 	}
 	return (NULL);
 }
+
 
 /*
  * Deletes a var from a vars linked list;
@@ -33,7 +34,7 @@ int	ft_unset_env_var(char *key, t_env **head)
 	t_env	*tmp;
 
 	iter = *head;
-	if (ft_strncmp(key, iter->key, ft_strlen(key)) == 0)
+	if (ft_strncmp(key, iter->key, ft_strlen(key) + 1) == 0)
 	{
 		*head = iter->next;
 		ft_del_elem(iter);
@@ -41,7 +42,7 @@ int	ft_unset_env_var(char *key, t_env **head)
 	}
 	while (iter->next)
 	{
-		if (ft_strncmp(key, iter->next->key, ft_strlen(key)) == 0)
+		if (ft_strncmp(key, iter->next->key, ft_strlen(key) + 1) == 0)
 		{
 			tmp = iter->next;
 			iter->next = iter->next->next;
