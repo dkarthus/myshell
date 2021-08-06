@@ -53,7 +53,7 @@ typedef struct	s_instance
 	t_tkn	**tkn_head;
 	int		pipes_cnt;
 	int		fd_in_save;
-	int 	exit_status;
+//	int 	exit_status;
 }				t_inst;
 
 

@@ -28,12 +28,12 @@ void	print_export(t_inst *inst)
 	}
 }
 
-void	initialize_variables_for_export(t_inst *inst, t_u_e *e)
+void	initialize_variables_for_export(t_u_e *e)
 {
 	e->i = 1;
 	e->failure = 1;
 	e->error_check = 0;
-	inst->exit_status = 0;
+	exit_status = 0;
 	e->semicolon = 13;
 	e->arg = 0;
 	e->underscore = 2;
@@ -71,7 +71,7 @@ void	free_key_and_value(t_u_e *e)
 		free(e->value);
 }
 
-void	split_the_line_for_key_and_value(t_inst *inst, t_u_e *e, char *arg)
+void	split_the_line_for_key_and_value(t_u_e *e, char *arg)
 {
 	int		i;
 
@@ -83,10 +83,10 @@ void	split_the_line_for_key_and_value(t_inst *inst, t_u_e *e, char *arg)
 			i++;
 		e->key = ft_substr(arg, 0, i);
 		if (e->key == NULL)
-			error_exit(inst, -6);
+			error_exit(-6);
 		e->value = ft_substr(arg, i + 1, ft_strlen(arg));
 		if (e->value == NULL)
-			error_exit(inst, -6);
+			error_exit(-6);
 	}
 }
 
@@ -112,8 +112,8 @@ unsigned int	export_arg(t_inst *inst, t_u_e *e, char *arg)
 	e->error_check = ft_add_env_elem(arg, inst->env_head);
 	if (e->error_check == 0)
 	{
-		inst->exit_status = 1;
-		return (inst->exit_status);
+		exit_status = 1;
+		return (exit_status);
 	}
 	return (0);
 }
@@ -122,43 +122,43 @@ int	export(t_inst *inst, char **args)
 {
 	t_u_e	e;
 
-	initialize_variables_for_export(inst, &e);
+	initialize_variables_for_export(&e);
 	if (args[1] == NULL)
 	{
 		print_export(inst);
-		return (inst->exit_status);
+		return (exit_status);
 	}
 	else if (args[1] != NULL)
 	{
 		if (ft_strchr(args[e.i], '=') != NULL)
 		{
-			split_the_line_for_key_and_value(inst, &e, args[e.i]);
+			split_the_line_for_key_and_value(&e, args[e.i]);
 			if (key(&e, args[e.i]) == e.semicolon_s)
 				export_semicolon_equal(inst, &e);
 			else if (key(&e, args[e.i]) == e.equal_sign)
-				print_export_not_a_valid_identifier(inst, args[e.i]);
+				print_export_not_a_valid_identifier(args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde)
-				export_tilde(inst, args[e.i]);
+				export_tilde(args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_slash)
-				export_tilde_slash(inst, args[e.i]);
+				export_tilde_slash(args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_slash_s)
-				export_tilde_slash_s(inst, args[e.i]);
+				export_tilde_slash_s(args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_minus)
-				inst->exit_status = export_tilde_minus(inst, args[e.i]);
+				exit_status = export_tilde_minus(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_minus_slash)
-				inst->exit_status = export_tilde_minus_slash(inst, args[e.i]);
+				exit_status = export_tilde_minus_slash(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_minus_slash_s)
-				inst->exit_status =	export_tilde_minus_slash_s(inst, args[e.i]);
+				exit_status =	export_tilde_minus_slash_s(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus)
-				inst->exit_status = export_tilde_plus(inst, args[e.i]);
+				exit_status = export_tilde_plus(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus_slash)
-				inst->exit_status = export_tilde_plus_slash(inst, args[e.i]);
+				exit_status = export_tilde_plus_slash(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus_slash_s)
-				inst->exit_status = export_tilde_plus_slash_s(inst, args[e.i]);
+				exit_status = export_tilde_plus_slash_s(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.arg)
-				inst->exit_status = export_arg(inst, &e, args[e.i]);
+				exit_status = export_arg(inst, &e, args[e.i]);
 			else if (key(&e, args[e.i]) == e.failure)
-				print_export_not_a_valid_identifier(inst, args[e.i]);
+				print_export_not_a_valid_identifier(args[e.i]);
 		}
 		else
 		{
@@ -169,29 +169,29 @@ int	export(t_inst *inst, char **args)
 			else if (key(&e, args[e.i]) == e.underscore)
 				return (0);
 			else if (key(&e, args[e.i]) == e.tilde)
-				export_tilde(inst, args[e.i]);
+				export_tilde(args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_slash)
-				export_tilde_slash(inst, args[e.i]);
+				export_tilde_slash(args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_slash_s)
-				export_tilde_slash_s(inst, args[e.i]);
+				export_tilde_slash_s(args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_minus)
-				inst->exit_status = export_tilde_minus(inst, args[e.i]);
+				exit_status = export_tilde_minus(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_minus_slash)
-				inst->exit_status = export_tilde_minus_slash(inst, args[e.i]);
+				exit_status = export_tilde_minus_slash(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_minus_slash_s)
-				inst->exit_status =	export_tilde_minus_slash_s(inst, args[e.i]);
+				exit_status =	export_tilde_minus_slash_s(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus)
-				inst->exit_status = export_tilde_plus(inst, args[e.i]);
+				exit_status = export_tilde_plus(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus_slash)
-				inst->exit_status = export_tilde_plus_slash(inst, args[e.i]);
+				exit_status = export_tilde_plus_slash(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus_slash_s)
-				inst->exit_status = export_tilde_plus_slash_s(inst, args[e.i]);
+				exit_status = export_tilde_plus_slash_s(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.comment_symbol)
-				inst->exit_status = export_comment_symbol(inst);
+				exit_status = export_comment_symbol(inst);
 			else if (key(&e, args[e.i]) == e.arg)
-				inst->exit_status = export_arg(inst, &e, args[e.i]);
+				exit_status = export_arg(inst, &e, args[e.i]);
 			else if (key(&e, args[e.i]) == e.failure)
-				print_export_not_a_valid_identifier(inst, args[e.i]);
+				print_export_not_a_valid_identifier(args[e.i]);
 		}
 	}
 	return (0);

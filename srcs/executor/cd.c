@@ -71,13 +71,13 @@ void 	if_for_updating_old_pwd(t_inst *inst)
 	{
 		error_check_char_p = getenv("HOME");
 		if (error_check_char_p == NULL)
-			error_exit(inst, -5);
+			error_exit(-5);
 		else
 		{
 			old_pwd = ft_strjoin("OLDPWD=", error_check_char_p);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
-				error_exit(inst, -3);
+				error_exit(-3);
 			free(old_pwd);
 			return ;
 		}
@@ -98,13 +98,13 @@ int		update_old_pwd(t_inst *inst)
 	{
 		error_check_char_p = getenv("HOME");
 		if (error_check_char_p == NULL)
-			return (error_exit(inst, -5));
+			return (error_exit(-5));
 		else
 		{
 			old_pwd = ft_strjoin("OLDPWD=", error_check_char_p);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
-				return (error_exit(inst, -3));
+				return (error_exit(-3));
 			free(old_pwd);
 			return (1);
 		}
@@ -119,11 +119,11 @@ int		update_old_pwd(t_inst *inst)
 		{
 			error_check_char_p = getcwd(dir, 2048);
 			if (error_check_char_p == NULL)
-				error_exit(inst, -2);
+				error_exit(-2);
 			old_pwd = ft_strjoin("OLDPWD=", dir);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
-				error_exit(inst, -3);
+				error_exit(-3);
 			free(old_pwd);
 			return (1);
 		}
@@ -140,11 +140,11 @@ int		update_pwd(t_inst *inst)
 
 	error_check_char_p = getcwd(dir, 2048);
 	if (error_check_char_p == NULL)
-		error_exit(inst, -2);
+		error_exit(-2);
 	pwd = ft_strjoin("PWD=", dir);
 	error_check_int = ft_add_env_elem(pwd, inst->env_head);
 	if (error_check_int == 0)
-		error_exit(inst, -4);
+		error_exit(-4);
 	free(pwd);
 	return (0);
 }
@@ -163,7 +163,7 @@ int		no_such_file_or_directory_1(int error_check, const char *str)
 	return (1);
 }
 
-void	cd_tilde_home(t_inst *inst)
+void	cd_tilde_home()
 {
 	int		error_check_int;
 	char	*home_value;
@@ -171,7 +171,7 @@ void	cd_tilde_home(t_inst *inst)
 	error_check_int = 0;
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(inst, -5);
+		error_exit(-5);
 	else
 	{
 		error_check_int = chdir(home_value);
@@ -208,7 +208,7 @@ char	*check_tilde_slash_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(inst, -5);
+		error_exit(-5);
 	else
 	{
 		if (tkn->args[1][0] == '~' && tkn->args[1][1] == '/')
@@ -353,7 +353,7 @@ int	cd(t_inst *inst, char *arg)
 	else if (check_arg(inst, arg) == 0 && arg[0] != '~')
 		cd_somewhere(inst);
 	else if (check_arg(inst, "~") == 0 || check_arg(inst, "~/") == 0)
-		cd_tilde_home(inst);
+		cd_tilde_home();
 	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(arg) > 1)
 	{
 		error_check = chdir(check_tilde_slash_path(inst));
@@ -391,7 +391,7 @@ void	real_substitution(t_inst *inst, int check)
 	tkn = *(inst->tkn_head);
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(inst, -5);
+		error_exit(-5);
 	if (check == 0)
 	{
 		free(tkn->cmd);
@@ -449,44 +449,44 @@ int		it_is_a_directory_there(t_inst *inst)
 
 int		execute_cd(t_inst *inst, t_tkn *tkn)
 {
-	inst->exit_status = cd(inst, tkn->args[1]);
-	return (inst->exit_status);
+	exit_status = cd(inst, tkn->args[1]);
+	return (exit_status);
 }
 
 int		execute_pwd(t_inst *inst)
 {
-	inst->exit_status = pwd(inst);
-	return (inst->exit_status);
+	exit_status = pwd(inst);
+	return (exit_status);
 }
 
 int		execute_env(t_inst *inst)
 {
-	inst->exit_status = env(inst);
-	return (inst->exit_status);
+	exit_status = env(inst);
+	return (exit_status);
 }
 
 int		execute_unset(t_inst *inst, t_tkn *tkn)
 {
-	inst->exit_status = unset(inst, tkn->args);
-	return (inst->exit_status);
+	exit_status = unset(inst, tkn->args);
+	return (exit_status);
 }
 
 int		execute_export(t_inst *inst, t_tkn *tkn)
 {
-	inst->exit_status = export(inst, tkn->args);
-	return (inst->exit_status);
+	exit_status = export(inst, tkn->args);
+	return (exit_status);
 }
 
 int		execute_is_a_directory(t_inst *inst)
 {
-	inst->exit_status = is_a_directory(inst);
-	return (inst->exit_status);
+	exit_status = is_a_directory(inst);
+	return (exit_status);
 }
 
-int		execute_no_such_file_or_directory_1(t_inst *inst, t_tkn *tkn)
+int		execute_no_such_file_or_directory_1(t_tkn *tkn)
 {
-	inst->exit_status = no_such_file_or_directory_1(1, tkn->cmd);
-	return (inst->exit_status);
+	exit_status = no_such_file_or_directory_1(1, tkn->cmd);
+	return (exit_status);
 }
 
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
@@ -514,9 +514,9 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 		else if (it_is_a_directory_there(inst) == 0)
 			return (execute_is_a_directory(inst));
 		else if (it_is_a_directory_there(inst) == 1)
-			return (execute_no_such_file_or_directory_1(inst, tkn));
+			return (execute_no_such_file_or_directory_1(tkn));
 		tkn = tkn->next;
 	}
 	free(hold_cmd_for_me);
-	return (inst->exit_status);
+	return (exit_status);
 }
