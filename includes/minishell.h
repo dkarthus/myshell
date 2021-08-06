@@ -17,6 +17,7 @@
 # include "../includes/error_exit.h"
 # include "../includes/unset.h"
 # include "../includes/export.h"
+# include "../includes/echo.h"
 
 int exit_status;
 
