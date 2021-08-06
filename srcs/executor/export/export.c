@@ -46,18 +46,56 @@ void	print_export(t_inst *inst)
 	env = *(inst->env_head);
 	while (env->next != NULL)
 	{
-		if (env->value[0] == '\0')
+		if (ft_strchr(env->line, '=') != NULL)
 		{
-			printf("declare -x %s\n", env->key);
+			if (env->value[0] == '\0')
+			{
+				printf("declare -x %s=""\n", env->key);
+				env = env->next;
+				continue;
+			}
+			else
+			{
+				printf("declare -x %s", env->key);
+				printf("=\"%s\"\n", env->value);
+			}
 			env = env->next;
-			continue;
 		}
+		else
+		{
+			if (env->value[0] == '\0')
+			{
+				printf("declare -x %s\n", env->key);
+				env = env->next;
+				continue;
+			}
+			else
+			{
+				printf("declare -x %s", env->key);
+				printf("=\"%s\"\n", env->value);
+			}
+			env = env->next;
+		}
+	}
+	if (ft_strchr(env->line, '=') != NULL)
+	{
+		if (env->value[0] == '\0')
+			printf("declare -x %s=""\n", env->key);
 		else
 		{
 			printf("declare -x %s", env->key);
 			printf("=\"%s\"\n", env->value);
 		}
-		env = env->next;
+	}
+	else
+	{
+		if (env->value[0] == '\0')
+			printf("declare -x %s\n", env->key);
+		else
+		{
+			printf("declare -x %s", env->key);
+			printf("=\"%s\"\n", env->value);
+		}
 	}
 }
 

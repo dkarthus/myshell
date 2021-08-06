@@ -83,7 +83,7 @@ int	check_pwd(t_inst *inst)
 	return (0);
 }
 
-void	pwd(t_inst	*inst)
+int		pwd(t_inst	*inst)
 {
 	char	dir[2048];
 	char	*error_check_char_p;
@@ -101,4 +101,5 @@ void	pwd(t_inst	*inst)
 	error_check_char_p = ft_strjoin(error_check_char_p, "\n");
 	ft_putstr_fd(error_check_char_p, 0);
 	free(error_check_char_p);
+	return (0);
 }

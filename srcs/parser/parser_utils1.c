@@ -39,7 +39,7 @@ static int	ft_redir_util2(t_src *src, char *redir)
 	}
 	else
 	{
-		src->args[src->args_cnt] = ft_strdup(redir[1]);
+		src->args[src->args_cnt] = ft_strdup(&redir[1]);
 		src->pos++;
 	}
 	if (!src->args[src->args_cnt])

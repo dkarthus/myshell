@@ -91,7 +91,10 @@ int 	env(t_inst *inst)
 	while (env->next != NULL)
 	{
 		if (ft_strchr(env->line, '=') != NULL)
-			printf("%s\n", env->line);
+		{
+			write(1, env->line, ft_strlen(env->line));
+			write(1, "\n", 1);
+		}
 		env = env->next;
 	}
 	return (0);

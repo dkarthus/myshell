@@ -372,13 +372,14 @@ int	cd(t_inst *inst, char *arg)
 	return (0);
 }
 
-void	is_a_directory(t_inst *inst)
+int	is_a_directory(t_inst *inst)
 {
 	t_tkn *tkn;
 
 	tkn = *(inst->tkn_head);
 	if (check_cmd(inst, tkn->cmd) == 0)
 		printf("minishell: %s: is a directory\n", tkn->cmd);
+	return (0);
 }
 
 void	real_substitution(t_inst *inst, int check)
@@ -452,6 +453,42 @@ int		execute_cd(t_inst *inst, t_tkn *tkn)
 	return (inst->exit_status);
 }
 
+int		execute_pwd(t_inst *inst)
+{
+	inst->exit_status = pwd(inst);
+	return (inst->exit_status);
+}
+
+int		execute_env(t_inst *inst)
+{
+	inst->exit_status = env(inst);
+	return (inst->exit_status);
+}
+
+int		execute_unset(t_inst *inst, t_tkn *tkn)
+{
+	inst->exit_status = unset(inst, tkn->args);
+	return (inst->exit_status);
+}
+
+int		execute_export(t_inst *inst, t_tkn *tkn)
+{
+	inst->exit_status = export(inst, tkn->args);
+	return (inst->exit_status);
+}
+
+int		execute_is_a_directory(t_inst *inst)
+{
+	inst->exit_status = is_a_directory(inst);
+	return (inst->exit_status);
+}
+
+int		execute_no_such_file_or_directory_1(t_inst *inst, t_tkn *tkn)
+{
+	inst->exit_status = no_such_file_or_directory_1(1, tkn->cmd);
+	return (inst->exit_status);
+}
+
 int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 {
 	char 	*hold_cmd_for_me;
@@ -464,20 +501,20 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 		if (check_cmd(inst, "cd") == 0)
 			return (execute_cd(inst, tkn));
 		else if (check_pwd(inst) == 0)
-			inst->exit_status = pwd(inst);
+			return (execute_pwd(inst));
 		else if (check_env(inst) == 0)
-			inst->exit_status = env(inst);
+			return (execute_env(inst));
 		else if (check_cmd(inst, "unset") == 0)
-			inst->exit_status = unset(inst, tkn->args);
+			return (execute_unset(inst, tkn));
 		else if (check_cmd(inst, "export") == 0)
-			inst->exit_status = export(inst, tkn->args);
-		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
-			printf("minishell: %s: command not found\n",
-				   hold_cmd_for_me);
+			return (execute_export(inst, tkn));
+//		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
+//			printf("minishell: %s: command not found\n",
+//				   hold_cmd_for_me);
 		else if (it_is_a_directory_there(inst) == 0)
-			is_a_directory(inst);
+			return (execute_is_a_directory(inst));
 		else if (it_is_a_directory_there(inst) == 1)
-			no_such_file_or_directory_1(1, tkn->cmd);
+			return (execute_no_such_file_or_directory_1(inst, tkn));
 		tkn = tkn->next;
 	}
 	free(hold_cmd_for_me);
