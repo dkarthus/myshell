@@ -464,16 +464,16 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 		if (check_cmd(inst, "cd") == 0)
 			return (execute_cd(inst, tkn));
 		else if (check_pwd(inst) == 0)
-			inst->exit_status = pwd(inst);
+		/*	inst->exit_status = */pwd(inst);
 		else if (check_env(inst) == 0)
 			inst->exit_status = env(inst);
 		else if (check_cmd(inst, "unset") == 0)
 			inst->exit_status = unset(inst, tkn->args);
 		else if (check_cmd(inst, "export") == 0)
 			inst->exit_status = export(inst, tkn->args);
-		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
-			printf("minishell: %s: command not found\n",
-				   hold_cmd_for_me);
+//		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
+//			printf("minishell: %s: command not found\n",
+//				   hold_cmd_for_me);
 		else if (it_is_a_directory_there(inst) == 0)
 			is_a_directory(inst);
 		else if (it_is_a_directory_there(inst) == 1)

@@ -59,6 +59,13 @@ void	print_export(t_inst *inst)
 		}
 		env = env->next;
 	}
+	if (env->value[0] == '\0')
+		printf("declare -x %s\n", env->key);
+	else
+	{
+		printf("declare -x %s", env->key);
+		printf("=\"%s\"\n", env->value);
+	}
 }
 
 void	initialize_variables_for_export(t_inst *inst, t_u_e *e)

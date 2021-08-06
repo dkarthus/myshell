@@ -4,7 +4,7 @@
 
 typedef struct	s_instance t_inst;
 
-int		pwd(t_inst	*inst);
+void	pwd(t_inst	*inst);
 int		check_pwd(t_inst *inst);
 
 #endif

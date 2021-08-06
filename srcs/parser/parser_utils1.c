@@ -39,7 +39,7 @@ static int	ft_redir_util2(t_src *src, char *redir)
 	}
 	else
 	{
-		src->args[src->args_cnt] = ft_strdup(redir[1]);
+		src->args[src->args_cnt] = ft_strdup(&redir[1]);
 		src->pos++;
 	}
 	if (!src->args[src->args_cnt])
@@ -49,7 +49,7 @@ static int	ft_redir_util2(t_src *src, char *redir)
 
 /*
  * Parse redirect out >> symbols and adds them into srcs struct args string
- * @param	src parser master struct whos args str will be updated
+ * @param	src parser master struct whose args str will be updated
  * @return	0 = OK, 1 = KO malloc error
  */
 int	ft_redir_out(t_src *src)

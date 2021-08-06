@@ -58,33 +58,33 @@ static void	ft_update_elem(t_env *old_elem, t_env *new_elem)
  */
 static void	ft_insert_elem(t_env **head, t_env *elem)
 {
-	t_env	*iter;
+	t_env	*i;
 
-	iter = *head;
-	if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key) + 1) > 0)
+	i = *head;
+/*	if (ft_strncmp(i->key, elem->key, ft_strlen(i->key) + 1) > 0)
 	{
 		*head = elem;
-		elem->next = iter;
+		elem->next = i;
 		return ;
-	}
-	while (iter->next && ft_strncmp(iter->next->key, elem->key,
-									ft_strlen(iter->next->key + 1)) < 0)
-		iter = iter->next;
-	if (!iter->next)
+	}*/
+	while (i->next && ft_strncmp(i->next->key, elem->key, ft_strlen
+	(i->next->key) + 1) != 0)
+		i = i->next;
+	if (i->next && ft_strncmp(i->next->key, elem->key, ft_strlen(i->next->key)
+		+ 1) == 0)
+		ft_update_elem(i->next, elem);
+	if (!i->next)
 	{
-		iter->next = elem;
+		i->next = elem;
 		return ;
 	}
-	if (ft_strncmp(iter->next->key, elem->key, ft_strlen(iter->next->key) + 1)
-	== 0)
-		ft_update_elem(iter->next, elem);
-	else if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key + 1)) == 0)
-		ft_update_elem(iter, elem);
+/*	else if (ft_strncmp(i->key, elem->key, ft_strlen(i->key + 1)) == 0)
+		ft_update_elem(i, elem);
 	else
 	{
-		elem->next = iter->next;
-		iter->next = elem;
-	}
+		elem->next = i->next;
+		i->next = elem;
+	}*/
 }
 
 /*
