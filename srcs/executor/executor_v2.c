@@ -69,7 +69,6 @@ int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 	pipe(pipe_fd);
 	if (tkn->is_here_doc && tkn->stop_word)
 	{
-		printf("mode %d\n", tkn->fd_in);
 		if (ft_here_doc(inst, tkn->stop_word, tkn->fd_in))
 			return (ft_closefd("Couldn't open fd", pipe_fd, -1));
 	}
@@ -97,10 +96,27 @@ int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 /*
  *
  */
-/*static int	ft_exec_first_tkn(t_inst *inst, t_tkn *tkn)
+static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
+	int	pipe_fd[2] = {-1, -1};
+	int	ret;
 
-}*/
+	if ((*tkn)->is_pipe)
+	{
+		ret = pipe(pipe_fd);
+		ret += dup2(pipe_fd[0], 0);
+		close(pipe_fd[0]);
+	}
+	ft_manage_fds((*tkn), pipe_fd);
+	if(your_wish_is_my_command(inst, (*tkn)) == -1)
+	{
+		close(pipe_fd[1]);
+		return (0);
+	}
+	close(pipe_fd[1]);
+	*tkn = (*tkn)->next;
+	return (0);
+}
 
 /*
  *
@@ -109,8 +125,8 @@ int ft_executor(t_inst *inst)
 {
 	t_tkn *tkn;
 //	int pipe_fd[2];
-
 	tkn = *(inst->tkn_head);
+	ft_exec_first_tkn(inst, &tkn);
 	while (tkn)
 	{
 /*		pipe(pipe_fd);
