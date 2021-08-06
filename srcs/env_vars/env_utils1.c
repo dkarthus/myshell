@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /*
  * Creates new elem in two-way linked list of env vars, then fills elems line,
@@ -61,23 +61,24 @@ static void	ft_insert_elem(t_env **head, t_env *elem)
 	t_env	*iter;
 
 	iter = *head;
-	if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key)) > 0)
+	if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key) + 1) > 0)
 	{
 		*head = elem;
 		elem->next = iter;
 		return ;
 	}
 	while (iter->next && ft_strncmp(iter->next->key, elem->key,
-									ft_strlen(iter->key)) < 0)
+									ft_strlen(iter->next->key + 1)) < 0)
 		iter = iter->next;
 	if (!iter->next)
 	{
 		iter->next = elem;
 		return ;
 	}
-	if (ft_strncmp(iter->next->key, elem->key, ft_strlen(iter->key) + 1) == 0)
+	if (ft_strncmp(iter->next->key, elem->key, ft_strlen(iter->next->key) + 1)
+	== 0)
 		ft_update_elem(iter->next, elem);
-	else if (ft_strncmp(iter->key, elem->key, ft_strlen(elem->key)) == 0)
+	else if (ft_strncmp(iter->key, elem->key, ft_strlen(iter->key + 1)) == 0)
 		ft_update_elem(iter, elem);
 	else
 	{
