@@ -477,6 +477,12 @@ int		execute_export(t_inst *inst, t_tkn *tkn)
 	return (exit_status);
 }
 
+int		execute_echo(t_tkn *tkn)
+{
+	exit_status = echo(tkn->args);
+	return (exit_status);
+}
+
 int		execute_is_a_directory(t_inst *inst)
 {
 	exit_status = is_a_directory(inst);
@@ -508,6 +514,8 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 			return (execute_unset(inst, tkn));
 		else if (check_cmd(inst, "export") == 0)
 			return (execute_export(inst, tkn));
+		else if (check_cmd(inst, "echo") == 0)
+			return (execute_echo(tkn));
 //		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
 //			printf("minishell: %s: command not found\n",
 //				   hold_cmd_for_me);
