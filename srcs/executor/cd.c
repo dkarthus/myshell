@@ -26,22 +26,22 @@ char	*check_tilde_minus_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
 	if (old_pwd == NULL)
-		no_such_file_or_directory(error_check_int, tkn->args[0]);
+		no_such_file_or_directory(error_check_int, tkn->args[1]);
 	else
 	{
-		if (tkn->args[0][0] == '~' && tkn->args[0][1] == '-' && tkn->args[0][2] == '/' && tkn->args[0][3] != '\0')
+		if (tkn->args[1][0] == '~' && tkn->args[1][1] == '-' && tkn->args[1][2] == '/' && tkn->args[1][3] != '\0')
 		{
-			hold_str_address_for_me = tkn->args[0];
-			hold_str_for_me = ft_strjoin(old_pwd, &tkn->args[0][2]);
-			free(tkn->args[0]);
-			tkn->args[0] = ft_strdup(hold_str_for_me);
+			hold_str_address_for_me = tkn->args[1];
+			hold_str_for_me = ft_strjoin(old_pwd, &tkn->args[1][2]);
+			free(tkn->args[1]);
+			tkn->args[1] = ft_strdup(hold_str_for_me);
 			free(hold_str_for_me);
 		}
-		error_check_int = chdir(tkn->args[0]);
+		error_check_int = chdir(tkn->args[1]);
 		if (error_check_int != 0)
 			return (NULL);
 	}
-	return (tkn->args[0]);
+	return (tkn->args[1]);
 }
 
 int		check_arg(t_inst *inst, const char *str)
@@ -51,8 +51,8 @@ int		check_arg(t_inst *inst, const char *str)
 
 	tkn = *(inst->tkn_head);
 	len = ft_strlen(str);
-	if (ft_strlen(tkn->args[0]) == len
-		&& ft_strncmp(tkn->args[0], str, len) == 0)
+	if (ft_strlen(tkn->args[1]) == len
+		&& ft_strncmp(tkn->args[1], str, len) == 0)
 		return (0);
 	else
 		return (1);
@@ -94,7 +94,7 @@ void	update_old_pwd(t_inst *inst)
 
 	tkn = *(inst->tkn_head);
 	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
-	if (old_pwd == NULL && tkn->args[0] == NULL)
+	if (old_pwd == NULL && tkn->args[1] == NULL)
 	{
 		error_check_char_p = getenv("HOME");
 		if (error_check_char_p == NULL)
@@ -109,11 +109,11 @@ void	update_old_pwd(t_inst *inst)
 			return ;
 		}
 	}
-	else if (tkn->args[0] != NULL && ((check_arg(inst, "~-") == 0 || check_arg(inst, "~-/") == 0)))
+	else if (tkn->args[1] != NULL && ((check_arg(inst, "~-") == 0 || check_arg(inst, "~-/") == 0)))
 		if_for_updating_old_pwd(inst);
 	else
 	{
-		if (tkn->args[0] != NULL && tkn->args[0][0] == '~' && tkn->args[0][1] == '-' && tkn->args[0][2] == '/' && tkn->args[0][3] != '\0')
+		if (tkn->args[1] != NULL && tkn->args[1][0] == '~' && tkn->args[1][1] == '-' && tkn->args[1][2] == '/' && tkn->args[1][3] != '\0')
 			if_for_updating_old_pwd(inst);
 		else
 		{
@@ -209,19 +209,19 @@ char	*check_tilde_slash_path(t_inst *inst)
 		error_exit(inst, -5);
 	else
 	{
-		if (tkn->args[0][0] == '~' && tkn->args[0][1] == '/')
+		if (tkn->args[1][0] == '~' && tkn->args[1][1] == '/')
 		{
-			hold_str_address_for_me = tkn->args[0];
-			hold_str_for_me = ft_strjoin(home_value, &tkn->args[0][1]);
-			free(tkn->args[0]);
-			tkn->args[0] = ft_strdup(hold_str_for_me);
+			hold_str_address_for_me = tkn->args[1];
+			hold_str_for_me = ft_strjoin(home_value, &tkn->args[1][1]);
+			free(tkn->args[1]);
+			tkn->args[1] = ft_strdup(hold_str_for_me);
 			free(hold_str_for_me);
 		}
-		error_check_int = chdir(tkn->args[0]);
+		error_check_int = chdir(tkn->args[1]);
 		if (error_check_int != 0)
 			return (NULL);
 	}
-	return (tkn->args[0]);
+	return (tkn->args[1]);
 }
 
 
@@ -285,22 +285,22 @@ char	*check_tilde_plus_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	pwd = ft_get_env_value("PWD", inst->env_head);
 	if (pwd == NULL)
-		no_such_file_or_directory(error_check_int, tkn->args[0]);
+		no_such_file_or_directory(error_check_int, tkn->args[1]);
 	else
 	{
-		if (tkn->args[0][0] == '~' && tkn->args[0][1] == '+' && tkn->args[0][2] == '/')
+		if (tkn->args[1][0] == '~' && tkn->args[1][1] == '+' && tkn->args[1][2] == '/')
 		{
-			hold_str_address_for_me = tkn->args[0];
-			hold_str_for_me = ft_strjoin(pwd, &tkn->args[0][2]);
-			free(tkn->args[0]);
-			tkn->args[0] = ft_strdup(hold_str_for_me);
+			hold_str_address_for_me = tkn->args[1];
+			hold_str_for_me = ft_strjoin(pwd, &tkn->args[1][2]);
+			free(tkn->args[1]);
+			tkn->args[1] = ft_strdup(hold_str_for_me);
 			free(hold_str_for_me);
 		}
-		error_check_int = chdir(tkn->args[0]);
+		error_check_int = chdir(tkn->args[1]);
 		if (error_check_int != 0)
 			return (NULL);
 	}
-	return (tkn->args[0]);
+	return (tkn->args[1]);
 }
 
 int		cd_plus_minus(t_inst *inst)
@@ -334,8 +334,8 @@ void	cd_somewhere(t_inst *inst)
 	t_tkn	*tkn;
 
 	tkn = *(inst->tkn_head);
-	error_check = chdir(tkn->args[0]);
-	no_such_file_or_directory(error_check, tkn->args[0]);
+	error_check = chdir(tkn->args[1]);
+	no_such_file_or_directory(error_check, tkn->args[1]);
 	return ;
 }
 
@@ -454,7 +454,7 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 	while (tkn)
 	{
 		if (check_cmd(inst, "cd") == 0)
-			cd(inst, tkn->args[0]);
+			cd(inst, tkn->args[1]);
 		else if (check_pwd(inst) == 0)
 			pwd(inst);
 		else if (check_env(inst) == 0)

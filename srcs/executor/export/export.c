@@ -63,7 +63,7 @@ void	print_export(t_inst *inst)
 
 void	initialize_variables_for_export(t_inst *inst, t_u_e *e)
 {
-	e->i = 0;
+	e->i = 1;
 	e->failure = 1;
 	e->error_check = 0;
 	inst->exit_status = 0;
@@ -148,12 +148,12 @@ int	export(t_inst *inst, char **args)
 	t_u_e	e;
 
 	initialize_variables_for_export(inst, &e);
-	if (args[0] == NULL)
+	if (args[1] == NULL)
 	{
 		print_export(inst);
 		return (inst->exit_status);
 	}
-	else if (args[0] != NULL)
+	else if (args[1] != NULL)
 	{
 		if (ft_strchr(args[e.i], '=') != NULL)
 		{
