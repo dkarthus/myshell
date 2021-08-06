@@ -11,6 +11,8 @@ char *ft_get_env_value(char *key, t_env **head)
 	t_env *iter;
 
 	iter = *head;
+	if (!key)
+		return (NULL);
 	while(iter)
 	{
 		if (ft_strncmp(key, iter->key, ft_strlen(key) + 1) == 0)

@@ -1,136 +1,88 @@
 #include "../../includes/parser.h"
 
 /*
- *
+ * Utility func just for shrink down ft_redir_out and ft_redir_in sizes;
+ * @param src parsers master struct;
+ * @param redir type of redirect;
+ * @return 0 = OK, 1 = KO malloc error
  */
-int	ft_proc_pipe(t_src *src)
+static int	ft_redir_util1(t_src *src, char *redir)
 {
-	if (src->args_cnt == 0 && src->args[src->args_cnt] == NULL)
-		return (ft_err_parser("minishell: Syntax error", src, NULL, NULL));
-	if (src->str[src->pos + 1] == '|')
-		return (ft_err_parser("Sorry, cant interpret ||", src, NULL, NULL));
-	if (src->args[src->args_cnt] == 0)
-		src->args[src->args_cnt] = ft_strdup("|");
+	if (src->str[src->pos + 1] == redir[0])
+	{
+		src->args[src->args_cnt] = ft_strdup(redir);
+		src->pos = src->pos + 2;
+	}
 	else
 	{
-		src->args_cnt++;
-		src->args[src->args_cnt] = ft_strdup("|");
-	}
-	if (!(src->args[src->args_cnt]))
-		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
-	src->pos++;
-	return (0);
-}
-
-/*
- * Parser execs this func when encounters single quotes '
- *
- * @param src parsers struct -> check header parser.h;
- * @return returns 0 on success, and 1 when quotes are not closed;
- */
-int	ft_single_qt(t_src *src)
-{
-	int		start;
-	int		len;
-	char	*arg;
-	char	*tmp;
-
-	len = 0;
-	start = ++src->pos;
-	while (src->str[src->pos] != '\'')
-	{
-		if (src->str[src->pos] == 0)
-			return (ft_err_parser("Unclosed single quotes", src, NULL, NULL));
+		src->args[src->args_cnt] = ft_strdup(&redir[1]);
 		src->pos++;
-		len++;
 	}
-	arg = ft_substr(src->str, start, len - 1);
-	if (!(src->args[src->args_cnt]))
-		src->args[src->args_cnt] = ft_strdup("");
-	tmp = src->args[src->args_cnt];
-	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!src->args[src->args_cnt])
-		return (ft_err_parser("Malloc error while parsing", src, tmp, arg));
-	ft_err_parser(NULL, NULL, tmp, arg);
-	src->pos++;
+		return (1);
 	return (0);
 }
 
 /*
- *
+ * Utility func just for shrink down ft_redir_out and ft_redir_in sizes;
+ * @param src parsers master struct;
+ * @param redir type of redirect;
+ * @return 0 = OK, 1 = KO malloc error
  */
-int ft_redir_out(t_src *src)
+static int	ft_redir_util2(t_src *src, char *redir)
 {
-	if (src->args[src->args_cnt] == 0)
+	src->args_cnt++;
+	if (src->str[src->pos + 1] == redir[0])
 	{
-		if (src->str[src->pos + 1] == '>')
-		{
-			src->args[src->args_cnt] = ft_strdup(">>");
-			src->pos = src->pos + 2;
-		}
-		else
-		{
-			src->args[src->args_cnt] = ft_strdup(">");
-			src->pos++;
-		}
+		src->args[src->args_cnt] = ft_strdup(redir);
+		src->pos = src->pos + 2;
 	}
 	else
 	{
-		src->args_cnt++;
-		if (src->str[src->pos + 1] == '>')
-		{
-			src->args[src->args_cnt] = ft_strdup(">>");
-			src->pos = src->pos + 2;
-		}
-		else
-		{
-			src->args[src->args_cnt] = ft_strdup(">");
-			src->pos++;
-		}
+		src->args[src->args_cnt] = ft_strdup(redir[1]);
+		src->pos++;
+	}
+	if (!src->args[src->args_cnt])
+		return (1);
+	return (0);
+}
+
+/*
+ * Parse redirect out >> symbols and adds them into srcs struct args string
+ * @param	src parser master struct whos args str will be updated
+ * @return	0 = OK, 1 = KO malloc error
+ */
+int	ft_redir_out(t_src *src)
+{
+	if (src->args[src->args_cnt] == 0)
+	{
+		if (ft_redir_util1(src, ">>"))
+			return (ft_err_parser("Malloc error", src, NULL, NULL));
+	}
+	else
+	{
+		if (ft_redir_util2(src, ">>"))
+			return (ft_err_parser("Malloc error", src, NULL, NULL));
 	}
 	return (0);
 }
 
 /*
- *
+ * Parse redirect in << symbols and adds them into srcs struct args string
+ * @param	src parser master struct whos args str will be updated
+ * @return	0 = OK, 1 = KO malloc error
  */
-int ft_redir_in(t_src *src)
+int	ft_redir_in(t_src *src)
 {
 	if (src->args[src->args_cnt] == 0)
 	{
-		if (src->str[src->pos + 1] == '<')
-		{
-			src->args[src->args_cnt] = ft_strdup("<<");
-			src->pos = src->pos + 2;
-		}
-		else
-		{
-			src->args[src->args_cnt] = ft_strdup("<");
-			src->pos++;
-		}
+		if (ft_redir_util1(src, "<<"))
+			return (ft_err_parser("Malloc error", src, NULL, NULL));
 	}
 	else
 	{
-		src->args_cnt++;
-		if (src->str[src->pos + 1] == '<')
-		{
-			src->args[src->args_cnt] = ft_strdup("<<");
-			src->pos = src->pos + 2;
-		}
-		else
-		{
-			src->args[src->args_cnt] = ft_strdup("<");
-			src->pos++;
-		}
+		if (ft_redir_util2(src, "<<"))
+			return (ft_err_parser("Malloc error", src, NULL, NULL));
 	}
 	return (0);
 }
-
-
-
-
-
-
-
-
-
