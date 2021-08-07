@@ -138,10 +138,7 @@ int ft_executor(t_inst *inst)
 {
 	t_tkn *tkn;
 	tkn = *(inst->tkn_head);
-	printf("bef %s\n", tkn->cmd);
 	ft_exec_first_tkn(inst, &tkn);
-	if (tkn)
-		printf("aft %s\n", tkn->cmd);
 	while (tkn)
 	{
 		if (ft_fork_cmd(inst, tkn))

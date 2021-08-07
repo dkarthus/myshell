@@ -1,7 +1,11 @@
 #include "../../includes/parser.h"
 
 /*
- *
+ * Process pipe symbol '|', adds it to a new token;
+ * @param	tkn newly created token to add to;
+ * @param	src described in parser.h;
+ * @param	i src->args count;
+ * @returns 0 = OK, 1 = KO malloc error;
  */
 int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
 {
@@ -24,7 +28,9 @@ int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
 }
 
 /*
- *
+ *	Small util funcs check if char is '|' '<' '>'
+ *	@param c char to check
+ *	@returns 1 =true, 0 = false
  */
 int	ft_ch_symbl(char c)
 {

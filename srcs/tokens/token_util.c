@@ -1,8 +1,12 @@
 #include "../../includes/parser.h"
 
 /*
- *
-*/
+ * Adds args that our cmd will be launched with;
+ * @param	tkn to add args;
+ * @param	src described in parser.h;
+ * @param	arg_iter count of src->args;
+ * @returns 0 = OK, 1 = KO error;
+ */
 int	ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	int	i;
@@ -24,7 +28,10 @@ int	ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter)
 }
 
 /*
- *
+ * Get fd of files to read from, or turns on here_doc flag;
+ * @param	file name;
+ * @param	mode 1 = <, else << here_doc;
+ * @returns fd, -1 fd error;
  */
 static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
 {
@@ -48,8 +55,12 @@ static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
 }
 
 /*
- *
-*/
+ * Func process in redirect symbol < and << and adds new tkn accordingly
+ * @param	tkn new tkn;
+ * @param	src described in parser.h;
+ * @param	arg_iter count of args in src->args;
+ * @returns 1 = KO and 0 = OK;
+ */
 int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	int	i;
@@ -80,8 +91,11 @@ int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 }
 
 /*
- *
-*/
+ *	Inits new token and ads cmd as main argument (name of binary);
+ *	@param	cmd name of binary that tkn wiil be inited with;
+ *	@param	tkn_id number of new tkn;
+ *	@returns NULL - KO malloc error, OK - newly inited token pointer;
+ */
 t_tkn	*ft_init_token(char *cmd, int tkn_id)
 {
 	t_tkn	*new_tkn;
@@ -105,7 +119,10 @@ t_tkn	*ft_init_token(char *cmd, int tkn_id)
 }
 
 /*
- *
+ *	Creates and closes blank file if redirect out source changes;
+ *	@param	src described in parser.h;
+ *	@param	arg_iter count of src->args;
+ *	@returns 0 = OK, 1 = KO error;
  */
 int	ft_create_blank_file(t_src *src, int *arg_iter)
 {

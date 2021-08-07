@@ -1,9 +1,12 @@
 #include "../../includes/minishell.h"
 
 /*
- *
+ *	Frees str arrays in right order and nulls them, also prints error msg;
+ *	@param	print	error msg to print;
+ *	@param	str array to free;
+ *	@returns 0;
  */
-static char **ft_free(char *print, char **str)
+static char	**ft_free(char *print, char **str)
 {
 	int	i;
 
@@ -25,15 +28,18 @@ static char **ft_free(char *print, char **str)
 }
 
 /*
- *
+ *	Combines paths and name of bin together;
+ *	@param	name of binary;
+ *	@param spl_path split paths of bin dirs;
+ *	@returns NULL - malloc error, str array of split paths;
  */
-char **ft_combine(char *name, char **spl_path)
+char	**ft_combine(char *name, char **spl_path)
 {
-	int	i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
-	while(spl_path[i])
+	while (spl_path[i])
 	{
 		tmp = spl_path[i];
 		spl_path[i] = ft_strjoin(spl_path[i], "/");
@@ -53,9 +59,11 @@ char **ft_combine(char *name, char **spl_path)
 }
 
 /*
- *
+ *	Probes every path received in **path_combos for existing;
+ *	@param path_combos str array of paths to probe to for bin;
+ *	@returns NULL bin not found, or path of bin;
  */
-static char *ft_find_bin(char **path_combos)
+static char	*ft_find_bin(char **path_combos)
 {
 	char		*path;
 	struct stat	st;
@@ -84,13 +92,17 @@ static char *ft_find_bin(char **path_combos)
 }
 
 /*
- *
+ *	Dissects PATH var and adds bin name to it to create array of possible
+ *	locations of binary we trying to exec, then probes them all;
+ *	@param	name of binary;
+ *	@param	head of the list of env vars;
+ *	@returns NULL - KO error, or path to binary soon to be execed;
  */
 char	*ft_get_bin_path(char *name, t_env **head)
 {
-	char *path;
-	char **split_path;
-	char **combos;
+	char	*path;
+	char	**split_path;
+	char	**combos;
 
 	path = ft_get_env_value("PATH", head);
 	if (!path || !*path)

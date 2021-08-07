@@ -1,7 +1,7 @@
 #include "../../includes/parser.h"
 
 /*
- * Util for shrink ft_fill_token;
+ * Util func ft_create_token for cutting down the size and  adding readability;
  */
 static int	ft_fill_util(t_src *src, int *arg_iter, t_tkn *new)
 {
@@ -24,7 +24,10 @@ static int	ft_fill_util(t_src *src, int *arg_iter, t_tkn *new)
 }
 
 /*
- *
+ *	Allocates and fills token with cmd from src and tkn_id;
+ *	@param	src described in parser.h ;
+ *	@param	arg_iter number of current arg from src;
+ *	@param	tkn_id number of current token;
  */
 static t_tkn	*ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
 {
@@ -47,7 +50,7 @@ static t_tkn	*ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
 }
 
 /*
- *
+ *	Util func ft_create_token for cutting down the size and  adding readability
  */
 int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter, int tkn_id)
 {
@@ -72,7 +75,12 @@ int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter, int tkn_id)
 }
 
 /*
- *
+ *	Main token crating function, dissects src struct into tokens for our bash
+ *	@param	src described in parser.h ;
+ *	@param	head of tokens list;
+ *	@param	arg_iter number of current arg from src;
+ *	@param	tkn_id/tkn_cnt number of current token;
+ *	@returns 0 = OK, 1 = KO malloc or fd open error;
  */
 int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 {
@@ -93,7 +101,11 @@ int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 }
 
 /*
- *
+ *	Tokenazier is a part that converts parsed and partially digested string in
+ *	strict tokens that could in the next step be easily understood by executor;
+ *	@param	src described in parser.h ;
+ *	@param	inst described in minishell.h ;
+ *	@returns 0 = OK, 1 = KO malloc or fd open error;
  */
 int	ft_tokenize(t_src *src, t_inst *inst)
 {

@@ -3,7 +3,7 @@
 /*
  *
  */
-int ft_closefd(char *err, int *pipe_fd, int fd)
+int	ft_closefd(char *err, int *pipe_fd, int fd)
 {
 	if (err)
 		printf("%s\n", err);
@@ -20,7 +20,7 @@ int ft_closefd(char *err, int *pipe_fd, int fd)
 /*
  *
  */
-static int ft_free_and_return(char *print, char *str, char *str1, char *str2)
+static int	ft_fr_ret(char *print, char *str, char *str1, char *str2)
 {
 	if (print)
 		printf("%s\n", print);
@@ -45,46 +45,42 @@ static int ft_free_and_return(char *print, char *str, char *str1, char *str2)
 /*
  *
  */
-static int ft_append(char **ret, char *line)
+static int	ft_append(char **ret, char *line)
 {
-	char *tmp;
-	char *tmp1;
+	char	*tmp;
+	char	*tmp1;
 
 	if (!*ret)
 	{
 		*ret = ft_strjoin(line, "\n");
 		if (!*ret)
-			return (1); //(ft_err_parser("Malloc error in parser", NULL, line,NULL));
-		return (ft_free_and_return(NULL, NULL, line, NULL));
+			return (!ft_fr_ret("Malloc error", NULL, line, NULL));
+		return (ft_fr_ret(NULL, NULL, line, NULL));
 	}
-	tmp = ft_strjoin(line , "\n");
+	tmp = ft_strjoin(line, "\n");
 	tmp1 = *ret;
 	*ret = ft_strjoin(*ret, tmp);
 	if (!*ret)
-		return (!ft_free_and_return("Malloc error in parser", tmp, tmp1, line));
-	return (ft_free_and_return(NULL, line, tmp, tmp1));
+		return (!ft_fr_ret("Malloc error in parser", tmp, tmp1, line));
+	return (ft_fr_ret(NULL, line, tmp, tmp1));
 }
 
 /*
  *
  */
-static int ft_here_doc_loop(int fd_out, const char *stop_word)
+static int	ft_here_doc_loop(int fd_out, const char *stop_word)
 {
-	char *line;
-	char *ret;
+	char	*line;
+	char	*ret;
 
 	ret = NULL;
 	while (21)
 	{
 		line = readline("> ");
 		if (!line)
-		{
-			printf("!line\n");
-			return (1);//(ft_err_parser("Readline error", NULL, NULL, NULL));
-		}
+			return (1);
 		if (ft_strncmp(stop_word, line, ft_strlen(stop_word)) == 0)
 		{
-			printf("break\n");
 			free(line);
 			break ;
 		}
@@ -99,48 +95,11 @@ static int ft_here_doc_loop(int fd_out, const char *stop_word)
 /*
  *
  */
-/*int ft_here_doc(const char *stop_w, int mode)
-{
-	int	pid;
-	int ret;
-	int	fd;
-
-	fd = open(".tmp", O_CREAT | O_RDWR | O_TRUNC, 0666);
-	pid = fork();
-*//*	if (pid == 0)
-	{
-		if (ft_here_doc_loop(fd, stop_w))
-			return (1);
-		return (0);
-	}
-	waitpid(pid, &ret, 0);*//*
-	if (ft_here_doc_loop(fd, stop_w))
-		return (1);
-	if (mode == -1)
-	{
-		dup2(fd, 0);
-		close(fd);
-		unlink(".tmp");
-	}
-	else
-	{
-		close(fd);
-		unlink(".tmp");
-	}
-	if (!WIFEXITED(ret))
-		return (WEXITSTATUS(ret));
-	return (0);
-}*/
-
-
- /*
-  *
-  */
- int	ft_here_doc(t_inst *inst, const char *stop_w, int mode)
+int	ft_here_doc(t_inst *inst, const char *stop_w, int mode)
 {
 	int	pid;
 	int	pipe_fd[2];
-	int status;
+	int	status;
 
 	pipe(pipe_fd);
 	pid = fork();
