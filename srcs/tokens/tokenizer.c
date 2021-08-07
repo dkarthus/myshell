@@ -34,7 +34,8 @@ static t_tkn	*ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
 	t_tkn	*new;
 
 	new = ft_init_token(src->args[*arg_iter], tkn_id);
-	if (++(*arg_iter) && !new)
+	++(*arg_iter);
+	if (!new)
 	{
 		ft_err_parser("Malloc error", src, NULL, NULL);
 		return (0);

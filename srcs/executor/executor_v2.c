@@ -19,7 +19,6 @@ static int ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 	}
 	else if (tkn->next && tkn->fd_out == 1)
 	{
-		printf("check\n");
 		if (dup2(pipe_fd[1], 1) == -1)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(pipe_fd[1]);
@@ -51,6 +50,29 @@ static int ft_process_bin(t_inst *inst, t_tkn *tkn)
 /*
  *
  */
+void	ft_exit_status_upd(int status_ret)
+{
+	if (WIFEXITED(status_ret))
+	{
+		exit_status = WEXITSTATUS(status_ret);
+		return;
+	}
+	if (WIFSIGNALED(status_ret))
+	{
+		if (WTERMSIG(status_ret) == 2)
+			exit_status = 130;
+		else if (WTERMSIG(status_ret) == 3)
+			exit_status = 131;
+		else
+			exit_status = 1;
+		return ;
+	}
+	exit_status = 0;
+}
+
+/*
+ *
+ */
 int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 {
 	int	pid;
@@ -58,6 +80,7 @@ int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 	int pipe_fd[2];
 
 	pipe(pipe_fd);
+	signal(SIGINT, ft_sig_handle_ch);
 	if (tkn->is_here_doc && tkn->stop_word)
 	{
 		if (ft_here_doc(inst, tkn->stop_word, tkn->fd_in))
@@ -78,15 +101,19 @@ int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 		return (0);
 	}
 	waitpid(pid, &ret, 0);
+	ft_exit_status_upd(ret);
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], 0);
 	close(pipe_fd[0]);
 	return (0);
 }
+/*
 
+*/
 /*
  *
- */
+ *//*
+
 static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
 	int	pipe_fd[2] = {-1, -1};
@@ -95,11 +122,13 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	if ((*tkn)->is_pipe)
 	{
 		pipe(pipe_fd);
+*/
 /*		if (pipe(pipe_fd) || dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]))
 		{
 			perror("Error: ");
 			return (1);
-		}*/
+		}*//*
+
 	}
 	if ((*tkn)->fd_out != 1)
 	{
@@ -130,6 +159,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	dup2(save, 1);
 	return (0);
 }
+*/
 
 /*
  *
@@ -138,9 +168,10 @@ int ft_executor(t_inst *inst)
 {
 	t_tkn *tkn;
 	tkn = *(inst->tkn_head);
-	ft_exec_first_tkn(inst, &tkn);
+	//ft_exec_first_tkn(inst, &tkn);
 	while (tkn)
 	{
+	//	printf(" %d %d %s\n", tkn->fd_in, tkn->is_here_doc, tkn->stop_word);
 		if (ft_fork_cmd(inst, tkn))
 			return (1);
 		tkn = tkn->next;

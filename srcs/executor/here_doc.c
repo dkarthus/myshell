@@ -99,7 +99,7 @@ int	ft_here_doc(t_inst *inst, const char *stop_w, int mode)
 {
 	int	pid;
 	int	pipe_fd[2];
-	int	status;
+	int	ret;
 
 	pipe(pipe_fd);
 	pid = fork();
@@ -107,7 +107,8 @@ int	ft_here_doc(t_inst *inst, const char *stop_w, int mode)
 		return (ft_closefd("Fork error in here_doc", pipe_fd, -1));
 	if (pid > 0)
 	{
-		waitpid(pid, &status, 0);
+		waitpid(pid, &ret, 0);
+		ft_exit_status_upd(ret);
 		close(pipe_fd[1]);
 		if (mode == -1)
 		{
@@ -115,12 +116,13 @@ int	ft_here_doc(t_inst *inst, const char *stop_w, int mode)
 				ft_putstr_fd("child dup fd0\n", inst->fd_in_save);
 		}
 		close(pipe_fd[0]);
-		if (!WIFEXITED(status))
-			return (WEXITSTATUS(status));
 		return (0);
 	}
-	dup2(inst->fd_in_save, 0);
-	close(inst->fd_in_save);
+	if (inst)
+	{
+		dup2(inst->fd_in_save, 0);
+		close(inst->fd_in_save);
+	}
 	if (ft_here_doc_loop(pipe_fd[1], stop_w))
 		return (1);
 	exit(0);

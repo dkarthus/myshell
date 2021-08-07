@@ -13,11 +13,14 @@ static int	ft_try_exist(char *str, int mode, t_src *src)
 
 	if (mode == 1)
 	{
+		printf("str %s\n", str);
 		fd = open(str, O_RDONLY);
 		if (fd == -1)
 			return (ft_err_parser("Couldn't open file", src, NULL, NULL));
 		close(fd);
 	}
+	else
+		ft_here_doc(NULL, str, 0);
 	return (0);
 }
 
@@ -32,6 +35,7 @@ int	ft_blank_check_file(t_src *src, int *arg_iter)
 	int	i;
 
 	i = 1;
+
 	if (src->args[*arg_iter][i] == '<')
 		i++;
 	if (src->args[*arg_iter][i] == 0)
