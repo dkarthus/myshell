@@ -58,75 +58,118 @@ int		check_arg(t_inst *inst, const char *str)
 		return (1);
 }
 
-void 	if_for_updating_old_pwd(t_inst *inst)
+static int	update_2(t_inst *inst, char *old_pwd)
 {
-	char   *error_check_char_p;
-	int   error_check_int;
-	char  *old_pwd;
-	t_tkn	*tkn;
+	char	dir[2048];
+	char	*error_check_p;
+	int		error_check_int;
 
-	tkn = *(inst->tkn_head);
+	error_check_p = getcwd(dir, 2048);
+	if (error_check_p == NULL)
+		return (error_exit(-2));
+	old_pwd = ft_strjoin("OLDPWD=", dir);
+	if (old_pwd == NULL)
+		return (error_exit(-6));
+	error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
+	if (error_check_int == 0)
+		return (error_exit(-3));
+	free(old_pwd);
+	return (0);
+}
+
+static int	update_1(t_inst *inst, char *old_pwd)
+{
+	char   *error_check_p;
+	int   error_check_int;
+
 	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
 	if (old_pwd == NULL)
 	{
-		error_check_char_p = getenv("HOME");
-		if (error_check_char_p == NULL)
-			error_exit(-5);
-		else
-		{
-			old_pwd = ft_strjoin("OLDPWD=", error_check_char_p);
-			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
-			if (error_check_int == 0)
-				error_exit(-3);
-			free(old_pwd);
-			return ;
-		}
-	}
-}
-
-int		update_old_pwd(t_inst *inst)
-{
-	char  dir[2048];
-	char   *error_check_char_p;
-	int   error_check_int;
-	char  *old_pwd;
-	t_tkn	*tkn;
-
-	tkn = *(inst->tkn_head);
-	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
-	if (old_pwd == NULL && tkn->args[1] == NULL)
-	{
-		error_check_char_p = getenv("HOME");
-		if (error_check_char_p == NULL)
+		error_check_p = getenv("HOME");
+		if (error_check_p == NULL)
 			return (error_exit(-5));
 		else
 		{
-			old_pwd = ft_strjoin("OLDPWD=", error_check_char_p);
+			old_pwd = ft_strjoin("OLDPWD=", error_check_p);
 			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
 			if (error_check_int == 0)
 				return (error_exit(-3));
 			free(old_pwd);
-			return (1);
+			return (0);
 		}
 	}
-	else if (tkn->args[1] != NULL && ((check_arg(inst, "~-") == 0 || check_arg(inst, "~-/") == 0)))
-		if_for_updating_old_pwd(inst);
+	return (0);
+}
+
+static int	update(t_inst *inst)
+{
+	int		error_check_int;
+	char	*error_check_p;
+	char	*old_pwd;
+
+	error_check_int = 0;
+	error_check_p = getenv("HOME");
+	if (error_check_p == NULL)
+		return (error_exit(-5));
 	else
 	{
-		if (tkn->args[1] != NULL && tkn->args[1][0] == '~' && tkn->args[1][1] == '-' && tkn->args[1][2] == '/' && tkn->args[1][3] != '\0')
-			if_for_updating_old_pwd(inst);
+		old_pwd = ft_strjoin("OLDPWD=", error_check_p);
+		error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
+		if (error_check_int == 0)
+			return (error_exit(-3));
+		free(old_pwd);
+		return (0);
+	}
+}
+
+static int		check_for_tilde_minus(t_inst *inst, char *first_arg)
+{
+	if (((first_arg != NULL)
+	&& ((check_arg(inst, "~-") == 0)
+	|| (check_arg(inst, "~-/") == 0))) == 1)
+		return (0);
+	return (1);
+}
+
+static int		check_for_tilde_minus_slash_s(char *first_arg)
+{
+	if (((first_arg != NULL)
+	&& (first_arg[0] == '~')
+	&& (first_arg[1] == '-')
+	&& (first_arg[2] == '/')
+	&& (first_arg[3] != '\0')) == 1)
+		return (0);
+	return (1);
+}
+
+static int	we_just_started_and_no_arguments(char *old_pwd, char *first_arg)
+{
+	if ((old_pwd == NULL && first_arg == NULL) == 1)
+		return (0);
+	return (1);
+}
+
+int		update_old_pwd(t_inst *inst)
+{
+	char	*old_pwd;
+	t_tkn	*tkn;
+
+	tkn = *(inst->tkn_head);
+	old_pwd = NULL;
+	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
+	if (we_just_started_and_no_arguments(old_pwd, tkn->args[1]) == 0)
+	{
+		if (update(inst) == 1)
+			return (exit_status);
+	}
+	else if (check_for_tilde_minus(inst, tkn->args[1]) == 0)
+		return (update_1(inst, old_pwd));
+	else
+	{
+		if (check_for_tilde_minus_slash_s(tkn->args[1]) == 0)
+			return (update_1(inst, old_pwd));
 		else
-		{
-			error_check_char_p = getcwd(dir, 2048);
-			if (error_check_char_p == NULL)
-				error_exit(-2);
-			old_pwd = ft_strjoin("OLDPWD=", dir);
-			error_check_int = ft_add_env_elem(old_pwd, inst->env_head);
-			if (error_check_int == 0)
-				error_exit(-3);
-			free(old_pwd);
-			return (1);
-		}
+			return (update_2(inst, old_pwd));
 	}
 	return (0);
 }
@@ -347,9 +390,13 @@ int	cd(t_inst *inst, char *arg)
 	t_tkn *tkn;
 
 	tkn = *(inst->tkn_head);
-	update_old_pwd(inst);
+	error_check = 0;
+	error_check = update_old_pwd(inst);
+	if (error_check == 1)
+		return (exit_status);
+	error_check = 0;
 	if (arg == NULL)
-		cd_home(inst);
+		error_check = cd_home(inst);
 	else if (check_arg(inst, arg) == 0 && arg[0] != '~')
 		cd_somewhere(inst);
 	else if (check_arg(inst, "~") == 0 || check_arg(inst, "~/") == 0)
@@ -524,9 +571,6 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 			return (execute_echo(tkn));
 		else if (check_cmd(inst, "exit") == 0)
 			return (execute_exit(tkn));
-//		else if (tkn->cmd[0] != '~' && tkn->cmd[1] != '/')
-//			printf("minishell: %s: command not found\n",
-//				   hold_cmd_for_me);
 		else if (it_is_a_directory_there(inst) == 0)
 			return (execute_is_a_directory(inst));
 		else if (it_is_a_directory_there(inst) == 1)

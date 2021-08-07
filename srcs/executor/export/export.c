@@ -1,5 +1,34 @@
 #include "../../../includes/minishell.h"
 
+
+char		**ft_sorting_exp(char **str)
+{
+	char	*sort;
+	int		i;
+	int		m;
+
+	if (str == NULL)
+		return (NULL);
+	i = 0;
+	m = 1;
+	while (str[i] != NULL)
+	{
+		m = 1;
+		while (str[i + m] != NULL)
+		{
+			if (ft_strcmp(str[i], str[i + m]) > 0)
+			{
+				sort = str[i + m];
+				str[i + m] = str[i];
+				str[i] = sort;
+			}
+			m++;
+		}
+		i++;
+	}
+	return (str);
+}
+
 void	print_export(t_inst *inst)
 {
 	t_env	*env;
@@ -7,35 +36,66 @@ void	print_export(t_inst *inst)
 	env = *(inst->env_head);
 	while (env->next != NULL)
 	{
-		if (env->value[0] == '\0')
+		if (ft_strchr(env->line, '=') != NULL)
 		{
-			printf("declare -x %s\n", env->key);
+			if (env->value[0] == '\0')
+			{
+				printf("declare -x %s=\"\"\n", env->key);
+				env = env->next;
+				continue;
+			}
+			else
+			{
+				printf("declare -x %s", env->key);
+				printf("=\"%s\"\n", env->value);
+			}
 			env = env->next;
-			continue;
-		} else
+		}
+		else
+		{
+			if (env->value[0] == '\0')
+			{
+				printf("declare -x %s\n", env->key);
+				env = env->next;
+				continue;
+			}
+			else
+			{
+				printf("declare -x %s", env->key);
+				printf("=\"%s\"\n", env->value);
+			}
+			env = env->next;
+		}
+	}
+	if (ft_strchr(env->line, '=') != NULL)
+	{
+		if (env->value[0] == '\0')
+			printf("declare -x %s=\"\"\n", env->key);
+		else
 		{
 			printf("declare -x %s", env->key);
 			printf("=\"%s\"\n", env->value);
 		}
-		env = env->next;
 	}
-	if (env->value[0] == '\0')
-		printf("declare -x %s\n", env->key);
 	else
 	{
-		printf("declare -x %s", env->key);
-		printf("=\"%s\"\n", env->value);
+		if (env->value[0] == '\0')
+			printf("declare -x %s\n", env->key);
+		else
+		{
+			printf("declare -x %s", env->key);
+			printf("=\"%s\"\n", env->value);
+		}
 	}
 }
 
 void	initialize_variables_for_export(t_u_e *e)
 {
 	e->i = 1;
-	e->failure = 1;
 	e->error_check = 0;
 	exit_status = 0;
-	e->semicolon = 13;
 	e->arg = 0;
+	e->failure = 1;
 	e->underscore = 2;
 	e->semicolon_underscore = 2;
 	e->tilde = 3;
@@ -48,17 +108,9 @@ void	initialize_variables_for_export(t_u_e *e)
 	e->tilde_plus_slash = 10;
 	e->tilde_plus_slash_s = 11;
 	e->comment_symbol = 12;
+	e->semicolon = 13;
 	e->semicolon_s = 14;
 	e->equal_sign = 15;
-	e->tilde_1 = 16;
-	e->tilde_slash_1 = 17;
-	e->tilde_slash_s_1 = 18;
-	e->tilde_minus_1 = 19;
-	e->tilde_minus_slash_1 = 20;
-	e->tilde_minus_slash_s_1 = 21;
-	e->tilde_plus_1 = 22;
-	e->tilde_plus_slash_1 = 23;
-	e->tilde_plus_slash_s_1 = 24;
 	e->key = NULL;
 	e->value = NULL;
 }
@@ -133,7 +185,9 @@ int	export(t_inst *inst, char **args)
 		if (ft_strchr(args[e.i], '=') != NULL)
 		{
 			split_the_line_for_key_and_value(&e, args[e.i]);
-			if (key(&e, args[e.i]) == e.semicolon_s)
+			if (key(&e, args[e.i]) == e.semicolon)
+				print_export(inst);
+			else if (key(&e, args[e.i]) == e.semicolon_s)
 				export_semicolon_equal(inst, &e);
 			else if (key(&e, args[e.i]) == e.equal_sign)
 				print_export_not_a_valid_identifier(args[e.i]);
@@ -148,13 +202,15 @@ int	export(t_inst *inst, char **args)
 			else if (key(&e, args[e.i]) == e.tilde_minus_slash)
 				exit_status = export_tilde_minus_slash(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_minus_slash_s)
-				exit_status =	export_tilde_minus_slash_s(inst, args[e.i]);
+				exit_status = export_tilde_minus_slash_s(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus)
 				exit_status = export_tilde_plus(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus_slash)
 				exit_status = export_tilde_plus_slash(inst, args[e.i]);
 			else if (key(&e, args[e.i]) == e.tilde_plus_slash_s)
 				exit_status = export_tilde_plus_slash_s(inst, args[e.i]);
+			else if (key(&e, args[e.i]) == e.comment_symbol)
+				exit_status = export_comment_symbol(inst);
 			else if (key(&e, args[e.i]) == e.arg)
 				exit_status = export_arg(inst, &e, args[e.i]);
 			else if (key(&e, args[e.i]) == e.failure)
