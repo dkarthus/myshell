@@ -31,6 +31,7 @@ SRC			=	minishell.c \
 				executor/executor_v2.c \
 				executor/here_doc.c \
 				executor/echo/echo.c \
+				executor/exit/exit.c \
 				error_exit.c \
 				signals/signal.c \
 
