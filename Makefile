@@ -15,7 +15,12 @@ SRC			=	minishell.c \
 				tokens/token_utils1.c \
 				tokens/token_utils2.c \
 				tokens/tokenizer.c \
-				executor/cd.c \
+				executor/cd/cd.c \
+				executor/cd/update_old_pwd.c \
+				executor/cd/update.c \
+				executor/cd/cd_else.c \
+				executor/cd/update_pwd.c \
+				executor/cd/check_tilde_plus_minus_path.c \
 				executor/pwd.c \
 				executor/env.c \
 				executor/unset/unset.c \
@@ -28,7 +33,7 @@ SRC			=	minishell.c \
 				executor/export/export_utils_2.c \
 				executor/export/export_utils_3.c \
 				executor/bin_finder.c \
-				executor/executor.c \
+				executor/command_executor/command_executor.c \
 				executor/executor_v2.c \
 				executor/here_doc.c \
 				executor/echo/echo.c \

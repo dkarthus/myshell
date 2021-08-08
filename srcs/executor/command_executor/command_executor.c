@@ -1,4 +1,4 @@
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 int		no_such_file_or_directory_1(int error_check, const char *str)
 {
@@ -88,25 +88,25 @@ int		it_is_a_directory_there(t_inst *inst)
 	return (1);
 }
 
-int		execute_cd(t_inst *inst, t_tkn *tkn)
+static int		execute_cd(t_inst *inst, t_tkn *tkn)
 {
 	exit_status = cd(inst, tkn->args[1]);
 	return (exit_status);
 }
 
-int		execute_pwd(t_inst *inst)
+static int		execute_pwd(t_inst *inst)
 {
 	exit_status = pwd(inst);
 	return (exit_status);
 }
 
-int		execute_env(t_inst *inst)
+static int		execute_env(t_inst *inst)
 {
 	exit_status = env(inst);
 	return (exit_status);
 }
 
-int		execute_unset(t_inst *inst, t_tkn *tkn)
+static int		execute_unset(t_inst *inst, t_tkn *tkn)
 {
 	exit_status = unset(inst, tkn->args);
 	return (exit_status);
@@ -142,13 +142,8 @@ int		execute_no_such_file_or_directory_without_cd(t_tkn *tkn)
 	return (exit_status);
 }
 
-int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
+static int	while_for_command_executor(t_inst *inst, t_tkn *tkn)
 {
-	char 	*hold_cmd_for_me;
-
-	hold_cmd_for_me = NULL;
-	if (tkn->cmd != NULL)
-		hold_cmd_for_me = ft_strdup(tkn->cmd);
 	while (tkn)
 	{
 		if (check_cmd(inst, "cd") == 0)
@@ -171,6 +166,20 @@ int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn)
 			return (execute_no_such_file_or_directory_without_cd(tkn));
 		tkn = tkn->next;
 	}
+	return (0);
+}
+
+int		command_executor(t_inst *inst, t_tkn *tkn)
+{
+	char 	*hold_cmd_for_me;
+	int		check;
+
+	hold_cmd_for_me = NULL;
+	if (tkn->cmd != NULL)
+		hold_cmd_for_me = ft_strdup(tkn->cmd);
+	check = while_for_command_executor(inst, tkn);
 	free(hold_cmd_for_me);
+	if (check != 0)
+		return (-1);
 	return (exit_status);
 }

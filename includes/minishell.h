@@ -20,6 +20,12 @@
 # include "../includes/echo.h"
 # include "../includes/exit.h"
 # include "../includes/executor.h"
+# include "../includes/update_old_pwd.h"
+# include "../includes/update.h"
+# include "../includes/cd_else.h"
+# include "../includes/check_tilde_plus_minus_path.h"
+# include "../includes/update_pwd.h"
+# include "../includes/command_executor.h"
 
 int exit_status;
 
@@ -107,25 +113,14 @@ typedef struct	s_u_e
 	unsigned int	tilde_plus;
 	unsigned int	tilde_plus_slash;
 	unsigned int	tilde_plus_slash_s;
-	unsigned int	tilde_1;
-	unsigned int	tilde_slash_1;
-	unsigned int	tilde_slash_s_1;
-	unsigned int	tilde_minus_1;
-	unsigned int	tilde_minus_slash_1;
-	unsigned int	tilde_minus_slash_s_1;
-	unsigned int	tilde_plus_1;
-	unsigned int	tilde_plus_slash_1;
-	unsigned int	tilde_plus_slash_s_1;
 	unsigned int	i;
 	unsigned int	comment_symbol;
 	unsigned int	failure;
 	char			*key;
 	char			*value;
-
 }				t_u_e;
 
 //Built-in exec
-int		your_wish_is_my_command(t_inst *inst, t_tkn *tkn);
 int		ft_here_doc(t_inst *inst, const char *stop_w, int mode);
 
 //Binary exec

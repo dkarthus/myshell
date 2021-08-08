@@ -135,4 +135,3 @@ unsigned int	key(t_u_e *e, char *key)
 	}
 	return (1);
 }
-
