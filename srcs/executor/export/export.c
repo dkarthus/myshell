@@ -4,7 +4,7 @@ static void	initialize_variables_for_export(t_u_e *e)
 {
 	e->i = 1;
 	e->error_check = 0;
-	exit_status = 0;
+	g_exit_status = 0;
 	e->arg = 0;
 	e->failure = 1;
 	e->underscore = 2;
@@ -41,7 +41,7 @@ int	export(t_inst *inst, char **args)
 	if (args[1] == NULL)
 	{
 		print_export(inst);
-		return (exit_status);
+		return (g_exit_status);
 	}
 	else if (args[1] != NULL)
 	{

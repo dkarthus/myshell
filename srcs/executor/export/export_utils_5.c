@@ -3,7 +3,7 @@
 void	print_export_not_a_valid_identifier(char *arg)
 {
 	printf("minishell: export: `%s': not a valid identifier\n", arg);
-	exit_status = 1;
+	g_exit_status = 1;
 }
 
 void	export_semicolon_equal(t_inst *inst, t_u_e *e)
@@ -30,8 +30,8 @@ unsigned int	export_arg(t_inst *inst, t_u_e *e, char *arg)
 	e->error_check = ft_add_env_elem(arg, inst->env_head);
 	if (e->error_check == 0)
 	{
-		exit_status = 1;
-		return (exit_status);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	return (0);
 }

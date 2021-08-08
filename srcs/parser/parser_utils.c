@@ -73,7 +73,7 @@ static int	ft_dissect_value(t_src *src, char *value)
 }
 
 /*
- *	Func for pulling $? var from global exit_status var;
+ *	Func for pulling $? var from global g_exit_status var;
  *	@param src parsers master struct contains args str that will be modified here
  *	@param upstart offset parameter for correct argument parsing
  *	@returns 1 = KO(malloc error), 0 = OK
