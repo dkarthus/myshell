@@ -18,13 +18,11 @@
 # include "../includes/unset.h"
 # include "../includes/echo.h"
 # include "../includes/exit.h"
-# include "../includes/executor.h"
 # include "cd/update_old_pwd.h"
 # include "cd/update.h"
 # include "cd/cd_else.h"
 # include "cd/check_tilde_plus_minus_path.h"
 # include "cd/update_pwd.h"
-# include "../includes/command_executor.h"
 # include "export/export.h"
 # include "export/if_for_export.h"
 # include "export/export_utils.h"
@@ -35,6 +33,10 @@
 # include "export/export_utils_5.h"
 # include "export/print_export.h"
 # include "export/print_export_1.h"
+# include "command_executor/command_executor.h"
+# include "command_executor/command_executor_1.h"
+# include "command_executor/command_executor_2.h"
+# include "command_executor/command_executor_3.h"
 
 int	exit_status;
 

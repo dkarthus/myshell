@@ -1,10 +1,10 @@
 #ifndef EXPORT_H
-#define EXPORT_H
+# define EXPORT_H
 
-typedef struct s_env t_env;
-typedef struct	s_u_e t_u_e;
+typedef struct s_env	t_env;
+typedef struct s_u_e	t_u_e;
 
-typedef struct	s_u_e
+typedef struct s_u_e
 {
 	unsigned int	error_check;
 	unsigned int	semicolon;
