@@ -18,10 +18,10 @@ static int	while_for_command_executor(t_inst *inst, t_tkn *tkn)
 			return (execute_echo(tkn));
 		else if (check_cmd(inst, "exit") == 0)
 			return (execute_exit(tkn));
-		else if (it_is_a_directory_there(inst) == 0)
+/*		else if (it_is_a_directory_there(inst) == 0)
 			return (execute_is_a_directory(inst));
-		else if (it_is_a_directory_there(inst) == 1)
-			return (execute_no_such_file_or_directory_without_cd(tkn));
+		else if (it_is_a_directory_there(inst) == 1)*/
+		/*	return (execute_no_such_file_or_directory_without_cd(tkn));*/
 		tkn = tkn->next;
 	}
 	return (0);
