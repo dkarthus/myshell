@@ -40,8 +40,7 @@
 
 int	exit_status;
 
-typedef struct s_env t_env;
-
+typedef struct s_env	t_env;
 /*
  * Contains env vars converted into liked-list.
  * Line is one parsed 'line' from *env[],
@@ -51,16 +50,15 @@ typedef struct s_env t_env;
  * 'value' of the var;
  * 'next' pointer to next elem of env vars list;
  */
-typedef struct	s_env
+typedef struct s_env
 {
-	char *line;
-	char *key;
-	char *value;
-	t_env *next;
-}				t_env;
+	char	*line;
+	char	*key;
+	char	*value;
+	t_env	*next;
+}						t_env;
 
-typedef struct s_token t_tkn;
-
+typedef struct s_token	t_tkn;
 /*
  * Token is a structured data for executor to process.
  *  'cmd' is a built-in or binary name;
@@ -73,7 +71,7 @@ typedef struct s_token t_tkn;
  *  'id' is number of current token;
  *  'next' pointer to next elem of the token list;
  */
-typedef struct	s_token
+typedef struct s_token
 {
 	char	*cmd;
 	char	**args;
@@ -86,8 +84,7 @@ typedef struct	s_token
 	t_tkn	*next;
 }				t_tkn;
 
-typedef struct	s_instance t_inst;
-
+typedef struct s_instance	t_inst;
 /*
  * Master struct for minishell, contains all the main data passed through
  * env_vars->parser->tokenizer->executor;
@@ -96,7 +93,7 @@ typedef struct	s_instance t_inst;
  * 'pipes_cnt' amount of pipes in input line;
  * 'fd_in_save' save of 0 stdin fd, used to restor stdin after exec finishes;
  */
-typedef struct	s_instance
+typedef struct s_instance
 {
 	t_env	**env_head;
 	t_tkn	**tkn_head;
