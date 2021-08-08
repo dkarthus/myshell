@@ -28,6 +28,7 @@ SRC			=	minishell.c \
 				executor/export/export_utils_2.c \
 				executor/export/export_utils_3.c \
 				executor/bin_finder.c \
+				executor/executor.c \
 				executor/executor_v2.c \
 				executor/here_doc.c \
 				executor/echo/echo.c \

@@ -19,6 +19,7 @@
 # include "../includes/export.h"
 # include "../includes/echo.h"
 # include "../includes/exit.h"
+# include "../includes/executor.h"
 
 int g_exit_status;
 
