@@ -1,6 +1,6 @@
 #include "../../../includes/minishell.h"
 
-int		no_such_file_or_directory_1(int error_check, const char *str)
+int	no_such_file_or_directory_1(int error_check, const char *str)
 {
 	int	zero;
 
@@ -15,7 +15,7 @@ int		no_such_file_or_directory_1(int error_check, const char *str)
 
 int	is_a_directory(t_inst *inst)
 {
-	t_tkn *tkn;
+	t_tkn	*tkn;
 
 	tkn = *(inst->tkn_head);
 	if (check_cmd(inst, tkn->cmd) == 0)
@@ -52,7 +52,7 @@ void	real_substitution(t_inst *inst, int check)
 	}
 }
 
-int		substitute_tilde(t_inst *inst, int check)
+int	substitute_tilde(t_inst *inst, int check)
 {
 	t_tkn	*tkn;
 
@@ -68,9 +68,9 @@ int		substitute_tilde(t_inst *inst, int check)
 	return (1);
 }
 
-int		it_is_a_directory_there(t_inst *inst)
+int	it_is_a_directory_there(t_inst *inst)
 {
-	t_tkn *tkn;
+	t_tkn	*tkn;
 
 	tkn = *(inst->tkn_head);
 	if (ft_strncmp(tkn->cmd, "~", ft_strlen(tkn->cmd)) == 0)
@@ -88,55 +88,55 @@ int		it_is_a_directory_there(t_inst *inst)
 	return (1);
 }
 
-static int		execute_cd(t_inst *inst, t_tkn *tkn)
+static int	execute_cd(t_inst *inst, t_tkn *tkn)
 {
 	exit_status = cd(inst, tkn->args[1]);
 	return (exit_status);
 }
 
-static int		execute_pwd(t_inst *inst)
+static int	execute_pwd(t_inst *inst)
 {
 	exit_status = pwd(inst);
 	return (exit_status);
 }
 
-static int		execute_env(t_inst *inst)
+static int	execute_env(t_inst *inst)
 {
 	exit_status = env(inst);
 	return (exit_status);
 }
 
-static int		execute_unset(t_inst *inst, t_tkn *tkn)
+static int	execute_unset(t_inst *inst, t_tkn *tkn)
 {
 	exit_status = unset(inst, tkn->args);
 	return (exit_status);
 }
 
-int		execute_export(t_inst *inst, t_tkn *tkn)
+int	execute_export(t_inst *inst, t_tkn *tkn)
 {
 	exit_status = export(inst, tkn->args);
 	return (exit_status);
 }
 
-int		execute_echo(t_tkn *tkn)
+int	execute_echo(t_tkn *tkn)
 {
 	exit_status = echo(tkn->args);
 	return (exit_status);
 }
 
-int		execute_exit(t_tkn *tkn)
+int	execute_exit(t_tkn *tkn)
 {
 	exit_status = our_exit(tkn->args);
 	return (exit_status);
 }
 
-int		execute_is_a_directory(t_inst *inst)
+int	execute_is_a_directory(t_inst *inst)
 {
 	exit_status = is_a_directory(inst);
 	return (exit_status);
 }
 
-int		execute_no_such_file_or_directory_without_cd(t_tkn *tkn)
+int	execute_no_such_file_or_directory_without_cd(t_tkn *tkn)
 {
 	exit_status = no_such_file_or_directory_1(1, tkn->cmd);
 	return (exit_status);
@@ -169,9 +169,9 @@ static int	while_for_command_executor(t_inst *inst, t_tkn *tkn)
 	return (0);
 }
 
-int		command_executor(t_inst *inst, t_tkn *tkn)
+int	command_executor(t_inst *inst, t_tkn *tkn)
 {
-	char 	*hold_cmd_for_me;
+	char	*hold_cmd_for_me;
 	int		check;
 
 	hold_cmd_for_me = NULL;

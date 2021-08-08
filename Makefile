@@ -28,6 +28,7 @@ SRC			=	minishell.c \
 				executor/unset/unset_utils_1.c \
 				executor/unset/unset_utils_2.c \
 				executor/export/export.c \
+				executor/export/if_for_export.c \
 				executor/export/export_utils.c \
 				executor/export/export_utils_1.c \
 				executor/export/export_utils_2.c \

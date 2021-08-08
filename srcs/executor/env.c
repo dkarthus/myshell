@@ -97,7 +97,10 @@ int	env(t_inst *inst)
 		}
 		env = env->next;
 	}
-	write(1, env->line, ft_strlen(env->line));
-	write(1, "\n", 1);
+	if (ft_strchr(env->line, '=') != NULL)
+	{
+		write(1, env->line, ft_strlen(env->line));
+		write(1, "\n", 1);
+	}
 	return (0);
 }
