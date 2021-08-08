@@ -1,7 +1,7 @@
 #ifndef CD_H
 # define CD_H
 
-#include "minishell.h"
+#include "../minishell.h"
 
 typedef struct	s_instance t_inst;
 typedef struct	s_token	t_tkn;

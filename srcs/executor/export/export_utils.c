@@ -1,11 +1,5 @@
 #include "../../../includes/minishell.h"
 
-void	print_export_not_a_valid_identifier(char *arg)
-{
-	printf("minishell: export: `%s': not a valid identifier\n", arg);
-	exit_status = 1;
-}
-
 void	export_tilde(char *arg)
 {
 	char	*home_value;

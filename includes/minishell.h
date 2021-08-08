@@ -12,22 +12,30 @@
 # include "../libft/libft.h"
 # include "../includes/parser.h"
 # include "../includes/pwd.h"
-# include "../includes/cd.h"
+# include "cd/cd.h"
 # include "../includes/env.h"
 # include "../includes/error_exit.h"
 # include "../includes/unset.h"
-# include "../includes/export.h"
+# include "export/export.h"
 # include "../includes/echo.h"
 # include "../includes/exit.h"
 # include "../includes/executor.h"
-# include "../includes/update_old_pwd.h"
-# include "../includes/update.h"
-# include "../includes/cd_else.h"
-# include "../includes/check_tilde_plus_minus_path.h"
-# include "../includes/update_pwd.h"
+# include "cd/update_old_pwd.h"
+# include "cd/update.h"
+# include "cd/cd_else.h"
+# include "cd/check_tilde_plus_minus_path.h"
+# include "cd/update_pwd.h"
 # include "../includes/command_executor.h"
+# include "export/print_export.h"
+# include "export/print_export_1.h"
+# include "export/export_utils.h"
+# include "export/export_utils_1.h"
+# include "export/export_utils_2.h"
+# include "export/export_utils_3.h"
+# include "export/export_utils_4.h"
+# include "export/export_utils_5.h"
 
-int exit_status;
+int	exit_status;
 
 typedef struct s_env t_env;
 
@@ -92,33 +100,6 @@ typedef struct	s_instance
 	int		pipes_cnt;
 	int		fd_in_save;
 }				t_inst;
-
-typedef struct	s_u_e t_u_e;
-
-typedef struct	s_u_e
-{
-	unsigned int	error_check;
-	unsigned int	semicolon;
-	unsigned int	semicolon_s;
-	unsigned int	semicolon_underscore;
-	unsigned int	underscore;
-	unsigned int	arg;
-	unsigned int	equal_sign;
-	unsigned int	tilde;
-	unsigned int	tilde_slash;
-	unsigned int	tilde_slash_s;
-	unsigned int	tilde_minus;
-	unsigned int	tilde_minus_slash;
-	unsigned int	tilde_minus_slash_s;
-	unsigned int	tilde_plus;
-	unsigned int	tilde_plus_slash;
-	unsigned int	tilde_plus_slash_s;
-	unsigned int	i;
-	unsigned int	comment_symbol;
-	unsigned int	failure;
-	char			*key;
-	char			*value;
-}				t_u_e;
 
 //Built-in exec
 int		ft_here_doc(t_inst *inst, const char *stop_w, int mode);
