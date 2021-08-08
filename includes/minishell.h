@@ -40,7 +40,8 @@
 
 int	exit_status;
 
-typedef struct s_env	t_env;
+typedef struct s_env		t_env;
+
 /*
  * Contains env vars converted into liked-list.
  * Line is one parsed 'line' from *env[],
@@ -52,13 +53,14 @@ typedef struct s_env	t_env;
  */
 typedef struct s_env
 {
-	char	*line;
-	char	*key;
-	char	*value;
-	t_env	*next;
-}						t_env;
+	char		*line;
+	char		*key;
+	char		*value;
+	t_env		*next;
+}				t_env;
 
 typedef struct s_token	t_tkn;
+
 /*
  * Token is a structured data for executor to process.
  *  'cmd' is a built-in or binary name;
@@ -85,6 +87,7 @@ typedef struct s_token
 }				t_tkn;
 
 typedef struct s_instance	t_inst;
+
 /*
  * Master struct for minishell, contains all the main data passed through
  * env_vars->parser->tokenizer->executor;

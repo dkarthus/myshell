@@ -1,6 +1,6 @@
 #ifndef ECHO_H
-#define ECHO_H
+# define ECHO_H
 
-int		echo(char **args);
+int	echo(char **args);
 
 #endif
