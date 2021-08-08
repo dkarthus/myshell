@@ -14,5 +14,4 @@ int				unset_tilde_plus(t_inst *inst, char *arg);
 int				unset_tilde_plus_slash(t_inst *inst, char *arg);
 int				unset_tilde_plus_slash_s(t_inst *inst, char *arg);
 
-
 #endif

@@ -83,4 +83,3 @@ int	echo(char **args)
 		write(1, "\n", 1);
 	return (exit_status);
 }
-

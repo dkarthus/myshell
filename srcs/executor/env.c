@@ -2,7 +2,7 @@
 
 void	assign_a_value(t_inst *inst, int i)
 {
-	t_tkn *tkn;
+	t_tkn	*tkn;
 
 	tkn = *(inst->tkn_head);
 	if (tkn->cmd[i] == 'E')
@@ -22,25 +22,25 @@ void	assign_a_value(t_inst *inst, int i)
 	}
 }
 
-static int		check_letter_and_length(t_inst *inst, int i)
+static int	check_letter_and_length(t_inst *inst, int i)
 {
 	t_tkn	*tkn;
 
 	tkn = *(inst->tkn_head);
 	if (tkn->cmd[i] == 'e' || (tkn->cmd[i] == 'E'
-	&& ft_strlen(tkn->cmd) == 3))
+			&& ft_strlen(tkn->cmd) == 3))
 		return (0);
 	else if (tkn->cmd[i] == 'n' || (tkn->cmd[i] == 'N'
-	&& ft_strlen(tkn->cmd) == 3))
+			&& ft_strlen(tkn->cmd) == 3))
 		return (0);
 	else if (tkn->cmd[i] == 'v' || (tkn->cmd[i] == 'V'
-	&& ft_strlen(tkn->cmd) == 3))
+			&& ft_strlen(tkn->cmd) == 3))
 		return (0);
 	else
 		return (1);
 }
 
-int		check_the_case(t_inst *inst, int i)
+int	check_the_case(t_inst *inst, int i)
 {
 	t_tkn	*tkn;
 
@@ -65,10 +65,10 @@ int		check_the_case(t_inst *inst, int i)
 	return (0);
 }
 
-int		check_env(t_inst *inst)
+int	check_env(t_inst *inst)
 {
 	t_tkn	*tkn;
-	int 	i;
+	int		i;
 
 	i = 0;
 	tkn = *(inst->tkn_head);
@@ -83,7 +83,7 @@ int		check_env(t_inst *inst)
 	return (0);
 }
 
-int 	env(t_inst *inst)
+int	env(t_inst *inst)
 {
 	t_env	*env;
 
@@ -96,6 +96,11 @@ int 	env(t_inst *inst)
 			write(1, "\n", 1);
 		}
 		env = env->next;
+	}
+	if (ft_strchr(env->line, '=') != NULL)
+	{
+		write(1, env->line, ft_strlen(env->line));
+		write(1, "\n", 1);
 	}
 	return (0);
 }

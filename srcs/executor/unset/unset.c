@@ -37,7 +37,7 @@ int	if_for_unset_1(t_inst *inst, t_u_e *u, char *arg, char *next_arg)
 		if (u->error_check == 0)
 			exit_status = 1;
 	}
-	return (1);
+	return (0);
 }
 
 void	initialize_variables_for_unset(t_u_e *u)

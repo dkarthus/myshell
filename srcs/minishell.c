@@ -1,7 +1,7 @@
 #include "../includes/minishell.h"
-#include "../includes/export.h"
+#include "../includes/export/export.h"
 #include "../includes/parser.h"
-#include "../includes/cd.h"
+#include "../includes/cd/cd.h"
 
 /*
  *

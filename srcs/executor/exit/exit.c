@@ -61,7 +61,7 @@ static void	exit_one_arg(char *arg)
 	}
 }
 
-int		our_exit(char **args)
+int	our_exit(char **args)
 {
 	int	i;
 

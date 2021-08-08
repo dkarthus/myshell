@@ -1,10 +1,9 @@
 #ifndef ENV_H
 # define ENV_H
 
-typedef struct	s_instance t_inst;
+typedef struct s_instance	t_inst;
 
-int 	env(t_inst *inst);
-int		check_env(t_inst *inst);
-int		check_cmd(t_inst *inst, const char *str);
+int	env(t_inst *inst);
+int	check_env(t_inst *inst);
 
 #endif
