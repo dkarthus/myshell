@@ -73,7 +73,7 @@ static int	ft_dissect_value(t_src *src, char *value)
 }
 
 /*
- *	Func for pulling $? var from global exit_status var;
+ *	Func for pulling $? var from global g_exit_status var;
  *	@param src parsers master struct contains args str that will be modified here
  *	@param upstart offset parameter for correct argument parsing
  *	@returns 1 = KO(malloc error), 0 = OK
@@ -83,7 +83,7 @@ static int	ft_exit_status(t_src *src, int *upstart)
 	char	*ext_st;
 	char	*tmp;
 
-	ext_st = ft_itoa(exit_status);
+	ext_st = ft_itoa(g_exit_status);
 	src->pos++;
 	if (upstart)
 		*upstart = src->pos;

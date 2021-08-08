@@ -42,7 +42,7 @@ static void	exit_many_args(char *arg)
 		ft_putstr_fd("minishell: exit: ", 1);
 		ft_putstr_fd(arg, 1);
 		ft_putstr_fd(": too many arguments\n", 1);
-		exit_status = 1;
+		g_exit_status = 1;
 	}
 }
 
@@ -56,8 +56,8 @@ static void	exit_one_arg(char *arg)
 		exit_numeric_argument_required(arg);
 	else if (there_is_a_numeric_arg == 0)
 	{
-		exit_status = ft_atoi(arg);
-		exit(exit_status);
+		g_exit_status = ft_atoi(arg);
+		exit(g_exit_status);
 	}
 }
 
@@ -67,7 +67,7 @@ int	our_exit(char **args)
 
 	i = 1;
 	ft_putstr_fd("exit\n", 1);
-	exit_status = 0;
+	g_exit_status = 0;
 	if (args[1] != NULL)
 	{
 		while (args[i] != NULL)

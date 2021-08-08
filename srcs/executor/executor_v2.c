@@ -3,9 +3,9 @@
 /*
  *
  */
-static int ft_manage_fds(t_tkn *tkn, int *pipe_fd)
+static int	ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 {
-	if(tkn->fd_in > 0)
+	if (tkn->fd_in > 0)
 	{
 		if (dup2(tkn->fd_in, 0) == -1)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
@@ -29,10 +29,10 @@ static int ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 /*
  *
  */
-static int ft_process_bin(t_inst *inst, t_tkn *tkn)
+static int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 {
-	char *path;
-	char **arg_env;
+	char	*path;
+	char	**arg_env;
 
 	path = ft_get_bin_path(tkn->cmd, inst->env_head);
 	arg_env = ft_group_envs(inst->env_head);
@@ -54,30 +54,30 @@ void	ft_exit_status_upd(int status_ret)
 {
 	if (WIFEXITED(status_ret))
 	{
-		exit_status = WEXITSTATUS(status_ret);
-		return;
+		g_exit_status = WEXITSTATUS(status_ret);
+		return ;
 	}
 	if (WIFSIGNALED(status_ret))
 	{
 		if (WTERMSIG(status_ret) == 2)
-			exit_status = 130;
+			g_exit_status = 130;
 		else if (WTERMSIG(status_ret) == 3)
-			exit_status = 131;
+			g_exit_status = 131;
 		else
-			exit_status = 1;
+			g_exit_status = 1;
 		return ;
 	}
-	exit_status = 0;
+	g_exit_status = 0;
 }
 
 /*
  *
  */
-int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
+int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 {
 	int	pid;
-	int ret;
-	int pipe_fd[2];
+	int	ret;
+	int	pipe_fd[2];
 
 	pipe(pipe_fd);
 	signal(SIGINT, ft_sig_handle_ch);
@@ -116,19 +116,20 @@ int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 
 static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
-	int	pipe_fd[2] = {-1, -1};
-	int save = dup(1);
+	int	pipe_fd[2];
+	int	save;
 
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
+	save = dup(1);
 	if ((*tkn)->is_pipe)
 	{
 		pipe(pipe_fd);
-
 		if (pipe(pipe_fd) || dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]))
 		{
 			perror("Error: ");
 			return (1);
 		}
-
 	}
 	if ((*tkn)->fd_out != 1)
 	{
@@ -142,7 +143,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(pipe_fd[1]);
 	}
-	if(command_executor(inst, (*tkn)) == -1)
+	if (command_executor(inst, (*tkn)) == -1)
 	{
 		close(pipe_fd[1]);
 		return (0);
@@ -160,13 +161,13 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	return (0);
 }
 
-
 /*
  *
  */
-int ft_executor(t_inst *inst)
+int	ft_executor(t_inst *inst)
 {
-	t_tkn *tkn;
+	t_tkn	*tkn;
+
 	tkn = *(inst->tkn_head);
 	ft_exec_first_tkn(inst, &tkn);
 	while (tkn)

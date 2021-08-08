@@ -38,7 +38,7 @@ int	update_old_pwd(t_inst *inst)
 	if (we_just_started_and_no_arguments(old_pwd, tkn->args[1]) == 0)
 	{
 		if (update(inst) == 1)
-			return (exit_status);
+			return (g_exit_status);
 	}
 	else if (check_for_tilde_minus(inst, tkn->args[1]) == 0)
 		return (update_1(inst, old_pwd));

@@ -9,8 +9,8 @@
  */
 static t_env	*ft_create_fill_elem(const char *src)
 {
-	int	i;
-	t_env *new_elem;
+	int		i;
+	t_env	*new_elem;
 
 	new_elem = malloc(sizeof(t_env));
 	if (!(new_elem))
@@ -68,10 +68,10 @@ static void	ft_insert_elem(t_env **head, t_env *elem)
 		return ;
 	}*/
 	while (i->next && ft_strncmp(i->next->key, elem->key, ft_strlen
-	(i->next->key) + 1) != 0)
+			(i->next->key) + 1) != 0)
 		i = i->next;
 	if (i->next && ft_strncmp(i->next->key, elem->key, ft_strlen(i->next->key)
-		+ 1) == 0)
+			+ 1) == 0)
 		ft_update_elem(i->next, elem);
 	if (!i->next)
 	{

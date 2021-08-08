@@ -6,11 +6,11 @@
 /*
  *
  */
-static int ft_update_shell_lvl(t_env **head)
+static int	ft_update_shell_lvl(t_env **head)
 {
 	char	*sh_lvl;
-	char 	tmp[2];
-	char 	*tmp1;
+	char	tmp[2];
+	char	*tmp1;
 
 	sh_lvl = ft_get_env_value("SHLVL", head);
 	if (!sh_lvl)
@@ -32,20 +32,19 @@ static int ft_update_shell_lvl(t_env **head)
 int	main(int argc, char *argv[], char *env[])
 {
 	t_inst	inst;
-	t_src src;
+	t_src	src;
 	char	*line;
 	t_tkn	*tmp;
-	char	*prompt;
+//	char	*prompt;
 
 	(void)argv;
-
 	if (argc != 1 || !env || !env[0])
 		return (1);
 	inst.env_head = ft_parse_env(env);
 	if (!(inst.env_head) || ft_update_shell_lvl(inst.env_head))
 		return (1);
 	signal(SIGQUIT, ft_sig_handle);
-	exit_status = 0;
+	g_exit_status = 0;
 	while (inst.env_head)
 	{
 		signal(SIGINT, ft_sig_handle);
@@ -72,18 +71,18 @@ int	main(int argc, char *argv[], char *env[])
 //		{
 //			printf("cmd-%s  fd_in-%d  fd_out-%d  is_pipe-%d  is_h_d %d  s_w "
 //				   "%s\n",
-//			tmp->cmd, tmp->fd_in, tmp->fd_out, tmp->is_pipe, tmp->is_here_doc, tmp->stop_word);
+//			tmp->cmd, tmp->fd_in, tmp->fd_out, tmp->is_pipe, tmp->is_here_doc,
+//			tmp->stop_word);
 //			printf("arg1 %s\n", tmp->args[0]);
 //			printf("arg2 %s\n", tmp->args[1]);
 //			printf("arg3 %s\n", tmp->args[2]);
 //			tmp = tmp->next;
 //		}
-		prompt = ft_get_env_value("PWD", inst.env_head);
-		printf("\n\033[90mpwd>\t%s\033[0m\n", prompt);
-		prompt = ft_get_env_value("OLDPWD", inst.env_head);
-		printf("\033[90moldpwd>\t%s\033[0m\n\n", prompt);
+//		prompt = ft_get_env_value("PWD", inst.env_head);
+//		printf("\n\033[90mpwd>\t%s\033[0m\n", prompt);
+//		prompt = ft_get_env_value("OLDPWD", inst.env_head);
+//		printf("\033[90moldpwd>\t%s\033[0m\n\n", prompt);
 		free (line);
 		dup2(inst.fd_in_save, 0);
 	}
 }
-

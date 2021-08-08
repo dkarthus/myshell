@@ -8,10 +8,10 @@ int	no_such_file_or_directory(int error_check, const char *str)
 	if (error_check != zero)
 	{
 		printf("minishell: cd: %s: No such file or directory\n", str);
-		exit_status = 0;
+		g_exit_status = 0;
 		return (1);
 	}
-	exit_status = 0;
+	g_exit_status = 0;
 	return (0);
 }
 
@@ -79,7 +79,7 @@ int	cd(t_inst *inst, char *arg)
 
 	error_check = update_old_pwd(inst);
 	if (error_check == 1)
-		return (exit_status);
+		return (g_exit_status);
 	if (arg == NULL)
 		cd_home(inst);
 	else if (check_arg(inst, arg) == 0 && arg[0] != '~')
