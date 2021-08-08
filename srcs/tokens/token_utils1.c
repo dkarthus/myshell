@@ -35,7 +35,6 @@ int	ft_blank_check_file(t_src *src, int *arg_iter)
 	int	i;
 
 	i = 1;
-
 	if (src->args[*arg_iter][i] == '<')
 		i++;
 	if (src->args[*arg_iter][i] == 0)

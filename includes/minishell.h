@@ -20,7 +20,7 @@
 # include "../includes/echo.h"
 # include "../includes/exit.h"
 
-int exit_status;
+int g_exit_status;
 
 typedef struct s_env t_env;
 

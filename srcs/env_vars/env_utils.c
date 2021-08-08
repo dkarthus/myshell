@@ -6,14 +6,14 @@
  * @param head of linked list;
  * @return allocated array with value in it, return NULL if didnt find anything;
  */
-char *ft_get_env_value(char *key, t_env **head)
+char	*ft_get_env_value(char *key, t_env **head)
 {
-	t_env *iter;
+	t_env	*iter;
 
 	iter = *head;
 	if (!key)
 		return (NULL);
-	while(iter)
+	while (iter)
 	{
 		if (ft_strncmp(key, iter->key, ft_strlen(key) + 1) == 0)
 			return (iter->value);
@@ -21,7 +21,6 @@ char *ft_get_env_value(char *key, t_env **head)
 	}
 	return (NULL);
 }
-
 
 /*
  * Deletes a var from a vars linked list;
@@ -63,7 +62,7 @@ int	ft_unset_env_var(char *key, t_env **head)
  * @return double pointer to a 2d array of grouped envs vars or NULL for
  * malloc err;
  */
-char **ft_group_envs(t_env **head)
+char	**ft_group_envs(t_env **head)
 {
 	t_env	*tmp;
 	char	**envs;
@@ -71,7 +70,7 @@ char **ft_group_envs(t_env **head)
 
 	tmp = *head;
 	amt = 0;
-	while(tmp)
+	while (tmp)
 	{
 		amt++;
 		tmp = tmp->next;
@@ -81,7 +80,7 @@ char **ft_group_envs(t_env **head)
 		return (NULL);
 	amt = 0;
 	tmp = *head;
-	while(tmp)
+	while (tmp)
 	{
 		envs[amt] = ft_strdup(tmp->line);
 		if (!envs[amt])
@@ -100,8 +99,8 @@ char **ft_group_envs(t_env **head)
  */
 t_env	**ft_parse_env(char *env[])
 {
-	int	i;
-	t_env **head;
+	int		i;
+	t_env	**head;
 
 	head = malloc(sizeof(t_env *));
 	if (!head)
@@ -125,9 +124,9 @@ t_env	**ft_parse_env(char *env[])
  */
 void	ft_free_env(t_env **head)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
-	while(*head)
+	while (*head)
 	{
 		tmp = (*head)->next;
 		free((*head)->key);

@@ -15,3 +15,24 @@ void	skip_wspace(t_src *src)
 		src->args_cnt++;
 	}
 }
+
+/*
+ *	Prints error msg and closes fds;
+ *	@param err msg to print;
+ *	@param pipe_fd to close;
+ *	@param fd to close;
+ *	@returns 1 always;
+ */
+int	ft_closefd(char *err, int *pipe_fd, int fd)
+{
+	if (err)
+		printf("%s\n", err);
+	if (pipe_fd)
+	{
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	}
+	if (fd > 0)
+		close(fd);
+	return (1);
+}

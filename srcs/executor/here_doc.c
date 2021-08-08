@@ -1,24 +1,7 @@
 #include "../../includes/minishell.h"
 
 /*
- *
- */
-int	ft_closefd(char *err, int *pipe_fd, int fd)
-{
-	if (err)
-		printf("%s\n", err);
-	if (pipe_fd)
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	}
-	if (fd > 0)
-		close(fd);
-	return (1);
-}
-
-/*
- *
+ *	Prints err msg 'print' and frees all incoming pointers;
  */
 static int	ft_fr_ret(char *print, char *str, char *str1, char *str2)
 {
@@ -43,7 +26,10 @@ static int	ft_fr_ret(char *print, char *str, char *str1, char *str2)
 }
 
 /*
- *
+ *	Appends strs in array ;
+ *	@param	ret str array of input linesl
+ *	@param	line to append to ret;
+ *	@returns 1 KO error, 0 = OK
  */
 static int	ft_append(char **ret, char *line)
 {
@@ -66,7 +52,11 @@ static int	ft_append(char **ret, char *line)
 }
 
 /*
- *
+ *	Loop for here_doc starts readin new line and adding them to str array, then
+ *	pushes them into pipe[1] write end;
+ *	@param	fd_out to write to(pipe write end);
+ *	@param	stop_word for here_doc util;
+ *	@returns 1 KO error, 0 = OK
  */
 static int	ft_here_doc_loop(int fd_out, const char *stop_word)
 {
@@ -84,7 +74,8 @@ static int	ft_here_doc_loop(int fd_out, const char *stop_word)
 			free(line);
 			break ;
 		}
-		ft_append(&ret, line);
+		if (ft_append(&ret, line))
+			return (1);
 	}
 	if (ret)
 		ft_putstr_fd(ret, fd_out);
@@ -93,7 +84,28 @@ static int	ft_here_doc_loop(int fd_out, const char *stop_word)
 }
 
 /*
- *
+ *	Cuts down szie of here_doc func, increase readability;
+ */
+static int	ft_here_doc_util(int *pipe_fd, int *ret, int pid, int mode)
+{
+	waitpid(pid, ret, 0);
+	ft_exit_status_upd(*ret);
+	close(pipe_fd[1]);
+	if (mode == -1)
+	{
+		if (dup2(pipe_fd[0], 0) == -1)
+			return (ft_closefd("dup2 error", pipe_fd, -1));
+	}
+	close(pipe_fd[0]);
+	return (0);
+}
+
+/*
+ * Imitates functionality of here_doc util
+ * @param	inst master struct described in minishell.h;
+ * @param	stop_word for here_doc;
+ * @param	mode -1 statard mode, all else blank mode(dont write to any fd);
+ * @returns 0 = OK, 1 = KO error;
  */
 int	ft_here_doc(t_inst *inst, const char *stop_w, int mode)
 {
@@ -107,15 +119,8 @@ int	ft_here_doc(t_inst *inst, const char *stop_w, int mode)
 		return (ft_closefd("Fork error in here_doc", pipe_fd, -1));
 	if (pid > 0)
 	{
-		waitpid(pid, &ret, 0);
-		ft_exit_status_upd(ret);
-		close(pipe_fd[1]);
-		if (mode == -1)
-		{
-			if (dup2(pipe_fd[0], 0) == -1)
-				ft_putstr_fd("child dup fd0\n", inst->fd_in_save);
-		}
-		close(pipe_fd[0]);
+		if (ft_here_doc_util(pipe_fd, &ret, pid, mode))
+			return (1);
 		return (0);
 	}
 	if (inst)

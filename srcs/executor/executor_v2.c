@@ -3,9 +3,9 @@
 /*
  *
  */
-static int ft_manage_fds(t_tkn *tkn, int *pipe_fd)
+static int	ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 {
-	if(tkn->fd_in > 0)
+	if (tkn->fd_in > 0)
 	{
 		if (dup2(tkn->fd_in, 0) == -1)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
@@ -29,10 +29,10 @@ static int ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 /*
  *
  */
-static int ft_process_bin(t_inst *inst, t_tkn *tkn)
+static int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 {
-	char *path;
-	char **arg_env;
+	char	*path;
+	char	**arg_env;
 
 	path = ft_get_bin_path(tkn->cmd, inst->env_head);
 	arg_env = ft_group_envs(inst->env_head);
@@ -55,7 +55,7 @@ void	ft_exit_status_upd(int status_ret)
 	if (WIFEXITED(status_ret))
 	{
 		exit_status = WEXITSTATUS(status_ret);
-		return;
+		return ;
 	}
 	if (WIFSIGNALED(status_ret))
 	{
@@ -73,11 +73,11 @@ void	ft_exit_status_upd(int status_ret)
 /*
  *
  */
-int ft_fork_cmd(t_inst *inst, t_tkn *tkn)
+int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 {
 	int	pid;
-	int ret;
-	int pipe_fd[2];
+	int	ret;
+	int	pipe_fd[2];
 
 	pipe(pipe_fd);
 	signal(SIGINT, ft_sig_handle_ch);
@@ -164,14 +164,14 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 /*
  *
  */
-int ft_executor(t_inst *inst)
+int	ft_executor(t_inst *inst)
 {
-	t_tkn *tkn;
+	t_tkn	*tkn;
+
 	tkn = *(inst->tkn_head);
 	//ft_exec_first_tkn(inst, &tkn);
 	while (tkn)
 	{
-	//	printf(" %d %d %s\n", tkn->fd_in, tkn->is_here_doc, tkn->stop_word);
 		if (ft_fork_cmd(inst, tkn))
 			return (1);
 		tkn = tkn->next;

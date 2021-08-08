@@ -83,7 +83,7 @@ static int	ft_exit_status(t_src *src, int *upstart)
 	char	*ext_st;
 	char	*tmp;
 
-	ext_st = ft_itoa(exit_status);
+	ext_st = ft_itoa(g_exit_status);
 	src->pos++;
 	if (upstart)
 		*upstart = src->pos;

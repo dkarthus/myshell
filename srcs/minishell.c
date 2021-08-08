@@ -42,7 +42,7 @@ int	main(int argc, char *argv[], char *env[])
 	if (!(inst.env_head) || ft_update_shell_lvl(inst.env_head))
 		return (1);
 	signal(SIGQUIT, ft_sig_handle);
-	exit_status = 0;
+	g_exit_status = 0;
 	while (inst.env_head)
 	{
 		signal(SIGINT, ft_sig_handle);
