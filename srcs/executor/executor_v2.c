@@ -54,20 +54,20 @@ void	ft_exit_status_upd(int status_ret)
 {
 	if (WIFEXITED(status_ret))
 	{
-		exit_status = WEXITSTATUS(status_ret);
+		g_exit_status = WEXITSTATUS(status_ret);
 		return ;
 	}
 	if (WIFSIGNALED(status_ret))
 	{
 		if (WTERMSIG(status_ret) == 2)
-			exit_status = 130;
+			g_exit_status = 130;
 		else if (WTERMSIG(status_ret) == 3)
-			exit_status = 131;
+			g_exit_status = 131;
 		else
-			exit_status = 1;
+			g_exit_status = 1;
 		return ;
 	}
-	exit_status = 0;
+	g_exit_status = 0;
 }
 
 /*
@@ -116,19 +116,20 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 
 static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
-	int	pipe_fd[2] = {-1, -1};
-	int save = dup(1);
+	int	pipe_fd[2];
+	int	save;
 
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
+	save = dup(1);
 	if ((*tkn)->is_pipe)
 	{
 		pipe(pipe_fd);
-
 		if (pipe(pipe_fd) || dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]))
 		{
 			perror("Error: ");
 			return (1);
 		}
-
 	}
 	if ((*tkn)->fd_out != 1)
 	{
@@ -142,7 +143,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(pipe_fd[1]);
 	}
-	if(command_executor(inst, (*tkn)) == -1)
+	if (command_executor(inst, (*tkn)) == -1)
 	{
 		close(pipe_fd[1]);
 		return (0);
@@ -160,7 +161,6 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	return (0);
 }
 
-
 /*
  *
  */
@@ -172,6 +172,7 @@ int	ft_executor(t_inst *inst)
 	ft_exec_first_tkn(inst, &tkn);
 	while (tkn)
 	{
+	//	printf(" %d %d %s\n", tkn->fd_in, tkn->is_here_doc, tkn->stop_word);
 		if (ft_fork_cmd(inst, tkn))
 			return (1);
 		tkn = tkn->next;

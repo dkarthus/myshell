@@ -12,7 +12,7 @@
 # include "../libft/libft.h"
 # include "../includes/parser.h"
 # include "../includes/pwd.h"
-# include "../includes/cd.h"
+# include "../includes/cd/cd.h"
 # include "../includes/env.h"
 # include "../includes/error_exit.h"
 # include "../includes/unset.h"
@@ -36,11 +36,10 @@
 # include "command_executor/command_executor.h"
 # include "command_executor/command_executor_1.h"
 # include "command_executor/command_executor_2.h"
-# include "command_executor/command_executor_3.h"
 
-int g_exit_status;
+int							g_exit_status;
 
-typedef struct s_env t_env;
+typedef struct s_env		t_env;
 
 /*
  * Contains env vars converted into liked-list.
@@ -59,7 +58,7 @@ typedef struct s_env
 	t_env		*next;
 }				t_env;
 
-typedef struct s_token	t_tkn;
+typedef struct s_token		t_tkn;
 
 /*
  * Token is a structured data for executor to process.
