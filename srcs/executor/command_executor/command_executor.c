@@ -32,7 +32,6 @@ int	command_executor(t_inst *inst, t_tkn *tkn)
 	if (tkn->cmd != NULL)
 		hold_cmd_for_me = ft_strdup(tkn->cmd);
 	check = while_for_command_executor(inst, tkn);
-	printf("\n\033[90mtkn-cmd\033[0m %s \033[90mcheck\033[0m %d\n\n", tkn->cmd, check);
 	free(hold_cmd_for_me);
 	if (check != 0)
 	{

@@ -8,7 +8,7 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 	int	pid;
 	int	ret;
 	int	pipe_fd[2];
-	int save = dup(1);
+
 	pipe(pipe_fd);
 	signal(SIGINT, ft_sig_handle_ch);
 	if (tkn->is_here_doc && tkn->stop_word)
@@ -23,24 +23,14 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 	{
 		close(pipe_fd[0]);
 		if (ft_manage_fds(tkn, pipe_fd))
-		{
-			ft_putstr_fd("manage_fd\n", save);
 			exit (1);
-		}
 		if (command_executor(inst, tkn) != -1)
-		{
-			ft_putstr_fd("com_eexec\n", save);
 			exit (1);
-		}
 		if (ft_process_bin(inst, tkn))
-		{
-			ft_putstr_fd("proc_bin\n", save);
 			exit(1);
-		}
 		exit (0);
 	}
 	waitpid(pid, &ret, 0);
-	printf("ret %d\n", ret);
 	ft_exit_status_upd(ret);
 	close(pipe_fd[1]);
 	dup2(pipe_fd[0], 0);
@@ -118,10 +108,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	close(pipe_fd[0]);*/
 	dup2(save, 1);
 	if (ret == 1)
-	{
-		printf("err\n");
 		ft_print_err();
-	}
 	return (0);
 }
 
@@ -137,7 +124,6 @@ int	ft_executor(t_inst *inst)
 		ft_exec_first_tkn(inst, &tkn);
 	while (tkn)
 	{
-		printf("  %d\n", tkn->id);
 		if (ft_fork_cmd(inst, tkn))
 			return (1);
 		tkn = tkn->next;

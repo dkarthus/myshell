@@ -36,7 +36,10 @@ int	ft_single_qt(t_src *src)
 	char	*tmp;
 
 	len = 0;
-	start = ++src->pos;
+	src->pos++;
+	start = src->pos;
+	if (!(src->args[src->args_cnt]))
+		src->args[src->args_cnt] = ft_strdup("");
 	while (src->str[src->pos] != '\'')
 	{
 		if (src->str[src->pos] == 0)
@@ -44,9 +47,7 @@ int	ft_single_qt(t_src *src)
 		src->pos++;
 		len++;
 	}
-	arg = ft_substr(src->str, start, len - 1);
-	if (!(src->args[src->args_cnt]))
-		src->args[src->args_cnt] = ft_strdup("");
+	arg = ft_substr(src->str, start, len);
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!src->args[src->args_cnt])
