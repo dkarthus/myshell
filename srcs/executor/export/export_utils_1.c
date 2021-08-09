@@ -13,7 +13,7 @@ int	export_tilde_minus_slash(t_inst *inst, char *arg)
 	free(arg);
 	arg = ft_strjoin(old_pwd, "/");
 	print_export_not_a_valid_identifier(arg);
-	return (0);
+	return (g_exit_status);
 }
 
 int	export_tilde_minus_slash_s(t_inst *inst, char *arg)
@@ -31,7 +31,7 @@ int	export_tilde_minus_slash_s(t_inst *inst, char *arg)
 	free(arg);
 	arg = ft_strjoin(old_pwd, hold_str_for_me);
 	print_export_not_a_valid_identifier(arg);
-	return (0);
+	return (g_exit_status);
 }
 
 int	export_tilde_plus(t_inst *inst, char *arg)
@@ -47,7 +47,7 @@ int	export_tilde_plus(t_inst *inst, char *arg)
 	free(arg);
 	arg = ft_strdup(pwd);
 	print_export_not_a_valid_identifier(arg);
-	return (0);
+	return (g_exit_status);
 }
 
 int	export_tilde_plus_slash(t_inst *inst, char *arg)
@@ -63,7 +63,7 @@ int	export_tilde_plus_slash(t_inst *inst, char *arg)
 	free(arg);
 	arg = ft_strjoin(pwd, "/");
 	print_export_not_a_valid_identifier(arg);
-	return (0);
+	return (g_exit_status);
 }
 
 int	export_tilde_plus_slash_s(t_inst *inst, char *arg)
@@ -81,5 +81,5 @@ int	export_tilde_plus_slash_s(t_inst *inst, char *arg)
 	free(arg);
 	arg = ft_strjoin(pwd, hold_str_for_me);
 	print_export_not_a_valid_identifier(arg);
-	return (0);
+	return (g_exit_status);
 }

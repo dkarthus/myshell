@@ -34,6 +34,11 @@ int	command_executor(t_inst *inst, t_tkn *tkn)
 	check = while_for_command_executor(inst, tkn);
 	free(hold_cmd_for_me);
 	if (check != 0)
-		return (-1);
+	{
+		if (check == 1)
+			return (g_exit_status);
+		else
+			return (-1);
+	}
 	return (g_exit_status);
 }

@@ -8,11 +8,11 @@ int	no_such_file_or_directory(int error_check, const char *str)
 	if (error_check != zero)
 	{
 		printf("minishell: cd: %s: No such file or directory\n", str);
-		g_exit_status = 0;
-		return (1);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
 	g_exit_status = 0;
-	return (0);
+	return (g_exit_status);
 }
 
 static void	cd_tilde_home(void)
@@ -94,5 +94,5 @@ int	cd(t_inst *inst, char *arg)
 	else
 		cd_else(inst);
 	update_pwd(inst);
-	return (0);
+	return (g_exit_status);
 }
