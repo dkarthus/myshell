@@ -2,6 +2,14 @@
 #include "../includes/export/export.h"
 #include "../includes/parser.h"
 #include "../includes/cd/cd.h"
+#include "../../../.brew/opt/readline/include/readline/readline.h"
+#include "../../../.brew/opt/readline/include/readline/rlstdc.h"
+#include "../../../.brew/opt/readline/include/readline/rlconf.h"
+#include "../../../.brew/opt/readline/include/readline/rltypedefs.h"
+#include "../../../.brew/opt/readline/include/readline/history.h"
+#include "../../../.brew/opt/readline/include/readline/chardefs.h"
+#include "../../../.brew/opt/readline/include/readline/keymaps.h"
+#include "../../../.brew/opt/readline/include/readline/tilde.h"
 
 /*
  *
@@ -55,6 +63,7 @@ int	main(int argc, char *argv[], char *env[])
 		}
 		if (*line == 3 || *line == 28)
 		{
+			rl_replace();
 			rl_on_new_line();
 			rl_redisplay();
 		}

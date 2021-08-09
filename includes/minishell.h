@@ -6,9 +6,11 @@
 # include <unistd.h>
 /*# include "~/.brew/Cellar/8.1/readline/include/readline.h"
 # include "../../.brew/Cellar/8.1/readline/include/history.h"*/
-# include "../../../.brew/Cellar/readline/8.1/include/readline/*.h"
+/*# include "../../../.brew/Cellar/readline/8.1/include/readline/rlstdc.h"
+# include "../../../.brew/Cellar/readline/8.1/include/readline/readline.h"*/
 /*# include "../../../.brew/Cellar/readline/8.1/include/readline/readline.h"*/
-/*# include readline/history.h*/
+# include <readline/history.h>
+# include <readline/readline.h>
 # include <sys/stat.h>
 # include <signal.h>
 # include <errno.h>

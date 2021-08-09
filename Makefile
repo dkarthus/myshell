@@ -2,9 +2,9 @@ DIR_HEADERS	= ./includes/
 
 DIR_SRCS	= ./srcs/
 
-LDFLAGS		= -L~/.brew/opt/readline/lib
+LDFLAGS		= -L/Users/dkarthus/.brew/opt/readline/lib
 
-CPPFLAGS	= -I~/.brew/opt/readline/include
+CPPFLAGS	= -I/Users/dkarthus/.brew/opt/readline/include
 
 SRC			=	minishell.c \
 				parser/parser.c \
@@ -73,7 +73,7 @@ CFLAGS		= -Wall -Werror -Wextra -g
 $(NAME):	$(OBJS)
 			make -C ./libft
 			cp ./libft/libft.a .
-			$(GCC) $(CFLAGS) -L.$(LIBFT) $(LDFLAGS) -lreadline -I./$(DIR_HEADERS) $(CPPFLAGS) $(OBJS) -o $(NAME)
+			$(GCC) $(CFLAGS) -L. $(LIBFT) $(LDFLAGS) -lreadline -I./$(DIR_HEADERS) $(CPPFLAGS) $(OBJS) -o $(NAME)
 
 all:		$(NAME)
 
