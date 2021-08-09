@@ -2,9 +2,9 @@ DIR_HEADERS	= ./includes/
 
 DIR_SRCS	= ./srcs/
 
-LDFLAGS		= -L/Users/dkarthus/.brew/opt/readline/lib
+LDFLAGS		= -L/Users/wanisha/.brew/opt/readline/lib
 
-CPPFLAGS	= -I/Users/dkarthus/.brew/opt/readline/include
+CPPFLAGS	= -I/Users/wanisha/.brew/opt/readline/include
 
 SRC			=	minishell.c \
 				parser/parser.c \
