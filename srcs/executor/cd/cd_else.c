@@ -1,11 +1,9 @@
 #include "../../../includes/minishell.h"
 
-int	check_cmd(t_inst *inst, const char *str)
+int	check_cmd(t_tkn *tkn, const char *str)
 {
-	t_tkn	*tkn;
 	size_t	len;
 
-	tkn = *(inst->tkn_head);
 	len = ft_strlen(str);
 	if (ft_strlen(tkn->cmd) == len
 		&& ft_strncmp(tkn->cmd, str, len) == 0)
