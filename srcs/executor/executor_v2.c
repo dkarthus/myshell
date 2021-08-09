@@ -51,18 +51,12 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 /*
  *
  */
-static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
+static int ft_manage_fds_fst_tkn(t_tkn *tkn, int *pipe_fd)
 {
-	int	pipe_fd[2];
-	int	save;
-	printf("ERRRR\n");
-	pipe_fd[0] = -1;
-	pipe_fd[1] = -1;
-	save = dup(1);
 	if ((*tkn)->is_pipe)
 	{
-		if (pipe(pipe_fd) || dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]))
-			return (ft_closefd("FD error", pipe_fd, save));
+		if (pipe(pipe_fd) /*|| dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0])*/)
+			return (ft_closefd("FD error", pipe_fd, -1));
 	}
 	if ((*tkn)->fd_out != 1)
 	{
@@ -76,21 +70,54 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(pipe_fd[1]);
 	}
-	if (command_executor(inst, (*tkn)) == -1)
+}
+
+/*
+ *
+ */
+static void ft_print_err(void)
+{
+	char	buf[4096];
+	int		bytes;
+
+	ft_memset(buf, 0, 4096);
+	bytes = read(0, buf, 4096);
+	ft_putstr_fd(buf, 1);
+}
+/*
+ *
+ */
+static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
+{
+	int	pipe_fd[2];
+	int	save;
+	int ret;
+
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
+	save = dup(1);
+	if (ft_manage_fds_fst_tkn(*tkn, pipe_fd))
+		return (1);
+	ret = command_executor(inst, (*tkn));
+	if (ret == -1)
 	{
-		close(pipe_fd[1]);
+		close(pipe_fd[0]);
+		dup2(save, 1);
+		//close(pipe_fd[1]);
 		return (0);
 	}
 	if ((*tkn)->is_pipe)
 	{
-		close(pipe_fd[1]);
+	//	close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
 		close(pipe_fd[0]);
 	}
 	*tkn = (*tkn)->next;
-	close(pipe_fd[1]);
-	close(pipe_fd[0]);
+/*	close(pipe_fd[1]);
+	close(pipe_fd[0]);*/
 	dup2(save, 1);
+	if (ret == 1)
+		ft_print_err();
 	return (0);
 }
 
