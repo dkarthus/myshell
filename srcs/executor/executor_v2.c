@@ -94,8 +94,8 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 		close(pipe_fd[0]);
 		if (ft_manage_fds(tkn, pipe_fd))
 			return (1);
-/*		if (command_executor(inst, tkn) != -1)
-			return (1);*/
+		if (command_executor(inst, tkn) != -1)
+			return (1);
 		if (ft_process_bin(inst, tkn))
 			return (1);
 		return (0);
@@ -124,7 +124,6 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	save = dup(1);
 	if ((*tkn)->is_pipe)
 	{
-		pipe(pipe_fd);
 		if (pipe(pipe_fd) || dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]))
 		{
 			perror("Error: ");
@@ -160,7 +159,27 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	dup2(save, 1);
 	return (0);
 }
-
+/*
+ *
+ */
+static int	ft_find_builtin(char *str)
+{
+	if (!ft_strncmp(str, "cd", 3))
+		return (1);
+	if (!ft_strncmp(str, "pwd", 4))
+		return (1);
+	if (!ft_strncmp(str, "env", 4))
+		return (1);
+	if (!ft_strncmp(str, "exit", 5))
+		return (1);
+	if (!ft_strncmp(str, "echo", 5))
+		return (1);
+	if (!ft_strncmp(str, "unset", 6))
+		return (1);
+	if (!ft_strncmp(str, "export", 7))
+		return (1);
+	return (0);
+}
 /*
  *
  */
@@ -169,7 +188,8 @@ int	ft_executor(t_inst *inst)
 	t_tkn	*tkn;
 
 	tkn = *(inst->tkn_head);
-	ft_exec_first_tkn(inst, &tkn);
+	if (tkn && ft_find_builtin(tkn->cmd))
+		ft_exec_first_tkn(inst, &tkn);
 	while (tkn)
 	{
 	//	printf(" %d %d %s\n", tkn->fd_in, tkn->is_here_doc, tkn->stop_word);

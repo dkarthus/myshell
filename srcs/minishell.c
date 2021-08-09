@@ -45,10 +45,10 @@ int	main(int argc, char *argv[], char *env[])
 		return (1);
 	signal(SIGQUIT, ft_sig_handle);
 	g_exit_status = 0;
+	inst.fd_in_save = dup(0);
 	while (inst.env_head)
 	{
 		signal(SIGINT, ft_sig_handle);
-		inst.fd_in_save = dup(0);
 		line = readline("<<minishell>>");
 		if (line == NULL)
 		{
