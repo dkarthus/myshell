@@ -58,5 +58,5 @@ int	export(t_inst *inst, char **args)
 			e.i++;
 		}
 	}
-	return (0);
+	return (g_exit_status);
 }

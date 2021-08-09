@@ -80,5 +80,5 @@ int	our_exit(char **args)
 	}
 	else if (args[1] == NULL)
 		exit(0);
-	return (0);
+	return (g_exit_status);
 }
