@@ -4,8 +4,11 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+/*# include "~/.brew/Cellar/8.1/readline/include/readline.h"
+# include "../../.brew/Cellar/8.1/readline/include/history.h"*/
+# include "../../../.brew/Cellar/readline/8.1/include/readline/*.h"
+/*# include "../../../.brew/Cellar/readline/8.1/include/readline/readline.h"*/
+/*# include readline/history.h*/
 # include <sys/stat.h>
 # include <signal.h>
 # include <errno.h>

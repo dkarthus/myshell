@@ -53,23 +53,24 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
  */
 static int ft_manage_fds_fst_tkn(t_tkn *tkn, int *pipe_fd)
 {
-	if ((*tkn)->is_pipe)
+	if (tkn->is_pipe)
 	{
 		if (pipe(pipe_fd) /*|| dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0])*/)
 			return (ft_closefd("FD error", pipe_fd, -1));
 	}
-	if ((*tkn)->fd_out != 1)
+	if (tkn->fd_out != 1)
 	{
-		if (dup2((*tkn)->fd_out, 1) == -1)
+		if (dup2(tkn->fd_out, 1) == -1)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
-		close((*tkn)->fd_out);
+		close(tkn->fd_out);
 	}
-	else if ((*tkn)->next && (*tkn)->fd_out == 1)
+	else if (tkn->next && tkn->fd_out == 1)
 	{
 		if (dup2(pipe_fd[1], 1) == -1)
 			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(pipe_fd[1]);
 	}
+	return (0);
 }
 
 /*
@@ -117,7 +118,10 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	close(pipe_fd[0]);*/
 	dup2(save, 1);
 	if (ret == 1)
+	{
+		printf("err\n");
 		ft_print_err();
+	}
 	return (0);
 }
 

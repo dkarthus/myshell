@@ -5,9 +5,7 @@
  */
 void	ft_exit_status_upd(int status_ret)
 {
-	g_exit_status = status_ret / 256;
-
-/*	if (WIFEXITED(status_ret))
+	if (WIFEXITED(status_ret))
 	{
 		g_exit_status = WEXITSTATUS(status_ret);
 		return ;
@@ -22,7 +20,12 @@ void	ft_exit_status_upd(int status_ret)
 			g_exit_status = 1;
 		return ;
 	}
-	g_exit_status = 0;*/
+	if (g_exit_status > 255)
+	{
+		g_exit_status = status_ret / 256;
+		return ;
+	}
+	g_exit_status = 0;
 }
 
 /*

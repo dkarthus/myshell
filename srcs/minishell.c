@@ -53,6 +53,11 @@ int	main(int argc, char *argv[], char *env[])
 			write(1, "exit\n", 6);
 			exit(0);
 		}
+		if (*line == 3 || *line == 28)
+		{
+			rl_on_new_line();
+			rl_redisplay();
+		}
 		int i = 0;
 		while (ft_isspace(line[i]))
 			i++;

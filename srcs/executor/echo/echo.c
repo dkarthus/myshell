@@ -81,5 +81,5 @@ int	echo(char **args)
 	}
 	else if (args[1] == NULL)
 		write(1, "\n", 1);
-	return (g_exit_status);
+	return (0);
 }
