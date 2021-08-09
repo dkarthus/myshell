@@ -35,7 +35,10 @@ int	if_for_unset_1(t_inst *inst, t_u_e *u, char *arg, char *next_arg)
 	{
 		u->error_check = ft_unset_env_var(next_arg, inst->env_head);
 		if (u->error_check == 0)
+		{
 			g_exit_status = 1;
+			return (g_exit_status);
+		}
 	}
 	return (0);
 }

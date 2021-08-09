@@ -1,10 +1,7 @@
 #include "../../includes/minishell.h"
 
-static void	assign_a_value(t_inst *inst, int i)
+static void	assign_a_value(t_tkn *tkn, int i)
 {
-	t_tkn	*tkn;
-
-	tkn = *(inst->tkn_head);
 	if (tkn->cmd[i] == 'P')
 	{
 		tkn->cmd[i] = 'p';
@@ -22,11 +19,8 @@ static void	assign_a_value(t_inst *inst, int i)
 	}
 }
 
-static int	check_letter_and_length(t_inst *inst, int i)
+static int	check_letter_and_length(t_tkn *tkn, int i)
 {
-	t_tkn	*tkn;
-
-	tkn = *(inst->tkn_head);
 	if (tkn->cmd[i] == 'p' || (tkn->cmd[i] == 'P'
 			&& ft_strlen(tkn->cmd) == 3))
 		return (0);
@@ -40,24 +34,21 @@ static int	check_letter_and_length(t_inst *inst, int i)
 		return (1);
 }
 
-static int	check_the_case(t_inst *inst, int i)
+static int	check_the_case(t_tkn *tkn, int i)
 {
-	t_tkn	*tkn;
-
-	tkn = *(inst->tkn_head);
-	if (check_letter_and_length(inst, i) == 0)
+	if (check_letter_and_length(tkn, i) == 0)
 	{
-		assign_a_value(inst, i);
+		assign_a_value(tkn, i);
 		i++;
 	}
-	else if (check_letter_and_length(inst, i) == 0)
+	else if (check_letter_and_length(tkn, i) == 0)
 	{
-		assign_a_value(inst, i);
+		assign_a_value(tkn, i);
 		i++;
 	}
-	else if (check_letter_and_length(inst, i) == 0)
+	else if (check_letter_and_length(tkn, i) == 0)
 	{
-		assign_a_value(inst, i);
+		assign_a_value(tkn, i);
 		i++;
 	}
 	else
@@ -65,20 +56,18 @@ static int	check_the_case(t_inst *inst, int i)
 	return (0);
 }
 
-int	check_pwd(t_inst *inst)
+int	check_pwd(t_tkn *tkn)
 {
-	t_tkn	*tkn;
 	int		i;
 
 	i = 0;
-	tkn = *(inst->tkn_head);
 	while (tkn->cmd[i] != '\0')
 	{
-		if (check_the_case(inst, i) == 1)
+		if (check_the_case(tkn, i) == 1)
 			return (1);
 		i++;
 	}
-	if (check_cmd(inst, "pwd") == 1)
+	if (check_cmd(tkn, "pwd") == 1)
 		return (1);
 	return (0);
 }

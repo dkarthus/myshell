@@ -55,7 +55,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
 	int	pipe_fd[2];
 	int	save;
-	printf("ERRRR\n");
+
 	pipe_fd[0] = -1;
 	pipe_fd[1] = -1;
 	save = dup(1);
