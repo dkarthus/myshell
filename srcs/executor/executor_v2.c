@@ -103,12 +103,12 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 		dup2(pipe_fd[0], 0);
 		close(pipe_fd[0]);
 	}
-	*tkn = (*tkn)->next;
 /*	close(pipe_fd[1]);
 	close(pipe_fd[0]);*/
 	dup2(save, 1);
-	if (ret == 1)
+	if (ret == 1 && (*tkn)->is_pipe)
 		ft_print_err();
+	*tkn = (*tkn)->next;
 	return (0);
 }
 
