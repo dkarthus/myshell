@@ -78,6 +78,7 @@ static char	*ft_find_bin(char **path_combos)
 	}
 	if (path_combos[i] == 0)
 	{
+		g_exit_status = 127;
 		ft_free("Couldn't find bin file", path_combos);
 		return (0);
 	}

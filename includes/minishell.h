@@ -105,11 +105,14 @@ typedef struct s_instance
 
 //Built-in exec
 int		ft_here_doc(t_inst *inst, const char *stop_w, int mode);
+int		ft_find_builtin(char *str);
 
 //Binary exec
 int		ft_executor(t_inst *inst);
 void	ft_exit_status_upd(int status_ret);
 char	*ft_get_bin_path(char *name, t_env **head);
+int		ft_process_bin(t_inst *inst, t_tkn *tkn);
+int		ft_manage_fds(t_tkn *tkn, int *pipe_fd);
 int		ft_closefd(char *err, int *pipe_fd, int fd);
 
 //Env vars utils
