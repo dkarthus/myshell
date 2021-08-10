@@ -4,8 +4,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <readline/history.h>
-# include <readline/readline.h>
+# include "history.h"
+# include "readline.h"
 # include <sys/stat.h>
 # include <signal.h>
 # include <errno.h>

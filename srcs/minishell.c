@@ -30,11 +30,41 @@ static int	ft_update_shell_lvl(t_env **head)
 /*
  *
  */
+static void ft_main_loop(t_inst *inst)
+{
+	char	*line;
+	t_src	src;
+	int i;
+
+	while (21)
+	{
+		signal(SIGINT, ft_sig_handle);
+		line = readline("<<minishell>>");
+		if (line == NULL)
+		{
+			write(1, "exit\n", 6);
+			exit(0);
+		}
+		i = 0;
+		while (ft_isspace(line[i]))
+			i++;
+		add_history(line);
+		if (ft_parse(&line[i], inst, &src))
+			continue ;
+		if (ft_tokenize(&src, inst))
+			continue ;
+		ft_executor(inst);
+		free (line);
+		dup2(inst->fd_in_save, 0);
+	}
+}
+
+/*
+ *
+ */
 int	main(int argc, char *argv[], char *env[])
 {
 	t_inst	inst;
-	t_src	src;
-	char	*line;
 
 	(void)argv;
 	if (argc != 1 || !env || !env[0])
@@ -45,7 +75,8 @@ int	main(int argc, char *argv[], char *env[])
 	signal(SIGQUIT, ft_sig_handle);
 	g_exit_status = 0;
 	inst.fd_in_save = dup(0);
-	while (inst.env_head)
+	ft_main_loop(&inst);
+/*	while (inst.env_head)
 	{
 		signal(SIGINT, ft_sig_handle);
 		line = readline("<<minishell>>");
@@ -65,5 +96,6 @@ int	main(int argc, char *argv[], char *env[])
 		ft_executor(&inst);
 		free (line);
 		dup2(inst.fd_in_save, 0);
-	}
+	}*/
+	return (0);
 }

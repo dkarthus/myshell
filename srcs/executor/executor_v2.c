@@ -10,7 +10,7 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 	int	pipe_fd[2];
 
 	pipe(pipe_fd);
-	signal(SIGINT, ft_sig_handle_ch);
+
 	if (tkn->is_here_doc && tkn->stop_word)
 	{
 		if (ft_here_doc(inst, tkn->stop_word, tkn->fd_in))
@@ -21,6 +21,7 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 		return (1);
 	if (pid == 0)
 	{
+		signal(SIGINT, ft_sig_handle_ch);
 		close(pipe_fd[0]);
 		if (ft_manage_fds(tkn, pipe_fd))
 			exit (1);

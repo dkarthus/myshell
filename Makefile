@@ -2,9 +2,9 @@ DIR_HEADERS	= ./includes/
 
 DIR_SRCS	= ./srcs/
 
-LDFLAGS		= -L/Users/wanisha/.brew/opt/readline/lib
+LDFLAGS		= -L.
 
-CPPFLAGS	= -I/Users/wanisha/.brew/opt/readline/include
+CPPFLAGS	= -I./includes/
 
 SRC			=	minishell.c \
 				parser/parser.c \
@@ -68,12 +68,12 @@ RM			= rm -f
 CFLAGS		= -Wall -Werror -Wextra -g
 
 %.o:%.c
-			$(GCC) $(CFLAGS) -I$(DIR_HEADERS) -c $< -o $@
+			$(GCC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 $(NAME):	$(OBJS)
 			make -C ./libft
 			cp ./libft/libft.a .
-			$(GCC) $(CFLAGS) -L. $(LIBFT) $(LDFLAGS) -lreadline -I./$(DIR_HEADERS) $(CPPFLAGS) $(OBJS) -o $(NAME)
+			$(GCC) $(CFLAGS) -lreadline -lhistory -ltermcap $(LDFLAGS) $(CPPFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 all:		$(NAME)
 

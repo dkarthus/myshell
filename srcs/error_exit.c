@@ -23,3 +23,12 @@ int	error_exit(int err_code)
 		str_error("Malloc has failed\n");
 	return (g_exit_status);
 }
+/*
+*//*
+ *
+ *//*
+void	ft_frees(t_inst *inst, int mode)
+{
+
+}*/
+
