@@ -7,10 +7,21 @@
  * @param c symbol to check;
  * @return 1 if true, 0 if false
  */
-int	ft_check_symbol(char c)
+int	ft_check_symbol(char c, int mode)
 {
-	return (c == ' ' || c == '\'' || c == '\"' || c == '$' || c == '<' || c
+	if (mode == 1)
+	{
+		return (c == ' ' || c == '\'' || c == '\"' || c == '$' || c == '<' || c
 		=='>' || c == '|' || c == '\0');
+	}
+	if (mode == 2)
+	{
+		return (ft_isalpha(c) || c == 95);
+	}
+	else
+	{
+		return (ft_isalpha(c) || ft_isalnum(c) || c == 95);
+	}
 }
 
 /*
@@ -118,7 +129,7 @@ int	ft_dolla(t_src *src, t_env **head, int *upstart)
 		return (ft_exit_status(src, upstart));
 	start = src->pos;
 	len = 0;
-	while (!(ft_check_symbol(src->str[src->pos])))
+	while (ft_check_symbol(src->str[src->pos], len + 2))
 	{
 		src->pos++;
 		len++;

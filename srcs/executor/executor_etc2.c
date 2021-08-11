@@ -26,6 +26,8 @@ static int	ft_daughter(t_tkn *tkn, t_inst *inst, int *pipe_fd)
 {
 	signal(SIGQUIT, ft_sig_handle);
 	close(pipe_fd[0]);
+	if (tkn->id == 0 && !tkn->is_here_doc)
+		dup2(inst->fd_in_save, 0);
 	if (ft_manage_fds(tkn, pipe_fd))
 		exit (1);
 	if (command_executor(inst, tkn) != -1)

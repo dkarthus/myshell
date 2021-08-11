@@ -40,7 +40,7 @@ int	ft_blank_check_file(t_src *src, int *arg_iter)
 	if (src->args[*arg_iter][i] == 0)
 	{
 		(*arg_iter)++;
-		if (ft_ch_symbl(src->args[*arg_iter][0]))
+		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
 			return (ft_err_parser("Syntax error", src, NULL, NULL));
 		if (ft_try_exist(src->args[*arg_iter], i, src))
 			return (1);

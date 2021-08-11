@@ -33,8 +33,6 @@ static void	ft_main_loop(t_inst *inst)
 {
 	char	*line;
 	t_src	src;
-	t_tkn *tkn;
-	int i;
 
 	while (inst->env_head)
 	{
@@ -48,18 +46,6 @@ static void	ft_main_loop(t_inst *inst)
 			continue ;
 		if (ft_tokenize(&src, inst))
 			continue ;
-		tkn = *(inst->tkn_head);
-		while(tkn)
-		{
-			printf("cmd %s\n", tkn->cmd);
-			printf("fd_in %d\n", tkn->fd_in);
-			printf("fd_out %d\n", tkn->fd_out);
-			printf("id %d\n", tkn->id);
-			i = 0;
-			while(tkn->args[i])
-				printf("args %s\n", tkn->args[i++]);
-			tkn = tkn->next;
-		}
 		ft_executor(inst);
 		dup2(inst->fd_in_save, 0);
 	}

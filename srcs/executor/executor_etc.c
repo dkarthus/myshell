@@ -68,7 +68,7 @@ int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 	}
 	if (execve(path, tkn->args, arg_env) == -1)
 	{
-		printf("Couldn't start %s ;", path);
+		printf("Couldn't find bin : %s\n", path);
 		exit (1);
 	}
 	exit (0);

@@ -107,10 +107,7 @@ char	*ft_get_bin_path(char *name, t_env **head)
 
 	path = ft_get_env_value("PATH", head);
 	if (!path || !*path)
-	{
-		printf("Please set PATH variable\n");
-		return (0);
-	}
+		return (name);
 	split_path = ft_split(path, ':');
 	if (!split_path)
 	{

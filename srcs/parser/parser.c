@@ -37,7 +37,7 @@ static int	ft_add_arg(t_src *src)
 		src->args[src->args_cnt] = ft_strdup("");
 	start = src->pos;
 	len = 0;
-	while (!ft_check_symbol(src->str[src->pos]))
+	while (!ft_check_symbol(src->str[src->pos] , 1))
 	{
 		len++;
 		src->pos++;
@@ -82,7 +82,7 @@ int	ft_parse(char *line, t_inst *inst, t_src *src)
 			ret = ft_redir_out(src);
 		if (line[src->pos] == '<' && !ret)
 			ret = ft_redir_in(src);
-		if (!ft_check_symbol(line[src->pos]) && !ret)
+		if (!ft_check_symbol(line[src->pos], 1) && !ret)
 			ret = ft_add_arg(src);
 		if (!ret)
 			skip_wspace(src);
