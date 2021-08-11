@@ -80,6 +80,7 @@ static int	ft_here_doc_loop(int fd_out, const char *stop_word)
 	if (ret)
 		ft_putstr_fd(ret, fd_out);
 	close(fd_out);
+	ft_fr_ret(NULL, ret, NULL, NULL);
 	return (0);
 }
 
