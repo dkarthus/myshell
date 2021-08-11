@@ -142,6 +142,6 @@ int	ft_tokenize(t_src *src, t_inst *inst)
 	i = 0;
 	while (src->args[i])
 		printf("tknzr src-args %s\n", src->args[i++]);
-	//ft_err_parser(NULL, src, NULL, NULL);
+	ft_err_parser(NULL, src, NULL, NULL);
 	return (0);
 }
