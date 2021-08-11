@@ -3,7 +3,7 @@
 /*
  *
  */
-static int ft_manage_fds_fst_tkn(t_tkn *tkn, int *pipe_fd)
+static int	ft_manage_fds_fst_tkn(t_tkn *tkn, int *pipe_fd)
 {
 	if (tkn->is_pipe)
 	{
@@ -28,7 +28,7 @@ static int ft_manage_fds_fst_tkn(t_tkn *tkn, int *pipe_fd)
 /*
  *
  */
-static void ft_print_err(void)
+static void	ft_print_err(void)
 {
 	char	buf[4096];
 	int		bytes;
@@ -37,6 +37,30 @@ static void ft_print_err(void)
 	bytes = read(0, buf, 4096);
 	ft_putstr_fd(buf, 1);
 }
+
+/*
+ *
+ */
+static int	ft_exec_fst_util(t_tkn *tkn, int ret, int *pipe_fd, int save)
+{
+	if (ret == -1)
+	{
+		if (close(pipe_fd[0]) == -1 || dup2(save, 1) == -1)
+			return (1);
+		return (0);
+	}
+	if (tkn->is_pipe)
+	{
+		if (dup2(pipe_fd[0], 0) == -1 || close(pipe_fd[0]) == -1)
+			return (1);
+	}
+	if (dup2(save, 1) == -1)
+		return (1);
+	if (ret == 1 && tkn->is_pipe)
+		ft_print_err();
+	return (0);
+}
+
 /*
  *
  */
@@ -44,7 +68,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
 	int	pipe_fd[2];
 	int	save;
-	int ret;
+	int	ret;
 
 	pipe_fd[0] = -1;
 	pipe_fd[1] = -1;
@@ -52,20 +76,8 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 	if (ft_manage_fds_fst_tkn(*tkn, pipe_fd))
 		return (1);
 	ret = command_executor(inst, (*tkn));
-	if (ret == -1)
-	{
-		close(pipe_fd[0]);
-		dup2(save, 1);
-		return (0);
-	}
-	if ((*tkn)->is_pipe)
-	{
-		dup2(pipe_fd[0], 0);
-		close(pipe_fd[0]);
-	}
-	dup2(save, 1);
-	if (ret == 1 && (*tkn)->is_pipe)
-		ft_print_err();
+	if (ft_exec_fst_util(*tkn, ret, pipe_fd, save))
+		return (1);
 	*tkn = (*tkn)->next;
 	return (0);
 }
@@ -95,6 +107,6 @@ int	ft_executor(t_inst *inst)
 		}
 		tkn = tkn->next;
 	}
-	ft_frees(inst, 2 , NULL);
+	ft_frees(inst, 2, NULL);
 	return (0);
 }

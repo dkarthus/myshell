@@ -73,8 +73,6 @@ void	ft_frees(t_inst *inst, int mode, char *err)
 	{
 		if (inst->tkn_head)
 			ft_free_tkn(inst->tkn_head);
-		if (err)
-			ft_putstr_fd(err, 1);
 		return ;
 	}
 	if (mode == 3)

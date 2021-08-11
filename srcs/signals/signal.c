@@ -13,6 +13,6 @@ void	ft_sig_handle(int sig)
 	if (sig == SIGQUIT)
 	{
 		write(1, "\b\b  \b\b", 6);
-		return;
+		return ;
 	}
 }
