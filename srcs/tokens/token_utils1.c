@@ -16,7 +16,8 @@ static int	ft_try_exist(char *str, int mode, t_src *src)
 		printf("str %s\n", str);
 		fd = open(str, O_RDONLY);
 		if (fd == -1)
-			return (ft_err_parser("Couldn't open file", src, NULL, NULL));
+			return (ft_err_parser("\033[90mCouldn't "
+					"open file\033[0m", src, NULL, NULL));
 		close(fd);
 	}
 	else
@@ -41,14 +42,16 @@ int	ft_blank_check_file(t_src *src, int *arg_iter)
 	{
 		(*arg_iter)++;
 		if (ft_ch_symbl(src->args[*arg_iter][0]))
-			return (ft_err_parser("Syntax error", src, NULL, NULL));
+			return (ft_err_parser("\033[90mSyntax "
+					 "error\033[0m", src, NULL, NULL));
 		if (ft_try_exist(src->args[*arg_iter], i, src))
 			return (1);
 	}
 	else
 	{
 		if (ft_ch_symbl(src->args[*arg_iter][i]))
-			return (ft_err_parser("Syntax error", src, NULL, NULL));
+			return (ft_err_parser("\033[90mSyntax "
+					"error\033[0m", src, NULL, NULL));
 		if (ft_try_exist(&src->args[*arg_iter][i], i, src))
 			return (1);
 	}

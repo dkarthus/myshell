@@ -6,9 +6,11 @@
 int	ft_proc_pipe(t_src *src)
 {
 	if (src->args_cnt == 0 && src->args[src->args_cnt] == NULL)
-		return (ft_err_parser("minishell: Syntax error", src, NULL, NULL));
+		return (ft_err_parser("\033[90mminishell: "
+				  "Syntax error\033[0m", src, NULL, NULL));
 	if (src->str[src->pos + 1] == '|')
-		return (ft_err_parser("Sorry, cant interpret ||", src, NULL, NULL));
+		return (ft_err_parser("\033[90mSorry, "
+				  "cant interpret ||\033[0m", src, NULL, NULL));
 	if (src->args[src->args_cnt] == 0)
 		src->args[src->args_cnt] = ft_strdup("|");
 	else
@@ -17,7 +19,8 @@ int	ft_proc_pipe(t_src *src)
 		src->args[src->args_cnt] = ft_strdup("|");
 	}
 	if (!(src->args[src->args_cnt]))
-		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
+		return (ft_err_parser("\033[90mMalloc "
+				"error in parser\033[0m", src, NULL, NULL));
 	src->pos++;
 	return (0);
 }
@@ -69,7 +72,8 @@ static int	ft_append_arg(t_src *src, int *start, int *len)
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))
-		return (ft_err_parser("Malloc error in parser", src, arg, tmp));
+		return (ft_err_parser("\033[90mMalloc error "
+				"in parser\033[0m", src, arg, tmp));
 	*len = 0;
 	free (arg);
 	free (tmp);

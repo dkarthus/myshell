@@ -1,106 +1,38 @@
 #include "../../../includes/minishell.h"
 
-static int	if_for_check_key(char *str)
+void	print_export_not_a_valid_identifier(char *arg)
 {
-	if (str[0] == '\0')
-		return (1);
-	else if (str[0] == '_' && str[1] == '\0')
-		return (2);
-	else if (str[0] == '_' && str[1] == '=' && str[2] == '\0')
-		return (2);
-	else if (str[0] == '~' && str[1] == '\0')
-		return (3);
-	else if (str[0] == '~' && str[1] == '/' && str[2] == '\0')
-		return (4);
-	else if (str[0] == '~' && str[1] == '/' && str[2] != '\0')
-		return (5);
-	else if (str[0] == '~' && str[1] == '-' && str[2] == '\0')
-		return (6);
-	else if (str[0] == '~' && str[1] == '-' && str[2] == '/' && str[3] == '\0')
-		return (7);
-	else if (str[0] == '~' && str[1] == '-' && str[2] == '/' && str[3] != '\0')
-		return (8);
-	else if (str[0] == '~' && str[1] == '+' && str[2] == '\0')
-		return (9);
-	else if (str[0] == '~' && str[1] == '+' && str[2] == '/' && str[3] == '\0')
-		return (10);
-	return (-1);
+	printf("\033[90mminishell: export: `%s': "
+		   "not a valid identifier\033[0m\n", arg);
+	g_exit_status = 1;
 }
 
-static int	if_for_check_key_1(char *str)
+void	export_semicolon_equal(t_inst *inst, t_u_e *e)
 {
-	if (str[0] == 126 && str[1] == '+' && str[2] == '/' && str[3] != '\0')
-		return (11);
-	else if (str[0] == '#')
-		return (12);
-	else if (str[0] == ';' && str[1] == '\0')
-		return (13);
-	else if (str[0] == ';' && str[1] != '\0')
-		return (14);
-	else if (str[0] == '=' && str[1] == '\0')
-		return (15);
-	else if (str[0] == '=' && str[1] != '\0')
-		return (15);
-	else if (str[0] == '\0')
-		return (1);
-	return (-1);
+	print_export(inst);
+	printf("\033[90mminishell: =%s: command not found\033[0m\n", e->value);
 }
 
-static int	if_for_check_value(char *str)
+void	export_semicolon(t_inst *inst, char *arg)
 {
-	int	i;
+	char	*str;
 
-	i = 0;
-	while (str[i] != '\0')
+	print_export(inst);
+	str = ft_substr(arg, 1, ft_strlen(arg) - 1);
+	if (str == NULL)
+		error_exit(-6);
+	printf("\033[90mminishell: %s: command not found\033[0m\n", str);
+	if (str != NULL)
+		free(str);
+}
+
+unsigned int	export_arg(t_inst *inst, t_u_e *e, char *arg)
+{
+	e->error_check = ft_add_env_elem(arg, inst->env_head);
+	if (e->error_check == 0)
 	{
-		if (ft_isprint(str[i]) != 0 && str[i] != 59)
-			i++;
-		else
-			return (0);
+		g_exit_status = 1;
+		return (g_exit_status);
 	}
-	return (-1);
-}
-
-static int	else_for_key(char *key)
-{
-	int	ret;
-
-	if (ft_strchr(key, '=') == NULL)
-	{
-		ret = if_for_check_key(key);
-		if (ret != -1)
-			return (ret);
-		ret = if_for_check_key_1(key);
-		if (ret != -1)
-			return (ret);
-		ret = if_for_check_key_2(key);
-		if (ret == 0)
-			return (ret);
-	}
-	return (-42);
-}
-
-unsigned int	key(t_u_e *e, char *key)
-{
-	int	ret;
-
-	if (ft_strchr(key, '=') != NULL)
-	{
-		ret = if_for_check_key(e->key);
-		if (ret != -1)
-			return (ret);
-		ret = if_for_check_key_1(e->key);
-		if (ret != -1)
-			return (ret);
-		ret = if_for_check_key_2(e->key);
-		if (ret == 0)
-			return (ret);
-		ret = if_for_check_value(e->value);
-		if (ret == 0)
-			return (ret);
-	}
-	ret = else_for_key(key);
-	if (ret != -42)
-		return (ret);
-	return (1);
+	return (0);
 }

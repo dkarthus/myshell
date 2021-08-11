@@ -1,0 +1,19 @@
+cat
+a
+$"s$d"
+echo $"s$d"
+echo $"sd"
+ps
+cat | cat |cat -e
+export a=b=c
+env
+export a=1 b=2 c=3
+env
+unset a c
+env
+export
+expecho $^
+export $^
+echo $^
+echo $a^
+echo $PATH^
