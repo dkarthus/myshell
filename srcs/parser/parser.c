@@ -16,7 +16,7 @@ static int	ft_init_src(t_src *src, char *line)
 	src->args = ft_calloc(255, sizeof(char *));
 	if (!(src->args))
 		return (0);
-	while(ft_isspace(src->str[src->pos]))
+	while (ft_isspace(src->str[src->pos]))
 		src->pos++;
 	return (1);
 }
@@ -37,7 +37,7 @@ static int	ft_add_arg(t_src *src)
 		src->args[src->args_cnt] = ft_strdup("");
 	start = src->pos;
 	len = 0;
-	while (!ft_check_symbol(src->str[src->pos] , 1))
+	while (!ft_check_symbol(src->str[src->pos], 1))
 	{
 		len++;
 		src->pos++;
