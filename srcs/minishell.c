@@ -41,7 +41,7 @@ static void	ft_main_loop(t_inst *inst)
 		signal(SIGQUIT, SIG_IGN);
 		line = readline("<<minishell>>");
 		if (line == NULL)
-			ft_frees(inst, 1, "exit\n");
+			ft_frees(inst, 3, "exit\n");
 		i = 0;
 		while (ft_isspace(line[i]))
 			i++;

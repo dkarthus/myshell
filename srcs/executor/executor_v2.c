@@ -80,11 +80,11 @@ int	ft_executor(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	if (tkn && ft_find_builtin(tkn->cmd))
 	{
-		ft_exec_first_tkn(inst, &tkn);
-/*		{
+		if (ft_exec_first_tkn(inst, &tkn))
+		{
 			ft_frees(inst, 2, NULL);
 			return (1);
-		}*/
+		}
 	}
 	while (tkn)
 	{
@@ -95,5 +95,6 @@ int	ft_executor(t_inst *inst)
 		}
 		tkn = tkn->next;
 	}
+	ft_frees(inst, 2 , NULL);
 	return (0);
 }

@@ -19,10 +19,12 @@ int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
 		return (ft_err_parser("Syntax error", src, NULL, NULL));
 	tkn->is_pipe = 1;
 	if (tmp[1] != 0)
+	{
 		src->args[*i] = ft_strdup(&src->args[*i][1]);
+		free(tmp);
+	}
 	else
 		(*i)++;
-	free(tmp);
 	tmp = NULL;
 	return (0);
 }

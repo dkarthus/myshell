@@ -77,4 +77,12 @@ void	ft_frees(t_inst *inst, int mode, char *err)
 			ft_putstr_fd(err, 1);
 		return ;
 	}
+	if (mode == 3)
+	{
+		if (inst->env_head)
+			ft_free_env(inst->env_head);
+		if (err)
+			ft_putstr_fd(err, 1);
+		exit (0);
+	}
 }
