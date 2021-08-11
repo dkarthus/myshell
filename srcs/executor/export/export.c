@@ -58,5 +58,6 @@ int	export(t_inst *inst, char **args)
 			e.i++;
 		}
 	}
+	free_key_and_value(&e);
 	return (g_exit_status);
 }

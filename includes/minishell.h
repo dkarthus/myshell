@@ -101,7 +101,7 @@ typedef struct s_instance
 	t_tkn	**tkn_head;
 	int		pipes_cnt;
 	int		fd_in_save;
-	int 	is_forked;
+	int		is_forked;
 }				t_inst;
 typedef struct s_source		t_src;
 

@@ -10,9 +10,16 @@ int	export_tilde_minus_slash(t_inst *inst, char *arg)
 		print_export_not_a_valid_identifier(arg);
 		return (g_exit_status);
 	}
-	free(arg);
+	if (arg != NULL)
+		free(arg);
 	arg = ft_strjoin(old_pwd, "/");
-	print_export_not_a_valid_identifier(arg);
+	if (arg == NULL)
+		error_exit(-6);
+	else
+	{
+		print_export_not_a_valid_identifier(arg);
+		free(arg);
+	}
 	return (g_exit_status);
 }
 
@@ -28,9 +35,18 @@ int	export_tilde_minus_slash_s(t_inst *inst, char *arg)
 		return (g_exit_status);
 	}
 	hold_str_for_me = ft_substr(arg, 2, ft_strlen(arg) - 1);
-	free(arg);
+	if (hold_str_for_me == NULL)
+		error_exit(-6);
+	if (arg != NULL)
+		free(arg);
 	arg = ft_strjoin(old_pwd, hold_str_for_me);
-	print_export_not_a_valid_identifier(arg);
+	if (arg == NULL)
+		error_exit(-6);
+	{
+		print_export_not_a_valid_identifier(arg);
+		free(arg);
+		free(hold_str_for_me);
+	}
 	return (g_exit_status);
 }
 
@@ -44,9 +60,15 @@ int	export_tilde_plus(t_inst *inst, char *arg)
 		print_export_not_a_valid_identifier(arg);
 		return (g_exit_status);
 	}
-	free(arg);
+	if (arg != NULL)
+		free(arg);
 	arg = ft_strdup(pwd);
-	print_export_not_a_valid_identifier(arg);
+	if (arg == NULL)
+		error_exit(-6);
+	{
+		print_export_not_a_valid_identifier(arg);
+		free(arg);
+	}
 	return (g_exit_status);
 }
 
@@ -60,9 +82,15 @@ int	export_tilde_plus_slash(t_inst *inst, char *arg)
 		print_export_not_a_valid_identifier(arg);
 		return (g_exit_status);
 	}
-	free(arg);
+	if (arg != NULL)
+		free(arg);
 	arg = ft_strjoin(pwd, "/");
-	print_export_not_a_valid_identifier(arg);
+	if (arg == NULL)
+		error_exit(-6);
+	{
+		print_export_not_a_valid_identifier(arg);
+		free(arg);
+	}
 	return (g_exit_status);
 }
 
@@ -78,8 +106,17 @@ int	export_tilde_plus_slash_s(t_inst *inst, char *arg)
 		return (g_exit_status);
 	}
 	hold_str_for_me = ft_substr(arg, 2, ft_strlen(arg) - 1);
-	free(arg);
+	if (hold_str_for_me == NULL)
+		error_exit(-6);
+	if (arg != NULL)
+		free(arg);
 	arg = ft_strjoin(pwd, hold_str_for_me);
-	print_export_not_a_valid_identifier(arg);
+	if (arg == NULL)
+		error_exit(-6);
+	{
+		print_export_not_a_valid_identifier(arg);
+		free(arg);
+		free(hold_str_for_me);
+	}
 	return (g_exit_status);
 }
