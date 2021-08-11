@@ -101,7 +101,9 @@ typedef struct s_instance
 	t_tkn	**tkn_head;
 	int		pipes_cnt;
 	int		fd_in_save;
+	int 	is_forked;
 }				t_inst;
+typedef struct s_source		t_src;
 
 //Built-in exec
 int		ft_here_doc(t_inst *inst, const char *stop_w, int mode);
@@ -109,6 +111,7 @@ int		ft_find_builtin(char *str);
 
 //Binary exec
 int		ft_executor(t_inst *inst);
+int		ft_fork_cmd(t_inst *inst, t_tkn *tkn);
 void	ft_exit_status_upd(int status_ret);
 char	*ft_get_bin_path(char *name, t_env **head);
 int		ft_process_bin(t_inst *inst, t_tkn *tkn);
@@ -124,5 +127,8 @@ void	ft_free_env(t_env **head);
 //Signals
 void	ft_sig_handle(int sig);
 void	ft_sig_handle_ch(int sig);
+
+//Free&Exit
+void	ft_frees(t_inst *inst, int mode, char *err);
 
 #endif

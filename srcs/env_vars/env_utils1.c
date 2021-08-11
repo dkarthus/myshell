@@ -61,12 +61,6 @@ static void	ft_insert_elem(t_env **head, t_env *elem)
 	t_env	*i;
 
 	i = *head;
-/*	if (ft_strncmp(i->key, elem->key, ft_strlen(i->key) + 1) > 0)
-	{
-		*head = elem;
-		elem->next = i;
-		return ;
-	}*/
 	while (i->next && ft_strncmp(i->next->key, elem->key, ft_strlen
 			(i->next->key) + 1) != 0)
 		i = i->next;
@@ -78,13 +72,6 @@ static void	ft_insert_elem(t_env **head, t_env *elem)
 		i->next = elem;
 		return ;
 	}
-/*	else if (ft_strncmp(i->key, elem->key, ft_strlen(i->key + 1)) == 0)
-		ft_update_elem(i, elem);
-	else
-	{
-		elem->next = i->next;
-		i->next = elem;
-	}*/
 }
 
 /*

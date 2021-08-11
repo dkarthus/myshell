@@ -45,8 +45,11 @@ static t_tkn	*ft_fill_token(t_src *src, int *arg_iter, int tkn_id)
 		if (!ft_fill_util(src, arg_iter, new))
 			return (0);
 	}
-	if (ft_is_pipe_tkn(new, src, arg_iter))
-		return (0);
+	if (src->args[*arg_iter] && src->args[*arg_iter][0] == '|')
+	{
+		if (ft_is_pipe_tkn(new, src, arg_iter))
+			return (0);
+	}
 	return (new);
 }
 
@@ -85,6 +88,9 @@ int	ft_token_cmd(t_src *src, t_tkn **head, int *arg_iter, int tkn_id)
  */
 int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 {
+	int i = 0;
+	while (src->args[i])
+		printf("creat_tkn %s\n", src->args[i++]);
 	if (*tkn_cnt == 0 && src->args[0][0] == '|')
 		return (ft_err_parser("Syntax error near '|' token", src, NULL, NULL));
 	if (src->args[*arg_iter][0] == '>' && *tkn_cnt == 0)
@@ -98,6 +104,9 @@ int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 		(*tkn_cnt)++;
 		return (0);
 	}
+	i = 0;
+	while (src->args[i])
+		printf("creat_tkn %s\n", src->args[i++]);
 	return (0);
 }
 
@@ -115,13 +124,24 @@ int	ft_tokenize(t_src *src, t_inst *inst)
 
 	args_cnt = 0;
 	tkn_cnt = 0;
+	int i = 0;
+	while (src->args[i])
+		printf("bef tknzr src-args %s\n", src->args[i++]);
 	inst->tkn_head = ft_calloc(sizeof(t_tkn *), 1);
 	if (!inst->tkn_head)
 		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
 	while (src->args[args_cnt] && args_cnt <= src->args_cnt)
 	{
+		printf("TOKEN CREATE\n");
 		if (ft_create_token(src, inst->tkn_head, &args_cnt, &tkn_cnt))
+		{
+			ft_frees(inst, 2, NULL);
 			return (1);
+		}
 	}
+	i = 0;
+	while (src->args[i])
+		printf("tknzr src-args %s\n", src->args[i++]);
+	//ft_err_parser(NULL, src, NULL, NULL);
 	return (0);
 }

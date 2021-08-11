@@ -23,12 +23,58 @@ int	error_exit(int err_code)
 		str_error("Malloc has failed\n");
 	return (g_exit_status);
 }
+
 /*
-*//*
  *
- *//*
-void	ft_frees(t_inst *inst, int mode)
+ */
+static void	ft_free_tkn(t_tkn **head)
 {
+	t_tkn	*tmp;
+	t_tkn	*tmp1;
+	int		i;
 
-}*/
+	tmp = *head;
+	while (tmp)
+	{
+		free(tmp->cmd);
+		free(tmp->stop_word);
+		tmp->cmd = NULL;
+		tmp->stop_word = NULL;
+		i = 0;
+		while (tmp->args[i])
+			free((tmp->args[i++]));
+		free(tmp->args);
+		tmp->args = NULL;
+		tmp1 = tmp;
+		tmp = tmp->next;
+		free(tmp1);
+		tmp1 = NULL;
+	}
+	free(head);
+	head = NULL;
+}
 
+/*
+ *
+ */
+void	ft_frees(t_inst *inst, int mode, char *err)
+{
+	if (mode == 1)
+	{
+		if (inst->env_head)
+			ft_free_env(inst->env_head);
+		if (inst->tkn_head)
+			ft_free_tkn(inst->tkn_head);
+		if (err)
+			ft_putstr_fd(err, 1);
+		exit (0);
+	}
+	if (mode == 2)
+	{
+		if (inst->tkn_head)
+			ft_free_tkn(inst->tkn_head);
+		if (err)
+			ft_putstr_fd(err, 1);
+		return ;
+	}
+}

@@ -3,7 +3,6 @@
 #include "../includes/parser.h"
 #include "../includes/cd/cd.h"
 
-
 /*
  *
  */
@@ -30,21 +29,19 @@ static int	ft_update_shell_lvl(t_env **head)
 /*
  *
  */
-static void ft_main_loop(t_inst *inst)
+static void	ft_main_loop(t_inst *inst)
 {
 	char	*line;
 	t_src	src;
-	int i;
+	int		i;
 
 	while (21)
 	{
 		signal(SIGINT, ft_sig_handle);
+		signal(SIGQUIT, SIG_IGN);
 		line = readline("<<minishell>>");
 		if (line == NULL)
-		{
-			write(1, "exit\n", 6);
-			exit(0);
-		}
+			ft_frees(inst, 1, "exit\n");
 		i = 0;
 		while (ft_isspace(line[i]))
 			i++;
@@ -54,7 +51,6 @@ static void ft_main_loop(t_inst *inst)
 		if (ft_tokenize(&src, inst))
 			continue ;
 		ft_executor(inst);
-		free (line);
 		dup2(inst->fd_in_save, 0);
 	}
 }
@@ -72,30 +68,8 @@ int	main(int argc, char *argv[], char *env[])
 	inst.env_head = ft_parse_env(env);
 	if (!(inst.env_head) || ft_update_shell_lvl(inst.env_head))
 		return (1);
-	signal(SIGQUIT, ft_sig_handle);
 	g_exit_status = 0;
 	inst.fd_in_save = dup(0);
 	ft_main_loop(&inst);
-/*	while (inst.env_head)
-	{
-		signal(SIGINT, ft_sig_handle);
-		line = readline("<<minishell>>");
-		if (line == NULL)
-		{
-			write(1, "exit\n", 6);
-			exit(0);
-		}
-		int i = 0;
-		while (ft_isspace(line[i]))
-			i++;
-		add_history(line);
-		if (ft_parse(&line[i], &inst, &src))
-			continue ;
-		if (ft_tokenize(&src, &inst))
-			continue ;
-		ft_executor(&inst);
-		free (line);
-		dup2(inst.fd_in_save, 0);
-	}*/
 	return (0);
 }

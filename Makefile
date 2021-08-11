@@ -1,10 +1,8 @@
-DIR_HEADERS	= ./includes/
+DIR_HEADERS	= -I./includes/
 
 DIR_SRCS	= ./srcs/
 
 LDFLAGS		= -L.
-
-CPPFLAGS	= -I./includes/
 
 SRC			=	minishell.c \
 				parser/parser.c \
@@ -47,6 +45,7 @@ SRC			=	minishell.c \
 				executor/command_executor/command_executor_2.c \
 				executor/executor_v2.c \
 				executor/executor_etc.c \
+				executor/executor_etc2.c \
 				executor/here_doc.c \
 				executor/echo/echo.c \
 				executor/exit/exit.c \
@@ -68,12 +67,12 @@ RM			= rm -f
 CFLAGS		= -Wall -Werror -Wextra -g
 
 %.o:%.c
-			$(GCC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+			$(GCC) $(CFLAGS) $(DIR_HEADERS) -c $< -o $@
 
 $(NAME):	$(OBJS)
 			make -C ./libft
 			cp ./libft/libft.a .
-			$(GCC) $(CFLAGS) -lreadline -lhistory -ltermcap $(LDFLAGS) $(CPPFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+			$(GCC) $(CFLAGS) -lreadline -lhistory -ltermcap $(LDFLAGS) $(DIR_HEADERS) $(OBJS) $(LIBFT) -o $(NAME)
 
 all:		$(NAME)
 
