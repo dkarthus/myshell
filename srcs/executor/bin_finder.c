@@ -48,13 +48,13 @@ char	**ft_combine(char *name, char **spl_path)
 		spl_path[i] = ft_strjoin(spl_path[i], name);
 		free(tmp);
 		if (!spl_path[i])
-			return (ft_free("Malloc error", spl_path));
+			return (ft_free("\033[90mMalloc error\033[0m", spl_path));
 		i++;
 	}
 	free(spl_path[i - 1]);
 	spl_path[i - 1] = ft_strdup(name);
 	if (!spl_path[i - 1])
-		return (ft_free("Malloc error", spl_path));
+		return (ft_free("\033[90mMalloc error\033[0m", spl_path));
 	return (spl_path);
 }
 
@@ -79,13 +79,13 @@ static char	*ft_find_bin(char **path_combos)
 	if (path_combos[i] == 0)
 	{
 		g_exit_status = 127;
-		ft_free("Couldn't find bin file", path_combos);
+		ft_free("\033[90mminishell: command not found\033[0m", path_combos);
 		return (0);
 	}
 	path = ft_strdup(path_combos[i]);
 	if (!path)
 	{
-		ft_free("Malloc error in bin.finder", path_combos);
+		ft_free("\033[90mMalloc error in bin.finder\033[0m", path_combos);
 		return (0);
 	}
 	ft_free(NULL, path_combos);
@@ -111,7 +111,7 @@ char	*ft_get_bin_path(char *name, t_env **head)
 	split_path = ft_split(path, ':');
 	if (!split_path)
 	{
-		printf("Malloc error\n");
+		printf("\033[90mMalloc error\033[0m\n");
 		return (0);
 	}
 	combos = ft_combine(name, split_path);

@@ -46,7 +46,8 @@ static int	ft_add_arg(t_src *src)
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))
-		return (ft_err_parser("Malloc error in parser", src, arg, tmp));
+		return (ft_err_parser("\033[90mMalloc error "
+				"in parser\033[0m", src, arg, tmp));
 	free (arg);
 	free (tmp);
 	arg = NULL;

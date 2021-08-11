@@ -72,11 +72,19 @@ int	unset(t_inst *inst, char **args)
 		{
 			g_exit_status = if_for_unset(&u, args[u.i]);
 			if (g_exit_status == 0)
-				return (g_exit_status);
-			g_exit_status = if_for_unset_1(inst, &u, args[u.i], args[u.i]);
+			{
+				u.i++;
+				continue ;
+			}
+			else
+				g_exit_status = if_for_unset_1(inst, &u, args[u.i], args[u.i]);
 			if (g_exit_status == 0)
-				return (g_exit_status);
-			u.i++;
+			{
+				u.i++;
+				continue ;
+			}
+			else
+				u.i++;
 		}
 	}
 	return (g_exit_status);

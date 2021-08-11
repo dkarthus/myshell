@@ -41,7 +41,8 @@ static int	ft_append_arg( t_src *src, char *str, int *start, int *len)
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))
-		return (ft_err_parser("Malloc error in parser", src, arg, tmp));
+		return (ft_err_parser("\033[90mMalloc "
+				"error in parser\033[0m", src, arg, tmp));
 	free (arg);
 	free (tmp);
 	arg = NULL;
@@ -101,7 +102,7 @@ static int	ft_exit_status(t_src *src, int *upstart)
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(tmp, ext_st);
 	if (!src->args[src->args_cnt])
-		return (ft_err_parser("Malloc error", src, NULL, NULL));
+		return (ft_err_parser("\033[90mMalloc error\033[0m", src, NULL, NULL));
 	free(tmp);
 	free(ext_st);
 	return (0);

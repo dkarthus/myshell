@@ -1,32 +1,72 @@
 #include "../../../includes/minishell.h"
 
-int	export_comment_symbol(t_inst *inst)
+static int	while_for_check_key_2(char *str)
 {
-	print_export(inst);
+	unsigned int	i;
+
+	i = 1;
+	while (str[i] != '\0')
+	{
+		if (ft_isalpha(str[0]) != 0 || str[0] == '_')
+		{
+			if (ft_isalnum(str[i]) != 0 || str[i] == '_')
+			{
+				i++;
+				continue ;
+			}
+			else
+				return (1);
+		}
+		else
+			return (1);
+	}
 	return (0);
 }
 
-char	*ft_get_env_key(char *key, t_env **head)
+int	if_for_check_key_1(char *str)
 {
-	t_env	*iter;
+	int	error_check;
 
-	iter = *head;
-	while (iter)
+	error_check = 0;
+	if (str[0] != '\0' && str[1] == '\0')
 	{
-		if (ft_strncmp(key, iter->key, ft_strlen(iter->key)) == 0)
-			return (iter->key);
-		iter = iter->next;
+		if (ft_isalpha(str[0]) != 0 || str[0] == '_')
+			return (0);
+		else
+			return (1);
 	}
-	return (NULL);
+	else
+	{
+		error_check = while_for_check_key_2(str);
+		if (error_check != 0)
+			return (error_check);
+	}
+	return (0);
 }
 
-int	export_var(t_inst *inst, t_u_e *e, char *next_arg)
+void	free_key_and_value(t_u_e *e)
 {
-	e->error_check = ft_add_env_elem(next_arg, inst->env_head);
-	if (e->error_check == 0)
+	if (e->key != NULL)
+		free(e->key);
+	if (e->value != NULL)
+		free(e->value);
+}
+
+void	split_the_line_for_key_and_value(t_u_e *e, char *arg)
+{
+	int		i;
+
+	if (ft_strchr(arg, '=') != NULL)
 	{
-		g_exit_status = 1;
-		return (g_exit_status);
+		i = 0;
+		while (arg[i] != '=')
+			i++;
+		free_key_and_value(e);
+		e->key = ft_substr(arg, 0, i);
+		if (e->key == NULL)
+			error_exit(-6);
+		e->value = ft_substr(arg, i + 1, ft_strlen(arg));
+		if (e->value == NULL)
+			error_exit(-6);
 	}
-	return (g_exit_status);
 }

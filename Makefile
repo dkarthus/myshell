@@ -35,8 +35,6 @@ SRC			=	minishell.c \
 				executor/export/export_utils_1.c \
 				executor/export/export_utils_2.c \
 				executor/export/export_utils_3.c \
-				executor/export/export_utils_4.c \
-				executor/export/export_utils_5.c \
 				executor/export/print_export.c \
 				executor/export/print_export_1.c \
 				executor/bin_finder.c \

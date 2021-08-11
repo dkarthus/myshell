@@ -1,95 +1,32 @@
 #include "../../../includes/minishell.h"
 
-void	export_tilde(char *arg)
+int	export_comment_symbol(t_inst *inst)
 {
-	char	*home_value;
-
-	home_value = getenv("HOME");
-	if (home_value == NULL)
-	{
-		g_exit_status = 1;
-		error_exit(-5);
-	}
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strdup(home_value);
-	if (arg == NULL)
-		error_exit(-6);
-	else
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-	}
+	print_export(inst);
+	return (0);
 }
 
-void	export_tilde_slash(char *arg)
+char	*ft_get_env_key(char *key, t_env **head)
 {
-	char	*home_value;
+	t_env	*iter;
 
-	home_value = getenv("HOME");
-	if (home_value == NULL)
+	iter = *head;
+	while (iter)
 	{
-		g_exit_status = 1;
-		error_exit(-5);
+		if (ft_strncmp(key, iter->key, ft_strlen(iter->key)) == 0)
+			return (iter->key);
+		iter = iter->next;
 	}
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strjoin(home_value, "/");
-	if (arg == NULL)
-		error_exit(-6);
-	else
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-	}
+	return (NULL);
 }
 
-void	export_tilde_slash_s(char *arg)
+int	export_var(t_inst *inst, t_u_e *e, char *next_arg)
 {
-	char	*home_value;
-	char	*hold_str_for_me;
-
-	home_value = getenv("HOME");
-	if (home_value == NULL)
+	e->error_check = ft_add_env_elem(next_arg, inst->env_head);
+	if (e->error_check == 0)
 	{
 		g_exit_status = 1;
-		error_exit(-5);
-	}
-	hold_str_for_me = ft_substr(arg, 1, ft_strlen(arg) - 1);
-	if (hold_str_for_me == NULL)
-		error_exit(-6);
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strjoin(home_value, hold_str_for_me);
-	if (arg == NULL)
-		error_exit(-6);
-	else
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-		free(hold_str_for_me);
-	}
-}
-
-int	export_tilde_minus(t_inst *inst, char *arg)
-{
-	char	*old_pwd;
-
-	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
-	if (old_pwd == NULL)
-	{
-		print_export_not_a_valid_identifier(arg);
 		return (g_exit_status);
 	}
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strdup(old_pwd);
-	if (arg == NULL)
-		error_exit(-6);
-	else
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-	}
-	return (0);
+	return (g_exit_status);
 }

@@ -1,122 +1,75 @@
 #include "../../../includes/minishell.h"
 
-int	export_tilde_minus_slash(t_inst *inst, char *arg)
+static int	if_for_check_key(char *str)
 {
-	char	*old_pwd;
-
-	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
-	if (old_pwd == NULL)
-	{
-		print_export_not_a_valid_identifier(arg);
-		return (g_exit_status);
-	}
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strjoin(old_pwd, "/");
-	if (arg == NULL)
-		error_exit(-6);
-	else
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-	}
-	return (g_exit_status);
+	if (str[0] == '\0')
+		return (1);
+	else if (str[0] == '_' && str[1] == '\0')
+		return (2);
+	else if (str[0] == '_' && str[1] == '=' && str[2] == '\0')
+		return (2);
+	else if (str[0] == '#')
+		return (3);
+	else if (str[0] == ';' && str[1] == '\0')
+		return (4);
+	else if (str[0] == ';' && str[1] != '\0')
+		return (5);
+	else if (str[0] == '=' && str[1] == '\0')
+		return (6);
+	else if (str[0] == '=' && str[1] != '\0')
+		return (6);
+	return (-1);
 }
 
-int	export_tilde_minus_slash_s(t_inst *inst, char *arg)
+static int	if_for_check_value(char *str)
 {
-	char	*old_pwd;
-	char	*hold_str_for_me;
+	int	i;
 
-	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
-	if (old_pwd == NULL)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		print_export_not_a_valid_identifier(arg);
-		return (g_exit_status);
+		if (ft_isprint(str[i]) != 0 && str[i] != 59)
+			i++;
+		else
+			return (0);
 	}
-	hold_str_for_me = ft_substr(arg, 2, ft_strlen(arg) - 1);
-	if (hold_str_for_me == NULL)
-		error_exit(-6);
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strjoin(old_pwd, hold_str_for_me);
-	if (arg == NULL)
-		error_exit(-6);
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-		free(hold_str_for_me);
-	}
-	return (g_exit_status);
+	return (-1);
 }
 
-int	export_tilde_plus(t_inst *inst, char *arg)
+static int	else_for_key(char *key)
 {
-	char	*pwd;
+	int	ret;
 
-	pwd = ft_get_env_value("PWD", inst->env_head);
-	if (pwd == NULL)
+	if (ft_strchr(key, '=') == NULL)
 	{
-		print_export_not_a_valid_identifier(arg);
-		return (g_exit_status);
+		ret = if_for_check_key(key);
+		if (ret != -1)
+			return (ret);
+		ret = if_for_check_key_1(key);
+		if (ret == 0)
+			return (ret);
 	}
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strdup(pwd);
-	if (arg == NULL)
-		error_exit(-6);
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-	}
-	return (g_exit_status);
+	return (-42);
 }
 
-int	export_tilde_plus_slash(t_inst *inst, char *arg)
+unsigned int	key(t_u_e *e, char *key)
 {
-	char	*pwd;
+	int	ret;
 
-	pwd = ft_get_env_value("PWD", inst->env_head);
-	if (pwd == NULL)
+	if (ft_strchr(key, '=') != NULL)
 	{
-		print_export_not_a_valid_identifier(arg);
-		return (g_exit_status);
+		ret = if_for_check_key(e->key);
+		if (ret != -1)
+			return (ret);
+		ret = if_for_check_key_1(e->key);
+		if (ret == 0)
+			return (ret);
+		ret = if_for_check_value(e->value);
+		if (ret == 0)
+			return (ret);
 	}
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strjoin(pwd, "/");
-	if (arg == NULL)
-		error_exit(-6);
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-	}
-	return (g_exit_status);
-}
-
-int	export_tilde_plus_slash_s(t_inst *inst, char *arg)
-{
-	char	*pwd;
-	char	*hold_str_for_me;
-
-	pwd = ft_get_env_value("PWD", inst->env_head);
-	if (pwd == NULL)
-	{
-		print_export_not_a_valid_identifier(arg);
-		return (g_exit_status);
-	}
-	hold_str_for_me = ft_substr(arg, 2, ft_strlen(arg) - 1);
-	if (hold_str_for_me == NULL)
-		error_exit(-6);
-	if (arg != NULL)
-		free(arg);
-	arg = ft_strjoin(pwd, hold_str_for_me);
-	if (arg == NULL)
-		error_exit(-6);
-	{
-		print_export_not_a_valid_identifier(arg);
-		free(arg);
-		free(hold_str_for_me);
-	}
-	return (g_exit_status);
+	ret = else_for_key(key);
+	if (ret != -42)
+		return (ret);
+	return (1);
 }

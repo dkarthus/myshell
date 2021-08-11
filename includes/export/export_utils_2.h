@@ -1,8 +1,8 @@
 #ifndef EXPORT_UTILS_2_H
 # define EXPORT_UTILS_2_H
 
-int		export_comment_symbol(t_inst *inst);
-char	*ft_get_env_key(char *key, t_env **head);
-int		export_var(t_inst *inst, t_u_e *e, char *next_arg);
+void	split_the_line_for_key_and_value(t_u_e *e, char *arg);
+int		if_for_check_key_1(char *str);
+void	free_key_and_value(t_u_e *e);
 
 #endif
