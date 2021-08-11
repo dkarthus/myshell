@@ -16,6 +16,8 @@ static int	ft_init_src(t_src *src, char *line)
 	src->args = ft_calloc(255, sizeof(char *));
 	if (!(src->args))
 		return (0);
+	while(ft_isspace(src->str[src->pos]))
+		src->pos++;
 	return (1);
 }
 

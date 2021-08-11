@@ -137,14 +137,14 @@ int	ft_create_blank_file(t_src *src, int *arg_iter)
 		(*arg_iter)++;
 		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
 			return (ft_err_parser("Syntax error", src, NULL, NULL));
-		fd = open(src->args[*arg_iter + 1], O_CREAT);
+		fd = open(src->args[*arg_iter + 1], O_CREAT | O_RDWR, 0644);
 		if (fd == -1)
 			return (ft_err_parser("Can't create file", src, NULL, NULL));
 		close(fd);
 	}
 	else
 	{
-		fd = open(&src->args[*arg_iter][i], O_CREAT);
+		fd = open(&src->args[*arg_iter][i], O_CREAT | O_RDWR, 0644);
 		if (fd == -1)
 			return (ft_err_parser("Can't create file", src, NULL, NULL));
 		close(fd);
