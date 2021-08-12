@@ -15,16 +15,16 @@ int	ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter)
 	{
 		tkn->args = ft_calloc(sizeof(char *), 255);
 		if (!tkn->args)
-			return (ft_err_parser("\033[90mMalloc "
-					 "error in parser\033[0m", src, NULL, NULL));
+			return (ft_err_parser("Malloc "
+					 "error in parser", src, NULL, NULL));
 	}
 	i = 0;
 	while (tkn->args[i])
 		i++;
 	tkn->args[i] = ft_strdup(src->args[*arg_iter]);
 	if (!tkn->args[i])
-		return (ft_err_parser("\033[90mMalloc "
-				"error in parser\033[0m", src, NULL, NULL));
+		return (ft_err_parser("Malloc "
+				"error in parser", src, NULL, NULL));
 	(*arg_iter)++;
 	return (0);
 }
@@ -43,8 +43,8 @@ static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
 	{
 		fd = open(str, O_RDONLY);
 		if (fd == -1)
-			return (ft_err_parser("\033[90mCouldn't "
-					"access file\033[0m", NULL, NULL, NULL));
+			return (ft_err_parser("Couldn't "
+					"access file", NULL, NULL, NULL));
 	}
 	else
 	{
@@ -52,8 +52,8 @@ static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
 		tkn->is_here_doc = 1;
 		tkn->stop_word = ft_strdup(str);
 		if (!tkn->stop_word)
-			return (ft_err_parser("\033[90mMalloc "
-					  "err in parser\033[0m", NULL, NULL, NULL));
+			return (ft_err_parser("Malloc "
+					  "err in parser", NULL, NULL, NULL));
 	}
 	return (fd);
 }

@@ -7,8 +7,8 @@ int	no_such_file_or_directory(int error_check, const char *str)
 	zero = 0;
 	if (error_check != zero)
 	{
-		printf("\033[90mminishell: cd: %s: "
-			   "No such file or directory\033[0m\n", str);
+		printf("minishell: cd: %s: "
+			   "No such file or directory\n", str);
 		g_exit_status = 1;
 		return (g_exit_status);
 	}
@@ -38,7 +38,7 @@ static int	cd_home(t_inst *inst)
 
 	home_value = ft_get_env_value("HOME", inst->env_head);
 	if (home_value == NULL)
-		write(STDOUT_FILENO, "\033[90mminishell: cd: HOME not set\033[0m\n", 28);
+		write(STDOUT_FILENO, "minishell: cd: HOME not set\n", 28);
 	else
 	{
 		error_check_int = chdir(home_value);

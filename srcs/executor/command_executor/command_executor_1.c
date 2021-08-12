@@ -7,7 +7,7 @@ int	no_such_file_or_directory_1(int error_check, const char *str)
 	zero = 0;
 	if (error_check != zero)
 	{
-		printf("\033[90mminishell: %s: No such file or directory\033[0m\n", str);
+		printf("minishell: %s: No such file or directory\n", str);
 		return (0);
 	}
 	return (1);

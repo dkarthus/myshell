@@ -10,18 +10,18 @@ int	error_exit(int err_code)
 {
 	write(1, "\033[31mError\033[0m\n", 15);
 	if (err_code == -1)
-		str_error("\033[90mchdir() returned -1\033[0m\n");
+		str_error("chdir() returned -1\n");
 	else if (err_code == -2)
-		str_error("\033[90mgetcwd() returned NULL\033[0m\n");
+		str_error("getcwd() returned NULL\n");
 	else if (err_code == -3)
-		str_error("\033[90mft_add_env_value() returned 0\033[0m\n");
+		str_error("ft_add_env_value() returned 0\n");
 	else if (err_code == -4)
-		str_error("\033[90mft_add_env_value(pwd, inst->env_head) "
-			  "returned 0\033[0m\n");
+		str_error("ft_add_env_value(pwd, inst->env_head) "
+			  "returned 0\n");
 	else if (err_code == -5)
-		str_error("\033[90mgetenv(\"HOME\") returned NULL\033[0m\n");
+		str_error("getenv(\"HOME\") returned NULL\n");
 	else if (err_code == -6)
-		str_error("\033[90mMalloc has failed\033[0m\n");
+		str_error("Malloc has failed\n");
 	return (g_exit_status);
 }
 

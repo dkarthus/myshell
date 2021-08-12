@@ -50,7 +50,7 @@ int	ft_fork_cmd(t_inst *inst, t_tkn *tkn)
 	if (tkn->is_here_doc && tkn->stop_word)
 	{
 		if (ft_here_doc(inst, tkn->stop_word, tkn->fd_in))
-			return (ft_closefd("\033[90mCouldn't open fd\033[0m", pipe_fd, -1));
+			return (ft_closefd("Couldn't open fd", pipe_fd, -1));
 	}
 	pid = fork();
 	if (pid < 0)

@@ -82,19 +82,19 @@ int	ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 	if (tkn->fd_in > 0)
 	{
 		if (dup2(tkn->fd_in, 0) == -1)
-			return (ft_closefd("\033[90mCouldn't dup2\033[0m", pipe_fd, -1));
+			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(tkn->fd_in);
 	}
 	if (tkn->fd_out != 1)
 	{
 		if (dup2(tkn->fd_out, 1) == -1)
-			return (ft_closefd("\033[90mCouldn't dup2\033[0m", pipe_fd, -1));
+			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(tkn->fd_out);
 	}
 	else if (tkn->next && tkn->fd_out == 1)
 	{
 		if (dup2(pipe_fd[1], 1) == -1)
-			return (ft_closefd("\033[90mCouldn't dup2\033[0m", pipe_fd, -1));
+			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(pipe_fd[1]);
 	}
 	return (0);

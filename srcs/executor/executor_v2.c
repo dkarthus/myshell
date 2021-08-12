@@ -8,18 +8,18 @@ static int	ft_manage_fds_fst_tkn(t_tkn *tkn, int *pipe_fd)
 	if (tkn->is_pipe)
 	{
 		if (pipe(pipe_fd))
-			return (ft_closefd("\033[90mFD error\033[0m", pipe_fd, -1));
+			return (ft_closefd("FD error", pipe_fd, -1));
 	}
 	if (tkn->fd_out != 1)
 	{
 		if (dup2(tkn->fd_out, 1) == -1)
-			return (ft_closefd("\033[90mCouldn't dup2\033[0m", pipe_fd, -1));
+			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(tkn->fd_out);
 	}
 	else if (tkn->next && tkn->fd_out == 1)
 	{
 		if (dup2(pipe_fd[1], 1) == -1)
-			return (ft_closefd("\033[90mCouldn't dup2\033[0m", pipe_fd, -1));
+			return (ft_closefd("Couldn't dup2", pipe_fd, -1));
 		close(pipe_fd[1]);
 	}
 	return (0);

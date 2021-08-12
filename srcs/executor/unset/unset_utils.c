@@ -2,7 +2,7 @@
 
 void	print_unset_not_a_valid_identifier(char *arg)
 {
-	printf("\033[90mminishell: unset: `%s': not a valid identifier\033[0m\n", arg);
+	printf("minishell: unset: `%s': not a valid identifier\n", arg);
 	g_exit_status = 1;
 }
 
