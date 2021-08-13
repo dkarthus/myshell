@@ -13,7 +13,6 @@ static int	ft_try_exist(char *str, int mode, t_src *src)
 
 	if (mode == 1)
 	{
-		printf("str %s\n", str);
 		fd = open(str, O_RDONLY);
 		if (fd == -1)
 			return (ft_err_parser("\033[90mCouldn't "
@@ -93,8 +92,9 @@ int	ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter)
 		i++;
 	if (src->args[*arg_iter][i] == '\0')
 	{
-		if (++(*arg_iter) && ft_ch_symbl(src->args[*arg_iter][0]))
-			return (ft_err_parser("Parser error near token", src, NULL, NULL));
+		++(*arg_iter);
+		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
+			return (ft_err_parser("Parser error near >", src, NULL, NULL));
 		tkn->fd_out = ft_get_fd(src->args[*arg_iter], i);
 		if (tkn->fd_out == -1)
 			return (ft_err_parser("Couldn't access file", src, NULL, NULL));
@@ -102,7 +102,7 @@ int	ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter)
 	else
 	{
 		if (ft_ch_symbl(src->args[*arg_iter][i]))
-			return (ft_err_parser("Parser error near token", src, NULL, NULL));
+			return (ft_err_parser("Parser error near >", src, NULL, NULL));
 		tkn->fd_out = ft_get_fd(&src->args[*arg_iter][i], i);
 		if (tkn->fd_out == -1)
 			return (ft_err_parser("Couldn't access file", src, NULL, NULL));

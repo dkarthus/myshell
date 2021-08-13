@@ -57,6 +57,7 @@ int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 {
 	char	*path;
 	char	**arg_env;
+	int 	i;
 
 	path = ft_get_bin_path(tkn->cmd, inst->env_head);
 	arg_env = ft_group_envs(inst->env_head);
@@ -69,6 +70,10 @@ int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 	if (execve(path, tkn->args, arg_env) == -1)
 	{
 		printf("Couldn't find bin : %s\n", path);
+		i = 0;
+		while(arg_env[i])
+			free(arg_env[i++]);
+		free(arg_env);
 		exit (1);
 	}
 	exit (0);
@@ -77,6 +82,32 @@ int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 /*
  *
  */
+int	ft_manage_fds(t_tkn *tkn, int **pipe_fd)
+{
+	if (tkn->id != 0 && !tkn->is_here_doc)
+	{
+		dup2(pipe_fd[tkn->id - 1][0], 0);
+		close(pipe_fd[tkn->id -	1][0]);
+	}
+	if (tkn->fd_in > 0)
+	{
+		dup2(tkn->fd_in, 0);
+		close(tkn->fd_in);
+	}
+	if (tkn->next && tkn->fd_out == 1)
+	{
+		dup2(pipe_fd[tkn->id][1], 1);
+		close(pipe_fd[tkn->id][1]);
+	}
+	if (tkn->fd_out != 1)
+	{
+		dup2(tkn->fd_out, 1);
+		close(tkn->fd_out);
+	}
+	return (0);
+}
+
+/*
 int	ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 {
 	if (tkn->fd_in > 0)
@@ -99,3 +130,4 @@ int	ft_manage_fds(t_tkn *tkn, int *pipe_fd)
 	}
 	return (0);
 }
+*/

@@ -109,12 +109,15 @@ int		ft_find_builtin(char *str);
 
 //Binary exec
 int		ft_executor(t_inst *inst);
-int		ft_fork_cmd(t_inst *inst, t_tkn *tkn);
+//int		ft_fork_cmd(t_inst *inst, t_tkn *tkn);
 void	ft_exit_status_upd(int status_ret);
 char	*ft_get_bin_path(char *name, t_env **head);
 int		ft_process_bin(t_inst *inst, t_tkn *tkn);
-int		ft_manage_fds(t_tkn *tkn, int *pipe_fd);
+int		ft_manage_fds(t_tkn *tkn, int **pipe_fd);
 int		ft_closefd(char *err, int *pipe_fd, int fd);
+//
+int		ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd);
+int		**ft_init_pipe(t_inst *inst, t_tkn *fst_tkn);
 
 //Env vars utils
 char	**ft_group_envs(t_env **head);
@@ -127,6 +130,6 @@ void	ft_sig_handle(int sig);
 void	ft_sig_handle_ch(int sig);
 
 //Free&Exit
-void	ft_frees(t_inst *inst, int mode, char *err);
+int		ft_frees(t_inst *inst, int mode, char *err);
 
 #endif

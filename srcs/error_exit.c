@@ -58,7 +58,7 @@ static void	ft_free_tkn(t_tkn **head)
 /*
  *
  */
-void	ft_frees(t_inst *inst, int mode, char *err)
+int	ft_frees(t_inst *inst, int mode, char *err)
 {
 	if (mode == 1)
 	{
@@ -68,13 +68,14 @@ void	ft_frees(t_inst *inst, int mode, char *err)
 			ft_free_tkn(inst->tkn_head);
 		if (err)
 			ft_putstr_fd(err, 1);
-		exit (0);
 	}
 	if (mode == 2)
 	{
+		if (err)
+			ft_putstr_fd(err, 1);
 		if (inst->tkn_head)
 			ft_free_tkn(inst->tkn_head);
-		return ;
+		return (1) ;
 	}
 	if (mode == 3)
 	{
@@ -82,6 +83,6 @@ void	ft_frees(t_inst *inst, int mode, char *err)
 			ft_free_env(inst->env_head);
 		if (err)
 			ft_putstr_fd(err, 1);
-		exit (0);
 	}
+	exit (0);
 }
