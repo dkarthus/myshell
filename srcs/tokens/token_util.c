@@ -7,6 +7,7 @@
  * @param	arg_iter count of src->args;
  * @returns 0 = OK, 1 = KO error;
  */
+//GOOD
 int	ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	int	i;
@@ -35,6 +36,7 @@ int	ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter)
  * @param	mode 1 = <, else << here_doc;
  * @returns fd, -1 fd error;
  */
+//GOOD
 static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
 {
 	int	fd;
@@ -65,18 +67,20 @@ static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
  * @param	arg_iter count of args in src->args;
  * @returns 1 = KO and 0 = OK;
  */
+//GOOD
 int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	int	i;
 
 	i = 1;
-	if (tkn->fd_in != 0)
+	if (tkn->fd_in > 0)
 		close(tkn->fd_in);
 	if (src->args[*arg_iter][i] == '<')
 		i++;
 	if (src->args[*arg_iter][i] == '\0')
 	{
-		if (++(*arg_iter) && ft_ch_symbl(src->args[*arg_iter][0]))
+		++(*arg_iter);
+		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
 			return (ft_err_parser("Parser error near token <", src, NULL,
 					NULL));
 		tkn->fd_in = ft_get_fd(src->args[*arg_iter], i, tkn);
@@ -100,7 +104,8 @@ int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
  *	@param	tkn_id number of new tkn;
  *	@returns NULL - KO malloc error, OK - newly inited token pointer;
  */
-t_tkn	*ft_init_token(char *cmd, int tkn_id)
+//UPD
+/*t_tkn	*ft_init_token(char *cmd, int tkn_id)
 {
 	t_tkn	*new_tkn;
 
@@ -120,7 +125,7 @@ t_tkn	*ft_init_token(char *cmd, int tkn_id)
 	new_tkn->is_here_doc = 0;
 	new_tkn->stop_word = NULL;
 	return (new_tkn);
-}
+}*/
 
 /*
  *	Creates and closes blank file if redirect out source changes;
@@ -128,6 +133,7 @@ t_tkn	*ft_init_token(char *cmd, int tkn_id)
  *	@param	arg_iter count of src->args;
  *	@returns 0 = OK, 1 = KO error;
  */
+/*//OBSOLETE
 int	ft_create_blank_file(t_src *src, int *arg_iter)
 {
 	int	i;
@@ -155,4 +161,4 @@ int	ft_create_blank_file(t_src *src, int *arg_iter)
 	}
 	(*arg_iter)++;
 	return (0);
-}
+}*/

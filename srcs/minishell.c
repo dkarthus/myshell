@@ -66,6 +66,7 @@ int	main(int argc, char *argv[], char *env[])
 		return (1);
 	g_exit_status = 0;
 	inst.fd_in_save = dup(0);
+	inst.fd_out_save = dup(1);
 	ft_main_loop(&inst);
 	return (0);
 }

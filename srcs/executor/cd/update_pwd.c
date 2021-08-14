@@ -7,7 +7,7 @@ int	cd_somewhere(t_inst *inst)
 
 	tkn = *(inst->tkn_head);
 	error_check = chdir(tkn->args[1]);
-	no_such_file_or_directory(error_check, tkn->args[1]);
+	no_such_file_or_directory(inst->fd_out_save, error_check, tkn->args[1]);
 	return (0);
 }
 

@@ -20,11 +20,11 @@ static int	cd_tilde_minus(t_inst *inst)
 	error_check_int = 0;
 	home_value = ft_get_env_value("OLDPWD", inst->env_head);
 	if (home_value == NULL)
-		return (no_such_file_or_directory(error_check_int, "~-"));
+		return (no_such_file_or_directory(inst->fd_out_save, error_check_int, "~-"));
 	else
 	{
 		error_check_int = chdir(home_value);
-		return (no_such_file_or_directory(error_check_int, home_value));
+		return (no_such_file_or_directory(inst->fd_out_save, error_check_int, home_value));
 	}
 }
 
@@ -36,11 +36,11 @@ static int	cd_tilde_plus(t_inst *inst)
 	error_check_int = 0;
 	pwd = ft_get_env_value("PWD", inst->env_head);
 	if (pwd == NULL)
-		no_such_file_or_directory(error_check_int, "~+");
+		no_such_file_or_directory(inst->fd_out_save, error_check_int, "~+");
 	else
 	{
 		error_check_int = chdir(pwd);
-		no_such_file_or_directory(error_check_int, pwd);
+		no_such_file_or_directory(inst->fd_out_save, error_check_int, pwd);
 	}
 	return (0);
 }
@@ -56,12 +56,12 @@ static int	cd_plus_minus(t_inst *inst)
 	else if (check_tilde_plus_path(inst) != NULL)
 	{
 		error_check = chdir(check_tilde_plus_path(inst));
-		no_such_file_or_directory(error_check, check_tilde_plus_path(inst));
+		no_such_file_or_directory(inst->fd_out_save, error_check, check_tilde_plus_path(inst));
 	}
 	else if (check_tilde_minus_path(inst) != NULL)
 	{
 		error_check = chdir(check_tilde_minus_path(inst));
-		no_such_file_or_directory(error_check, check_tilde_minus_path(inst));
+		no_such_file_or_directory(inst->fd_out_save, error_check, check_tilde_minus_path(inst));
 	}
 	else
 		return (1);

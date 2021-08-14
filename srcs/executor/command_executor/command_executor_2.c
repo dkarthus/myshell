@@ -18,8 +18,8 @@ int	execute_echo(t_tkn *tkn)
 	return (g_exit_status);
 }
 
-int	execute_exit(t_tkn *tkn)
+int	execute_exit(int fd_out_save, t_tkn *tkn)
 {
-	g_exit_status = our_exit(tkn->args);
+	g_exit_status = our_exit(fd_out_save, tkn->args);
 	return (g_exit_status);
 }

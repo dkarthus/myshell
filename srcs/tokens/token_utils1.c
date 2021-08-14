@@ -7,13 +7,13 @@
  * @param	src described in parser.h;
  * @returns 0 = True, 1 = False (=
  */
+/*//OBSOLETE
 static int	ft_try_exist(char *str, int mode, t_src *src)
 {
 	int	fd;
 
 	if (mode == 1)
 	{
-		printf("str %s\n", str);
 		fd = open(str, O_RDONLY);
 		if (fd == -1)
 			return (ft_err_parser("Couldn't "
@@ -23,7 +23,7 @@ static int	ft_try_exist(char *str, int mode, t_src *src)
 	else
 		ft_here_doc(NULL, str, 0);
 	return (0);
-}
+}*/
 
 /*
  *	Utilty function for in redirect, checks if file exists;
@@ -31,6 +31,7 @@ static int	ft_try_exist(char *str, int mode, t_src *src)
  *	@param	arg_iter cont of src->args = active argument;
  *	@returns 1 = KO, 0 = OK;
  */
+/*//OBSOLETE
 int	ft_blank_check_file(t_src *src, int *arg_iter)
 {
 	int	i;
@@ -56,7 +57,7 @@ int	ft_blank_check_file(t_src *src, int *arg_iter)
 	}
 	(*arg_iter)++;
 	return (0);
-}
+}*/
 
 /*
  * Get fd of files to write to, creates files if needed;
@@ -64,6 +65,7 @@ int	ft_blank_check_file(t_src *src, int *arg_iter)
  * @param	mode 1 = TRUNC, else APPEND;
  * @returns fd, -1 fd error;
  */
+//GOOD
 static int	ft_get_fd(char *file, int mode)
 {
 	int	fd;
@@ -82,6 +84,7 @@ static int	ft_get_fd(char *file, int mode)
  * @param	arg_iter count of args in src->args;
  * @returns 1 = KO and 0 = OK;
  */
+//GOOD
 int	ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	int	i;
@@ -93,8 +96,9 @@ int	ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter)
 		i++;
 	if (src->args[*arg_iter][i] == '\0')
 	{
-		if (++(*arg_iter) && ft_ch_symbl(src->args[*arg_iter][0]))
-			return (ft_err_parser("Parser error near token", src, NULL, NULL));
+		++(*arg_iter);
+		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
+			return (ft_err_parser("Parser error near >", src, NULL, NULL));
 		tkn->fd_out = ft_get_fd(src->args[*arg_iter], i);
 		if (tkn->fd_out == -1)
 			return (ft_err_parser("Couldn't access file", src, NULL, NULL));
@@ -102,7 +106,7 @@ int	ft_update_token_fdout(t_tkn *tkn, t_src *src, int *arg_iter)
 	else
 	{
 		if (ft_ch_symbl(src->args[*arg_iter][i]))
-			return (ft_err_parser("Parser error near token", src, NULL, NULL));
+			return (ft_err_parser("Parser error near >", src, NULL, NULL));
 		tkn->fd_out = ft_get_fd(&src->args[*arg_iter][i], i);
 		if (tkn->fd_out == -1)
 			return (ft_err_parser("Couldn't access file", src, NULL, NULL));

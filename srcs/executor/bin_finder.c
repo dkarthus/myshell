@@ -6,12 +6,12 @@
  *	@param	str array to free;
  *	@returns 0;
  */
-static char	**ft_free(char *print, char **str)
+static char	**ft_free(char *print, char **str, int fd_out_save)
 {
 	int	i;
 
 	if (print)
-		printf("%s\n", print);
+		ft_putstr_fd(print, fd_out_save);
 	if (str)
 	{
 		i = 0;
@@ -33,7 +33,7 @@ static char	**ft_free(char *print, char **str)
  *	@param spl_path split paths of bin dirs;
  *	@returns NULL - malloc error, str array of split paths;
  */
-char	**ft_combine(char *name, char **spl_path)
+static char	**ft_combine(char *name, char **spl_path, int save)
 {
 	int		i;
 	char	*tmp;
@@ -48,13 +48,13 @@ char	**ft_combine(char *name, char **spl_path)
 		spl_path[i] = ft_strjoin(spl_path[i], name);
 		free(tmp);
 		if (!spl_path[i])
-			return (ft_free("Malloc error", spl_path));
+			return (ft_free("Malloc error\n", spl_path, save));
 		i++;
 	}
 	free(spl_path[i - 1]);
 	spl_path[i - 1] = ft_strdup(name);
 	if (!spl_path[i - 1])
-		return (ft_free("Malloc error", spl_path));
+		return (ft_free("Malloc error", spl_path, save));
 	return (spl_path);
 }
 
@@ -63,7 +63,7 @@ char	**ft_combine(char *name, char **spl_path)
  *	@param path_combos str array of paths to probe to for bin;
  *	@returns NULL bin not found, or path of bin;
  */
-static char	*ft_find_bin(char **path_combos)
+static char	*ft_find_bin(char **path_combos, int save)
 {
 	char		*path;
 	struct stat	st;
@@ -79,16 +79,14 @@ static char	*ft_find_bin(char **path_combos)
 	if (path_combos[i] == 0)
 	{
 		g_exit_status = 127;
-		ft_free("minishell: command not found", path_combos);
-		return (0);
+		return (*(ft_free("minishell: command not found\n",
+						path_combos, save)));
 	}
 	path = ft_strdup(path_combos[i]);
 	if (!path)
-	{
-		ft_free("Malloc error in bin.finder", path_combos);
-		return (0);
-	}
-	ft_free(NULL, path_combos);
+		return (*(ft_free("Malloc error in bin.finder\n",
+					path_combos, save)));
+	ft_free(NULL, path_combos, save);
 	return (path);
 }
 
@@ -99,23 +97,23 @@ static char	*ft_find_bin(char **path_combos)
  *	@param	head of the list of env vars;
  *	@returns NULL - KO error, or path to binary soon to be execed;
  */
-char	*ft_get_bin_path(char *name, t_env **head)
+char	*ft_get_bin_path(char *name, t_inst *inst)
 {
 	char	*path;
 	char	**split_path;
 	char	**combos;
 
-	path = ft_get_env_value("PATH", head);
+	path = ft_get_env_value("PATH", inst->env_head);
 	if (!path || !*path)
 		return (name);
 	split_path = ft_split(path, ':');
 	if (!split_path)
 	{
-		printf("Malloc error\n");
+		ft_putstr_fd("Malloc error\n", inst->fd_out_save);
 		return (0);
 	}
-	combos = ft_combine(name, split_path);
+	combos = ft_combine(name, split_path, inst->fd_out_save);
 	if (!combos)
 		return (0);
-	return (ft_find_bin(combos));
+	return (ft_find_bin(combos, inst->fd_out_save));
 }
