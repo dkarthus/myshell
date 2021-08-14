@@ -1,17 +1,17 @@
 #include "../../../includes/minishell.h"
 
-int	if_for_unset(t_u_e *u, char *arg)
+int	if_for_unset(t_u_e *u, int fd_out_save, char *arg)
 {
 	if (unset_env_name(arg) == 0)
-		print_unset_not_a_valid_identifier(arg);
+		print_unset_not_a_valid_identifier(fd_out_save, arg);
 	else if (unset_env_name(arg) == u->semicolon_underscore)
 		return (g_exit_status);
 	else if (unset_env_name(arg) == u->tilde)
-		unset_tilde(arg);
+		unset_tilde(fd_out_save, arg);
 	else if (unset_env_name(arg) == u->tilde_slash)
-		unset_tilde_slash(arg);
+		unset_tilde_slash(fd_out_save, arg);
 	else if (unset_env_name(arg) == u->tilde_slash_s)
-		unset_tilde_slash_s(arg);
+		unset_tilde_slash_s(fd_out_save, arg);
 	return (1);
 }
 
@@ -70,7 +70,7 @@ int	unset(t_inst *inst, char **args)
 	{
 		while (args[u.i] != NULL)
 		{
-			g_exit_status = if_for_unset(&u, args[u.i]);
+			g_exit_status = if_for_unset(&u, inst->fd_out_save, args[u.i]);
 			if (g_exit_status == 0)
 			{
 				u.i++;

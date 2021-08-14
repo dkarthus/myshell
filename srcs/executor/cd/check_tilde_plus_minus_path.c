@@ -40,7 +40,7 @@ char	*check_tilde_minus_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	old_pwd = ft_get_env_value("OLDPWD", inst->env_head);
 	if (old_pwd == NULL)
-		no_such_file_or_directory(error_check_int, tkn->args[1]);
+		no_such_file_or_directory(inst->fd_out_save, error_check_int, tkn->args[1]);
 	else
 	{
 		check_for_tilde_minus_path(tkn, old_pwd);
@@ -80,7 +80,7 @@ char	*check_tilde_plus_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	pwd = ft_get_env_value("PWD", inst->env_head);
 	if (pwd == NULL)
-		no_such_file_or_directory(error_check_int, tkn->args[1]);
+		no_such_file_or_directory(inst->fd_out_save, error_check_int, tkn->args[1]);
 	else
 	{
 		check_for_tilde_plus_path(tkn, pwd);

@@ -7,8 +7,9 @@ int	no_such_file_or_directory(int error_check, const char *str)
 	zero = 0;
 	if (error_check != zero)
 	{
-		printf("minishell: cd: %s: "
-			   "No such file or directory\n", str);
+		ft_putstr_fd("minishell: cd: ", fd_out_save);
+		ft_putstr_fd(str, fd_out_save);
+		ft_putstr_fd(": No such file or directory\n", fd_out_save);
 		g_exit_status = 1;
 		return (g_exit_status);
 	}
@@ -16,7 +17,7 @@ int	no_such_file_or_directory(int error_check, const char *str)
 	return (g_exit_status);
 }
 
-static void	cd_tilde_home(void)
+static void	cd_tilde_home(t_inst *inst)
 {
 	int		error_check_int;
 	char	*home_value;
@@ -27,7 +28,7 @@ static void	cd_tilde_home(void)
 	else
 	{
 		error_check_int = chdir(home_value);
-		no_such_file_or_directory(error_check_int, home_value);
+		no_such_file_or_directory(inst->fd_out_save, error_check_int, home_value);
 	}
 }
 
@@ -38,11 +39,11 @@ static int	cd_home(t_inst *inst)
 
 	home_value = ft_get_env_value("HOME", inst->env_head);
 	if (home_value == NULL)
-		write(STDOUT_FILENO, "minishell: cd: HOME not set\n", 28);
+		ft_putstr_fd("minishell: cd: HOME not set\n", inst->fd_out_save);
 	else
 	{
 		error_check_int = chdir(home_value);
-		return (no_such_file_or_directory(error_check_int, home_value));
+		return (no_such_file_or_directory(inst->fd_out_save, error_check_int, home_value));
 	}
 	return (0);
 }
@@ -86,11 +87,11 @@ int	cd(t_inst *inst, char *arg)
 	else if (check_arg(inst, arg) == 0 && arg[0] != '~')
 		cd_somewhere(inst);
 	else if (check_arg(inst, "~") == 0 || check_arg(inst, "~/") == 0)
-		cd_tilde_home();
+		cd_tilde_home(inst);
 	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(arg) > 1)
 	{
 		error_check = chdir(check_tilde_slash_path(inst));
-		no_such_file_or_directory(error_check, check_tilde_slash_path(inst));
+		no_such_file_or_directory(inst->fd_out_save, error_check, check_tilde_slash_path(inst));
 	}
 	else
 		cd_else(inst);
