@@ -12,6 +12,7 @@ typedef struct s_u_e
 	unsigned int	semicolon_underscore;
 	unsigned int	underscore;
 	unsigned int	arg;
+	unsigned int	arg_plus;
 	unsigned int	equal_sign;
 	unsigned int	tilde;
 	unsigned int	tilde_slash;

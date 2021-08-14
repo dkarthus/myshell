@@ -6,6 +6,7 @@ static void	initialize_variables_for_export(t_u_e *e)
 	e->error_check = 0;
 	g_exit_status = 0;
 	e->arg = 0;
+	e->arg_plus = 0;
 	e->failure = 1;
 	e->underscore = 2;
 	e->semicolon_underscore = 2;

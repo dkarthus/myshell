@@ -12,6 +12,8 @@ void	if_for_export(t_inst *inst, t_u_e *e, char *arg)
 		g_exit_status = export_comment_symbol(inst);
 	else if (key(e, arg) == e->arg)
 		g_exit_status = export_arg(inst, e, arg);
+	else if (key(e, arg) == e->arg_plus)
+		g_exit_status = export_arg(inst, e, arg);
 	else if (key(e, arg) == e->failure)
 		print_export_not_a_valid_identifier(inst->fd_out_save, arg);
 }
