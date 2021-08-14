@@ -101,4 +101,3 @@ int	cd(t_inst *inst, char *arg)
 	update_pwd(inst);
 	return (g_exit_status);
 }
-
