@@ -48,7 +48,7 @@ int	ft_check_symbol(char c, int mode)
 	if (mode == 1)
 	{
 		return (c == ' ' || c == '\'' || c == '\"' || c == '$' || c == '<' || c
-		=='>' || c == '|' || c == '\0');
+			=='>' || c == '|' || c == '\0');
 	}
 	if (mode == 2)
 	{

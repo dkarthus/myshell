@@ -7,7 +7,6 @@
  * @param	arg_iter count of src->args;
  * @returns 0 = OK, 1 = KO error;
  */
-//GOOD
 int	ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	int	i;
@@ -36,7 +35,6 @@ int	ft_update_args(t_tkn *tkn, t_src *src, int *arg_iter)
  * @param	mode 1 = <, else << here_doc;
  * @returns fd, -1 fd error;
  */
-//GOOD
 static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
 {
 	int	fd;
@@ -67,7 +65,6 @@ static int	ft_get_fd(char *str, int mode, t_tkn *tkn)
  * @param	arg_iter count of args in src->args;
  * @returns 1 = KO and 0 = OK;
  */
-//GOOD
 int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	int	i;
@@ -81,8 +78,7 @@ int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 	{
 		++(*arg_iter);
 		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
-			return (ft_err_parser("Parser error near token <", src, NULL,
-					NULL));
+			return (ft_err_parser("Error near token <", src, NULL, NULL));
 		tkn->fd_in = ft_get_fd(src->args[*arg_iter], i, tkn);
 		if (tkn->fd_in == 1)
 			return (ft_err_parser(NULL, src, NULL, NULL));
@@ -97,68 +93,3 @@ int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 	}
 	return (++(*arg_iter) && 0);
 }
-
-/*
- *	Inits new token and ads cmd as main argument (name of binary);
- *	@param	cmd name of binary that tkn wiil be inited with;
- *	@param	tkn_id number of new tkn;
- *	@returns NULL - KO malloc error, OK - newly inited token pointer;
- */
-//UPD
-/*t_tkn	*ft_init_token(char *cmd, int tkn_id)
-{
-	t_tkn	*new_tkn;
-
-	new_tkn = ft_calloc(sizeof(t_tkn), 1);
-	if (!new_tkn)
-		return (NULL);
-	new_tkn->cmd = ft_strdup(cmd);
-	new_tkn->args = ft_calloc(sizeof(char *), 255);
-	new_tkn->args[0] = ft_strdup(cmd);
-	if (!new_tkn->args || !new_tkn->cmd || !new_tkn->args[0])
-		return (NULL);
-	new_tkn->id = tkn_id;
-	new_tkn->next = NULL;
-	new_tkn->fd_in = 0;
-	new_tkn->fd_out = 1;
-	new_tkn->is_pipe = 0;
-	new_tkn->is_here_doc = 0;
-	new_tkn->stop_word = NULL;
-	return (new_tkn);
-}*/
-
-/*
- *	Creates and closes blank file if redirect out source changes;
- *	@param	src described in parser.h;
- *	@param	arg_iter count of src->args;
- *	@returns 0 = OK, 1 = KO error;
- */
-/*//OBSOLETE
-int	ft_create_blank_file(t_src *src, int *arg_iter)
-{
-	int	i;
-	int	fd;
-
-	i = 1;
-	if (src->args[*arg_iter][1] == '>')
-		i = 2;
-	if (src->args[*arg_iter][i] == '\0')
-	{
-		(*arg_iter)++;
-		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
-			return (ft_err_parser("Syntax error", src, NULL, NULL));
-		fd = open(src->args[*arg_iter], O_CREAT | O_RDWR, 0644);
-		if (fd == -1)
-			return (ft_err_parser("Can't create file", src, NULL, NULL));
-		close(fd);
-	}
-	else
-	{
-		fd = open(&src->args[*arg_iter][i], O_CREAT | O_RDWR, 0644);
-		if (fd == -1)
-			return (ft_err_parser("Can't create file", src, NULL, NULL));
-		close(fd);
-	}
-	(*arg_iter)++;
-	return (0);
-}*/

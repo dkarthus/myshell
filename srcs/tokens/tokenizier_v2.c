@@ -1,36 +1,9 @@
 #include "../../includes/parser.h"
 
 /*
- *	Inits new token and ads cmd as main argument (name of binary);
- *	@param	cmd name of binary that tkn wiil be inited with;
- *	@param	tkn_id number of new tkn;
- *	@returns NULL - KO malloc error, OK - newly inited token pointer;
- */
-t_tkn	*ft_init_token(int tkn_id)
-{
-	t_tkn	*new_tkn;
-
-	new_tkn = ft_calloc(sizeof(t_tkn), 1);
-	if (!new_tkn)
-		return (NULL);
-	new_tkn->cmd = NULL;
-	new_tkn->args = ft_calloc(sizeof(char *), 255);
-	if (!new_tkn->args)
-		return (NULL);
-	new_tkn->id = tkn_id;
-	new_tkn->next = NULL;
-	new_tkn->fd_in = 0;
-	new_tkn->fd_out = 1;
-	new_tkn->is_pipe = 0;
-	new_tkn->is_here_doc = 0;
-	new_tkn->stop_word = NULL;
-	return (new_tkn);
-}
-
-/*
  *
  */
-int	ft_set_cmd(t_tkn *tkn, t_src *src, int *arg_iter)
+static int	ft_set_cmd(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	tkn->cmd = ft_strdup(src->args[*arg_iter]);
 	tkn->args[0] = ft_strdup(src->args[*arg_iter]);
@@ -43,7 +16,7 @@ int	ft_set_cmd(t_tkn *tkn, t_src *src, int *arg_iter)
 /*
  *
  */
-void	ft_tkn_add_back(t_tkn *tkn, t_tkn **head)
+static void	ft_tkn_add_back(t_tkn *tkn, t_tkn **head)
 {
 	t_tkn	*iter;
 
@@ -56,6 +29,36 @@ void	ft_tkn_add_back(t_tkn *tkn, t_tkn **head)
 			iter = iter->next;
 		iter->next = tkn;
 	}
+}
+
+/*
+ *
+ */
+static int	ft_util_create_tkn(t_tkn *new, t_src *src, int *arg_iter)
+{
+	if (src->args[*arg_iter] && src->args[*arg_iter][0] == '>')
+	{
+		if (ft_update_token_fdout(new, src, arg_iter))
+			return (1);
+	}
+	if (src->args[*arg_iter] && src->args[*arg_iter][0] == '<')
+	{
+		if (ft_update_token_fdin(new, src, arg_iter))
+			return (1);
+	}
+	if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]) &&
+	new->cmd == NULL)
+	{
+		if (ft_set_cmd(new, src, arg_iter))
+			return (1);
+	}
+	if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]) &&
+	new->cmd != NULL)
+	{
+		if (ft_update_args(new, src, arg_iter))
+			return (1);
+	}
+	return (0);
 }
 
 /*
@@ -75,28 +78,8 @@ int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 		return (1);
 	while (src->args[*arg_iter])
 	{
-		if (src->args[*arg_iter] && src->args[*arg_iter][0] == '>')
-		{
-			if (ft_update_token_fdout(new, src, arg_iter))
-				return (1);
-		}
-		if (src->args[*arg_iter] && src->args[*arg_iter][0] == '<')
-		{
-			if (ft_update_token_fdin(new, src, arg_iter))
-				return (1);
-		}
-		if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]) &&
-		new->cmd == NULL)
-		{
-			if (ft_set_cmd(new, src, arg_iter))
-				return (1);
-		}
-		if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]) &&
-		new->cmd != NULL)
-		{
-			if (ft_update_args(new, src, arg_iter))
-				return (1);
-		}
+		if (ft_util_create_tkn(new, src, arg_iter))
+			return (1);
 		if (src->args[*arg_iter] && src->args[*arg_iter][0] == '|')
 		{
 			if (ft_is_pipe_tkn(new, src, arg_iter))

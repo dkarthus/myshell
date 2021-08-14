@@ -88,7 +88,7 @@ static int	ft_exit_status(t_src *src, int *upstart)
 /*
  *
  */
-static int ft_dolla_util(t_src *src, t_env **head, int *upstart)
+static int	ft_dolla_util(t_src *src, t_env **head, int *upstart)
 {
 	int		start;
 	int		len;
@@ -124,14 +124,14 @@ static int ft_dolla_util(t_src *src, t_env **head, int *upstart)
  */
 int	ft_dolla(t_src *src, t_env **head, int *upstart)
 {
-	char *tmp;
+	char	*tmp;
 
 	if (++src->pos && !src->args[src->args_cnt])
 		src->args[src->args_cnt] = ft_strdup("");
 	if (src->str[src->pos] == '?')
 		return (ft_exit_status(src, upstart));
-	if (src->str[src->pos] == ' ' || src->str[src->pos] == '\0' ||
-		src->str[src->pos] == '\"')
+	if (src->str[src->pos] == ' ' || src->str[src->pos] == '\0'
+		|| src->str[src->pos] == '\"')
 	{
 		if (upstart)
 			*upstart = src->pos;
