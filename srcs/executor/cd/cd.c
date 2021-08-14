@@ -102,7 +102,3 @@ int	cd(t_inst *inst, char *arg)
 	return (g_exit_status);
 }
 
-//c'mon, git
-//we need you to work
-//let's go, boy
-//let's go
