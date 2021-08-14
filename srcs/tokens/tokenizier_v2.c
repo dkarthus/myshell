@@ -30,13 +30,12 @@ t_tkn	*ft_init_token(int tkn_id)
 /*
  *
  */
-int ft_set_cmd(t_tkn *tkn, t_src *src, int *arg_iter)
+int	ft_set_cmd(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	tkn->cmd = ft_strdup(src->args[*arg_iter]);
 	tkn->args[0] = ft_strdup(src->args[*arg_iter]);
 	if (!tkn->args[0] || !tkn->cmd)
-		return (ft_err_parser("Malloc "
-							  "error in parser", src, NULL, NULL));
+		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
 	(*arg_iter)++;
 	return (0);
 }
@@ -69,12 +68,12 @@ void	ft_tkn_add_back(t_tkn *tkn, t_tkn **head)
  */
 int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 {
-	t_tkn *new;
+	t_tkn	*new;
 
 	new = ft_init_token(*tkn_cnt);
 	if (!new)
 		return (1);
-	while(src->args[*arg_iter])
+	while (src->args[*arg_iter])
 	{
 		if (src->args[*arg_iter] && src->args[*arg_iter][0] == '>')
 		{
@@ -89,7 +88,7 @@ int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 		if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]) &&
 		new->cmd == NULL)
 		{
-			if (ft_set_cmd(new, src,  arg_iter))
+			if (ft_set_cmd(new, src, arg_iter))
 				return (1);
 		}
 		if (src->args[*arg_iter] && !ft_ch_symbl(src->args[*arg_iter][0]) &&
@@ -125,12 +124,10 @@ int	ft_tokenize(t_src *src, t_inst *inst)
 	args_cnt = 0;
 	tkn_cnt = 0;
 	if (src->args[args_cnt] && src->args[0][0] == '|')
-		return (ft_err_parser("Syntax error near '|' "
-							  "token", src, NULL, NULL));
+		return (ft_err_parser("Syntax error near '|' token", src, NULL, NULL));
 	inst->tkn_head = ft_calloc(sizeof(t_tkn *), 1);
 	if (!inst->tkn_head)
-		return (ft_err_parser("Malloc "
-							  "error in parser", src, NULL, NULL));
+		return (ft_err_parser("Malloc error in parser", src, NULL, NULL));
 	while (src->args[args_cnt] && args_cnt <= src->args_cnt)
 	{
 		if (ft_create_token(src, inst->tkn_head, &args_cnt, &tkn_cnt))
