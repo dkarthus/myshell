@@ -54,7 +54,7 @@ static char	**ft_combine(char *name, char **spl_path, int save)
 	free(spl_path[i - 1]);
 	spl_path[i - 1] = ft_strdup(name);
 	if (!spl_path[i - 1])
-		return (ft_free("\033[90mMalloc error\033[0m", spl_path, save));
+		return (ft_free("\033[90mMalloc error\033[0m\n", spl_path, save));
 	return (spl_path);
 }
 
