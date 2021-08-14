@@ -17,7 +17,7 @@ static int	while_for_command_executor(t_inst *inst, t_tkn *tkn)
 		else if (check_cmd(tkn, "echo") == 0)
 			return (execute_echo(tkn));
 		else if (check_cmd(tkn, "exit") == 0)
-			return (execute_exit(tkn));
+			return (execute_exit(inst->fd_out_save, tkn));
 		tkn = tkn->next;
 	}
 	return (-1);

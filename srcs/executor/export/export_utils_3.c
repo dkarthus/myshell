@@ -1,16 +1,19 @@
 #include "../../../includes/minishell.h"
 
-void	print_export_not_a_valid_identifier(char *arg)
+void	print_export_not_a_valid_identifier(int fd_out_save, char *arg)
 {
-	printf("minishell: export: `%s': "
-		   "not a valid identifier\n", arg);
+	ft_putstr_fd("minishell: export: `", fd_out_save);
+	ft_putstr_fd(arg, fd_out_save);
+	ft_putstr_fd("': not a valid identifier\n", fd_out_save);
 	g_exit_status = 1;
 }
 
 void	export_semicolon_equal(t_inst *inst, t_u_e *e)
 {
 	print_export(inst);
-	printf("minishell: =%s: command not found\n", e->value);
+	ft_putstr_fd("minishell: =", inst->fd_out_save);
+	ft_putstr_fd(e->value, inst->fd_out_save);
+	ft_putstr_fd(": command not found\n", inst->fd_out_save);
 }
 
 void	export_semicolon(t_inst *inst, char *arg)
@@ -21,7 +24,9 @@ void	export_semicolon(t_inst *inst, char *arg)
 	str = ft_substr(arg, 1, ft_strlen(arg) - 1);
 	if (str == NULL)
 		error_exit(-6);
-	printf("minishell: %s: command not found\n", str);
+	ft_putstr_fd("minishell: ", inst->fd_out_save);
+	ft_putstr_fd(arg, inst->fd_out_save);
+	ft_putstr_fd(": command not found\n", inst->fd_out_save);
 	if (str != NULL)
 		free(str);
 }

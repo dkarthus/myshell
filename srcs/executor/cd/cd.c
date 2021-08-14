@@ -39,7 +39,7 @@ static int	cd_home(t_inst *inst)
 
 	home_value = ft_get_env_value("HOME", inst->env_head);
 	if (home_value == NULL)
-		write(STDOUT_FILENO, "minishell: cd: HOME not set\n", 28);
+		ft_putstr_fd("minishell: cd: HOME not set\n", inst->fd_out_save);
 	else
 	{
 		error_check_int = chdir(home_value);
