@@ -35,8 +35,8 @@ int ft_set_cmd(t_tkn *tkn, t_src *src, int *arg_iter)
 	tkn->cmd = ft_strdup(src->args[*arg_iter]);
 	tkn->args[0] = ft_strdup(src->args[*arg_iter]);
 	if (!tkn->args[0] || !tkn->cmd)
-		return (ft_err_parser("\033[90mMalloc "
-							  "error in parser\033[0m", src, NULL, NULL));
+		return (ft_err_parser("Malloc "
+							  "error in parser", src, NULL, NULL));
 	(*arg_iter)++;
 	return (0);
 }
@@ -125,12 +125,12 @@ int	ft_tokenize(t_src *src, t_inst *inst)
 	args_cnt = 0;
 	tkn_cnt = 0;
 	if (src->args[args_cnt] && src->args[0][0] == '|')
-		return (ft_err_parser("\033[90mSyntax error near '|' "
-							  "token\033[0m", src, NULL, NULL));
+		return (ft_err_parser("Syntax error near '|' "
+							  "token", src, NULL, NULL));
 	inst->tkn_head = ft_calloc(sizeof(t_tkn *), 1);
 	if (!inst->tkn_head)
-		return (ft_err_parser("\033[90mMalloc "
-							  "error in parser\033[0m", src, NULL, NULL));
+		return (ft_err_parser("Malloc "
+							  "error in parser", src, NULL, NULL));
 	while (src->args[args_cnt] && args_cnt <= src->args_cnt)
 	{
 		if (ft_create_token(src, inst->tkn_head, &args_cnt, &tkn_cnt))
