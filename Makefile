@@ -17,6 +17,7 @@ SRC			=	minishell.c \
 				tokens/token_utils1.c \
 				tokens/token_utils2.c \
 				tokens/tokenizer.c \
+				tokens/tokenizier_v2.c \
 				executor/cd/cd.c \
 				executor/cd/update_old_pwd.c \
 				executor/cd/update.c \

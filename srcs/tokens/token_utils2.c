@@ -7,11 +7,12 @@
  * @param	i src->args count;
  * @returns 0 = OK, 1 = KO malloc error;
  */
-int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
+//GOOD
+int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *arg_iter)
 {
 	char	*tmp;
 
-	tmp = src->args[*i];
+	tmp = src->args[*arg_iter];
 	if (!tmp)
 		return (0);
 	if (tmp[1] == '|' || (!tmp[1] && !(tmp + 1)) || ((tmp + 1) && (tmp + 1)
@@ -20,11 +21,11 @@ int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
 	tkn->is_pipe = 1;
 	if (tmp[1] != 0)
 	{
-		src->args[*i] = ft_strdup(&src->args[*i][1]);
+		src->args[*arg_iter] = ft_strdup(&src->args[*arg_iter][1]);
 		free(tmp);
 	}
 	else
-		(*i)++;
+		(*arg_iter)++;
 	tmp = NULL;
 	return (0);
 }
@@ -34,6 +35,7 @@ int	ft_is_pipe_tkn(t_tkn *tkn, t_src *src, int *i)
  *	@param c char to check
  *	@returns 1 =true, 0 = false
  */
+//GOOD
 int	ft_ch_symbl(char c)
 {
 	return (c == '|' || c == '<' || c == '>');

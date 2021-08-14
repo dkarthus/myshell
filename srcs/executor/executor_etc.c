@@ -59,7 +59,7 @@ int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 	char	**arg_env;
 	int 	i;
 
-	path = ft_get_bin_path(tkn->cmd, inst->env_head);
+	path = ft_get_bin_path(tkn->cmd, inst);
 	arg_env = ft_group_envs(inst->env_head);
 	if (!path || !arg_env)
 	{
@@ -69,7 +69,7 @@ int	ft_process_bin(t_inst *inst, t_tkn *tkn)
 	}
 	if (execve(path, tkn->args, arg_env) == -1)
 	{
-		printf("Couldn't find bin : %s\n", path);
+		ft_putstr_fd("Couldn't find bin!\n", inst->fd_out_save);
 		i = 0;
 		while(arg_env[i])
 			free(arg_env[i++]);

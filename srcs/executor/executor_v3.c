@@ -3,7 +3,7 @@
 /*
  *
  */
-int **ft_init_pipe(t_inst *inst, t_tkn *fst_tkn)
+static int **ft_init_pipe(t_inst *inst, t_tkn *fst_tkn)
 {
 	int	i;
 	int	**pipe_fd;
@@ -58,7 +58,7 @@ static void	ft_thor_odinson(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 /*
  *
  */
-pid_t ft_exec_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
+static pid_t	ft_exec_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 {
 	pid_t	r_u_winning_son;
 
@@ -80,7 +80,7 @@ pid_t ft_exec_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 /*
  *
  */
-int	ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
+static int	ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 {
 	pid_t	*pids;
 	int		ret;
@@ -106,5 +106,37 @@ int	ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 	waitpid(pids[i], &ret, 0);
 	ft_exit_status_upd(ret);
 	free(pids);
+	return (0);
+}
+
+/*
+ *
+ */
+int ft_executor(t_inst *inst)
+{
+	t_tkn *tkn;
+	int **pipe_fd;
+
+	tkn = *(inst->tkn_head);
+	while (tkn && tkn->cmd == NULL)
+	{
+		if (tkn->is_here_doc && tkn->stop_word)
+		{
+			if (ft_here_doc(NULL, tkn->stop_word, 1))
+				return (1);
+		}
+		tkn = tkn->next;
+	}
+	if (tkn && ft_find_builtin(tkn->cmd))
+	{
+		if (ft_first_token(inst, &tkn))
+			return (1);
+	}
+	if(!tkn)
+		return (0);
+	pipe_fd = ft_init_pipe(inst, tkn);
+	if (!pipe_fd && inst->pipes_cnt)
+		return (ft_frees(inst, 2, "Executor error!\n"));
+	ft_exec_multi_tkn(inst, tkn, pipe_fd);
 	return (0);
 }

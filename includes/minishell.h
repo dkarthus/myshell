@@ -99,7 +99,7 @@ typedef struct s_instance
 	t_tkn	**tkn_head;
 	int		pipes_cnt;
 	int		fd_in_save;
-	int		is_forked;
+	int		fd_out_save;
 }				t_inst;
 typedef struct s_source		t_src;
 
@@ -109,15 +109,16 @@ int		ft_find_builtin(char *str);
 
 //Binary exec
 int		ft_executor(t_inst *inst);
-//int		ft_fork_cmd(t_inst *inst, t_tkn *tkn);
 void	ft_exit_status_upd(int status_ret);
-char	*ft_get_bin_path(char *name, t_env **head);
+char	*ft_get_bin_path(char *name, t_inst *inst);
 int		ft_process_bin(t_inst *inst, t_tkn *tkn);
 int		ft_manage_fds(t_tkn *tkn, int **pipe_fd);
 int		ft_closefd(char *err, int *pipe_fd, int fd);
-//
-int		ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd);
-int		**ft_init_pipe(t_inst *inst, t_tkn *fst_tkn);
+//Exec_v3 upds
+//int		ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd);
+int		ft_first_token(t_inst *inst, t_tkn **tkn);
+//int		ft_exec_first_tkn(t_inst *inst, t_tkn **tkn);
+//int		**ft_init_pipe(t_inst *inst, t_tkn *fst_tkn);
 
 //Env vars utils
 char	**ft_group_envs(t_env **head);

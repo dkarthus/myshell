@@ -28,14 +28,14 @@ static int	ft_manage_fds_fst_tkn(t_tkn *tkn, int *pipe_fd)
 /*
  *
  */
-static void	ft_print_err(void)
+static void	ft_print_err(int fd_out_save)
 {
 	char	buf[4096];
 	int		bytes;
 
 	ft_memset(buf, 0, 4096);
 	bytes = read(0, buf, 4096);
-	ft_putstr_fd(buf, 1);
+	ft_putstr_fd(buf, fd_out_save);
 }
 
 /*
@@ -57,7 +57,7 @@ static int	ft_exec_fst_util(t_tkn *tkn, int ret, int *pipe_fd, int save)
 	if (dup2(save, 1) == -1)
 		return (1);
 	if (ret == 1 && tkn->is_pipe)
-		ft_print_err();
+		ft_print_err(save);
 	return (0);
 }
 
@@ -67,17 +67,15 @@ static int	ft_exec_fst_util(t_tkn *tkn, int ret, int *pipe_fd, int save)
 static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
 	int	pipe_fd[2];
-	int	save;
 	int	ret;
 	t_tkn *tmp;
 
 	pipe_fd[0] = -1;
 	pipe_fd[1] = -1;
-	save = dup(1);
 	if (ft_manage_fds_fst_tkn(*tkn, pipe_fd))
 		return (1);
 	ret = command_executor(inst, (*tkn));
-	if (ft_exec_fst_util(*tkn, ret, pipe_fd, save))
+	if (ft_exec_fst_util(*tkn, ret, pipe_fd, inst->fd_out_save))
 		return (1);
 	*tkn = (*tkn)->next;
 	tmp = *tkn;
@@ -92,27 +90,14 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 /*
  *
  */
-int ft_executor(t_inst *inst)
+int ft_first_token(t_inst *inst, t_tkn **tkn)
 {
-	t_tkn *tkn;
-	int **pipe_fd;
-
-	tkn = *(inst->tkn_head);
-	if (tkn && ft_find_builtin(tkn->cmd))
+	if ((*tkn)->is_here_doc && (*tkn)->stop_word)
 	{
-		if (tkn->is_here_doc && tkn->stop_word)
-		{
-			if (ft_here_doc(NULL, tkn->stop_word, 1))
-				return (1);
-		}
-		if (ft_exec_first_tkn(inst, &tkn))
-			return (ft_frees(inst, 2, "Executor error!\n"));
+		if (ft_here_doc(NULL, (*tkn)->stop_word, 1))
+			return (1);
 	}
-	if(!tkn)
-		return (0);
-	pipe_fd = ft_init_pipe(inst, tkn);
-	if (!pipe_fd && inst->pipes_cnt)
+	if (ft_exec_first_tkn(inst, tkn))
 		return (ft_frees(inst, 2, "Executor error!\n"));
-	ft_exec_multi_tkn(inst, tkn, pipe_fd);
 	return (0);
 }
