@@ -66,7 +66,7 @@ int	our_exit(int fd_out_save, char **args)
 	int	i;
 
 	i = 1;
-	ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("exit\n", fd_out_save);
 	g_exit_status = 0;
 	if (args[1] != NULL)
 	{
