@@ -36,3 +36,26 @@ int	ft_closefd(char *err, int *pipe_fd, int fd)
 		close(fd);
 	return (1);
 }
+
+/*
+ * Checks if the symbol is one that needs to be interpret;
+ *
+ * @param c symbol to check;
+ * @return 1 if true, 0 if false
+ */
+int	ft_check_symbol(char c, int mode)
+{
+	if (mode == 1)
+	{
+		return (c == ' ' || c == '\'' || c == '\"' || c == '$' || c == '<' || c
+		=='>' || c == '|' || c == '\0');
+	}
+	if (mode == 2)
+	{
+		return (ft_isalpha(c) || c == 95);
+	}
+	else
+	{
+		return (ft_isalpha(c) || ft_isalnum(c) || c == 95);
+	}
+}

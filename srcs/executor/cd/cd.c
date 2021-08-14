@@ -1,6 +1,6 @@
 #include "../../../includes/minishell.h"
 
-int	no_such_file_or_directory(int error_check, const char *str)
+int	no_such_file_or_directory(int fd_out_save, int error_check, char *str)
 {
 	int	zero;
 
@@ -99,7 +99,3 @@ int	cd(t_inst *inst, char *arg)
 	return (g_exit_status);
 }
 
-//c'mon, git
-//we need you to work
-//let's go, boy
-//let's go
