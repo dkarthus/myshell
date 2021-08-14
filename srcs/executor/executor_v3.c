@@ -3,15 +3,15 @@
 /*
  *
  */
-static int **ft_init_pipe(t_inst *inst, t_tkn *fst_tkn)
+static int	**ft_init_pipe(t_inst *inst, t_tkn *fst_tkn)
 {
-	int	i;
-	int	**pipe_fd;
-	t_tkn *tmp;
+	int		i;
+	int		**pipe_fd;
+	t_tkn	*tmp;
 
 	i = 0;
 	tmp = fst_tkn;
-	while(tmp)
+	while (tmp)
 	{
 		tmp = tmp->next;
 		i++;
@@ -35,15 +35,15 @@ static int **ft_init_pipe(t_inst *inst, t_tkn *fst_tkn)
  */
 static void	ft_thor_odinson(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 {
-	int i = 0;
+	int	i;
 
-
+	i = 0;
 	signal(SIGQUIT, ft_sig_handle);
 	if (ft_manage_fds(tkn, pipe_fd))
 		exit (1);
 	while (i < inst->pipes_cnt)
 	{
-		if(i == tkn->id)
+		if (i == tkn->id)
 			break ;
 		close(pipe_fd[i][1]);
 		i++;
@@ -94,10 +94,10 @@ static int	ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 		pids[tkn->id] = ft_exec_tkn(inst, tkn, pipe_fd);
 		if (pids[tkn->id] == -1)
 			return (1);
-		tkn=tkn->next;
+		tkn = tkn->next;
 	}
 	i = 0;
-	while(i < inst->pipes_cnt)
+	while (i < inst->pipes_cnt)
 	{
 		close(pipe_fd[i][0]);
 		close(pipe_fd[i][1]);
@@ -112,10 +112,10 @@ static int	ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 /*
  *
  */
-int ft_executor(t_inst *inst)
+int	ft_executor(t_inst *inst)
 {
-	t_tkn *tkn;
-	int **pipe_fd;
+	t_tkn	*tkn;
+	int		**pipe_fd;
 
 	tkn = *(inst->tkn_head);
 	while (tkn && tkn->cmd == NULL)
@@ -132,7 +132,7 @@ int ft_executor(t_inst *inst)
 		if (ft_first_token(inst, &tkn))
 			return (1);
 	}
-	if(!tkn)
+	if (!tkn)
 		return (0);
 	pipe_fd = ft_init_pipe(inst, tkn);
 	if (!pipe_fd && inst->pipes_cnt)

@@ -24,11 +24,12 @@ static void	cd_tilde_home(t_inst *inst)
 
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(-5);
+		(error_exit(inst->fd_out_save, -5));
 	else
 	{
 		error_check_int = chdir(home_value);
-		no_such_file_or_directory(inst->fd_out_save, error_check_int, home_value);
+		no_such_file_or_directory(inst->fd_out_save,
+			  error_check_int, home_value);
 	}
 }
 
@@ -43,7 +44,8 @@ static int	cd_home(t_inst *inst)
 	else
 	{
 		error_check_int = chdir(home_value);
-		return (no_such_file_or_directory(inst->fd_out_save, error_check_int, home_value));
+		return (no_such_file_or_directory(inst->fd_out_save,
+				  error_check_int, home_value));
 	}
 	return (0);
 }
@@ -58,7 +60,7 @@ static char	*check_tilde_slash_path(t_inst *inst)
 	tkn = *(inst->tkn_head);
 	home_value = getenv("HOME");
 	if (home_value == NULL)
-		error_exit(-5);
+		(error_exit(inst->fd_out_save, -5));
 	else
 	{
 		if (tkn->args[1][0] == '~' && tkn->args[1][1] == '/')
@@ -91,7 +93,8 @@ int	cd(t_inst *inst, char *arg)
 	else if (check_tilde_slash_path(inst) != NULL && ft_strlen(arg) > 1)
 	{
 		error_check = chdir(check_tilde_slash_path(inst));
-		no_such_file_or_directory(inst->fd_out_save, error_check, check_tilde_slash_path(inst));
+		no_such_file_or_directory(inst->fd_out_save,
+			  error_check, check_tilde_slash_path(inst));
 	}
 	else
 		cd_else(inst);

@@ -52,7 +52,7 @@ void	free_key_and_value(t_u_e *e)
 		free(e->value);
 }
 
-void	split_the_line_for_key_and_value(t_u_e *e, char *arg)
+void	split_the_line_for_key_and_value(t_u_e *e, int fd_out_save, char *arg)
 {
 	int		i;
 
@@ -64,9 +64,9 @@ void	split_the_line_for_key_and_value(t_u_e *e, char *arg)
 		free_key_and_value(e);
 		e->key = ft_substr(arg, 0, i);
 		if (e->key == NULL)
-			error_exit(-6);
+			error_exit(fd_out_save, -6);
 		e->value = ft_substr(arg, i + 1, ft_strlen(arg));
 		if (e->value == NULL)
-			error_exit(-6);
+			error_exit(fd_out_save, -6);
 	}
 }

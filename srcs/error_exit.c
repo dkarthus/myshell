@@ -1,27 +1,27 @@
 #include "../includes/minishell.h"
 
-void	str_error(const char *str)
+void	str_error(int fd_out_save, char *str)
 {
-	write(STDERR_FILENO, str, ft_strlen(str));
+	ft_putstr_fd(str, fd_out_save);
 	g_exit_status = 1;
 }
 
-int	error_exit(int err_code)
+int	error_exit(int fd_out_save, int err_code)
 {
 	write(1, "\033[31mError\033[0m\n", 15);
 	if (err_code == -1)
-		str_error("chdir() returned -1\n");
+		str_error(fd_out_save, "chdir() returned -1\n");
 	else if (err_code == -2)
-		str_error("getcwd() returned NULL\n");
+		str_error(fd_out_save, "getcwd() returned NULL\n");
 	else if (err_code == -3)
-		str_error("ft_add_env_value() returned 0\n");
+		str_error(fd_out_save, "ft_add_env_value() returned 0\n");
 	else if (err_code == -4)
-		str_error("ft_add_env_value(pwd, inst->env_head) "
+		str_error(fd_out_save, "ft_add_env_value(pwd, inst->env_head) "
 			  "returned 0\n");
 	else if (err_code == -5)
-		str_error("getenv(\"HOME\") returned NULL\n");
+		str_error(fd_out_save, "getenv(\"HOME\") returned NULL\n");
 	else if (err_code == -6)
-		str_error("Malloc has failed\n");
+		str_error(fd_out_save, "Malloc has failed\n");
 	return (g_exit_status);
 }
 
@@ -71,7 +71,7 @@ int	ft_frees(t_inst *inst, int mode, char *err)
 			ft_putstr_fd(err, 1);
 		if (inst->tkn_head)
 			ft_free_tkn(inst->tkn_head);
-		return (1) ;
+		return (1);
 	}
 	if (inst->env_head)
 		ft_free_env(inst->env_head);

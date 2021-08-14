@@ -23,7 +23,7 @@ void	export_semicolon(t_inst *inst, char *arg)
 	print_export(inst);
 	str = ft_substr(arg, 1, ft_strlen(arg) - 1);
 	if (str == NULL)
-		error_exit(-6);
+		error_exit(inst->fd_out_save, -6);
 	ft_putstr_fd("minishell: ", inst->fd_out_save);
 	ft_putstr_fd(arg, inst->fd_out_save);
 	ft_putstr_fd(": command not found\n", inst->fd_out_save);

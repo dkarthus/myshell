@@ -66,9 +66,9 @@ static int	ft_exec_fst_util(t_tkn *tkn, int ret, int *pipe_fd, int save)
  */
 static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 {
-	int	pipe_fd[2];
-	int	ret;
-	t_tkn *tmp;
+	int		pipe_fd[2];
+	int		ret;
+	t_tkn	*tmp;
 
 	pipe_fd[0] = -1;
 	pipe_fd[1] = -1;
@@ -79,7 +79,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 		return (1);
 	*tkn = (*tkn)->next;
 	tmp = *tkn;
-	while(tmp)
+	while (tmp)
 	{
 		tmp->id--;
 		tmp = tmp->next;
@@ -90,7 +90,7 @@ static int	ft_exec_first_tkn(t_inst *inst, t_tkn **tkn)
 /*
  *
  */
-int ft_first_token(t_inst *inst, t_tkn **tkn)
+int	ft_first_token(t_inst *inst, t_tkn **tkn)
 {
 	if ((*tkn)->is_here_doc && (*tkn)->stop_word)
 	{

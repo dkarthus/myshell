@@ -81,12 +81,12 @@ int	pwd(t_inst	*inst)
 
 	error_check_char_p = getcwd(dir, 2048);
 	if (error_check_char_p == NULL)
-		error_exit(-2);
+		(error_exit(inst->fd_out_save, -2));
 	pwd = ft_strjoin("PWD=", dir);
 	error_check_int = ft_add_env_elem(pwd, inst->env_head);
 	free(pwd);
 	if (error_check_int == 0)
-		error_exit(-4);
+		(error_exit(inst->fd_out_save, -4));
 	error_check_char_p = ft_strjoin(error_check_char_p, "\n");
 	ft_putstr_fd(error_check_char_p, 1);
 	free(error_check_char_p);

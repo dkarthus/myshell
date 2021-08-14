@@ -80,7 +80,7 @@ static char	*ft_find_bin(char **path_combos, int save)
 	{
 		g_exit_status = 127;
 		return (*(ft_free("minishell: command not found\n",
-						path_combos, save)));
+					path_combos, save)));
 	}
 	path = ft_strdup(path_combos[i]);
 	if (!path)

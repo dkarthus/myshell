@@ -5,6 +5,6 @@
 
 typedef struct s_instance	t_inst;
 
-int	error_exit(int err_code);
+int	error_exit(int fd_out_save, int err_code);
 
 #endif

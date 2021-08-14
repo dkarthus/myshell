@@ -16,7 +16,7 @@ void	unset_tilde(int fd_out_save, char *arg)
 	if (home_value == NULL)
 	{
 		g_exit_status = 1;
-		error_exit(-5);
+		(error_exit(fd_out_save, -5));
 	}
 	free(arg);
 	arg = ft_strdup(home_value);
@@ -31,7 +31,7 @@ void	unset_tilde_slash(int fd_out_save, char *arg)
 	if (home_value == NULL)
 	{
 		g_exit_status = 1;
-		error_exit(-5);
+		error_exit(fd_out_save, -5);
 	}
 	free(arg);
 	arg = ft_strjoin(home_value, "/");
@@ -47,7 +47,7 @@ void	unset_tilde_slash_s(int fd_out_save, char *arg)
 	if (home_value == NULL)
 	{
 		g_exit_status = 1;
-		error_exit(-5);
+		error_exit(fd_out_save, -5);
 	}
 	hold_str_for_me = ft_substr(arg, 1, ft_strlen(arg) - 1);
 	free(arg);

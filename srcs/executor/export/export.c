@@ -19,7 +19,7 @@ static void	initialize_variables_for_export(t_u_e *e)
 
 void	line_contains_equal_sign(t_inst *inst, t_u_e *e, char *arg)
 {
-	split_the_line_for_key_and_value(e, arg);
+	split_the_line_for_key_and_value(e, inst->fd_out_save, arg);
 	if_for_export(inst, e, arg);
 }
 

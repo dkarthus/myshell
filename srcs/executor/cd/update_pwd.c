@@ -20,13 +20,13 @@ int	update_pwd(t_inst *inst)
 
 	error_check_char_p = getcwd(dir, 2048);
 	if (error_check_char_p == NULL)
-		error_exit(-2);
+		(error_exit(inst->fd_out_save, -2));
 	pwd = ft_strjoin("PWD=", dir);
 	if (pwd == NULL)
-		error_exit(-6);
+		(error_exit(inst->fd_out_save, -6));
 	error_check_int = ft_add_env_elem(pwd, inst->env_head);
 	if (error_check_int == 0)
-		error_exit(-4);
+		(error_exit(inst->fd_out_save, -4));
 	free(pwd);
 	return (0);
 }
