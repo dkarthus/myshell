@@ -31,7 +31,7 @@ static int	**ft_init_pipe(t_inst *inst, t_tkn *fst_tkn)
 }
 
 /*
- *
+ * Thir son of Odin
  */
 static void	ft_thor_odinson(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 {
