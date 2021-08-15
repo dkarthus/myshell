@@ -29,6 +29,23 @@ static int	ft_update_shell_lvl(t_env **head)
 /*
  *
  */
+static int ft_kostil(char *line)
+{
+	int i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_isspace(line[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+/*
+ *
+ */
 static void	ft_main_loop(t_inst *inst)
 {
 	char	*line;
@@ -42,6 +59,11 @@ static void	ft_main_loop(t_inst *inst)
 		if (line == NULL)
 			ft_frees(inst, 3, "exit\n");
 		add_history(line);
+		if (ft_kostil(line))
+		{
+			free(line);
+			continue ;
+		}
 		if (ft_parse(line, inst, &src))
 			continue ;
 		if (ft_tokenize(&src, inst))

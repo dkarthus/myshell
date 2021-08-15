@@ -6,7 +6,7 @@
  *	@param	str array to free;
  *	@returns 0;
  */
-static char	**ft_free(char *print, char **str, int fd_out_save)
+static char	*ft_free(char *print, char **str, int fd_out_save)
 {
 	int	i;
 
@@ -23,6 +23,19 @@ static char	**ft_free(char *print, char **str, int fd_out_save)
 		}
 		free(str);
 		str = 0;
+	}
+	return (0);
+}
+
+/*
+ *
+ */
+static int	ft_util_comb(char **spl_path, int i, int save)
+{
+	if (!spl_path[i - 1])
+	{
+		ft_free("Malloc error", spl_path, save);
+		return (1);
 	}
 	return (0);
 }
@@ -48,13 +61,16 @@ static char	**ft_combine(char *name, char **spl_path, int save)
 		spl_path[i] = ft_strjoin(spl_path[i], name);
 		free(tmp);
 		if (!spl_path[i])
-			return (ft_free("Malloc error\n", spl_path, save));
+		{
+			ft_free("Malloc error\n", spl_path, save);
+			return (0);
+		}
 		i++;
 	}
 	free(spl_path[i - 1]);
 	spl_path[i - 1] = ft_strdup(name);
-	if (!spl_path[i - 1])
-		return (ft_free("Malloc error", spl_path, save));
+	if (ft_util_comb(spl_path, i, save))
+		return (0);
 	return (spl_path);
 }
 
@@ -79,12 +95,12 @@ static char	*ft_find_bin(char **path_combos, int save)
 	if (path_combos[i] == 0)
 	{
 		g_exit_status = 127;
-		return (*(ft_free("minishell: command not found\n",
+		return ((ft_free("minishell: command not found\n",
 					path_combos, save)));
 	}
 	path = ft_strdup(path_combos[i]);
 	if (!path)
-		return (*(ft_free("Malloc error in bin.finder\n",
+		return ((ft_free("Malloc error in bin.finder\n",
 					path_combos, save)));
 	ft_free(NULL, path_combos, save);
 	return (path);

@@ -9,12 +9,14 @@
  * @param len of argument in str;
  * @return 0 = OK, 1 = KO malloc error
  */
-static int	ft_append_arg( t_src *src, char *str, int *start, int *len)
+static int	ft_append_arg(t_src *src, char *str, int *start, int *len)
 {
 	char	*arg;
 	char	*tmp;
 
 	arg = ft_substr(str, *start, *len);
+	if (!src->args[src->args_cnt])
+		src->args[src->args_cnt] = ft_strdup("");
 	tmp = src->args[src->args_cnt];
 	src->args[src->args_cnt] = ft_strjoin(src->args[src->args_cnt], arg);
 	if (!(src->args[src->args_cnt]))
@@ -48,6 +50,7 @@ static int	ft_dissect_value(t_src *src, char *value)
 		{
 			if (ft_append_arg(src, value, &start, &len))
 				return (1);
+			++src->args_cnt;
 			while (ft_isspace(value[i]))
 				i++;
 			start = i;

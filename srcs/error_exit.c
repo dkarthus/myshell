@@ -28,13 +28,15 @@ int	error_exit(int fd_out_save, int err_code)
 /*
  *
  */
-static void	ft_free_tkn(t_tkn **head)
+void	ft_free_tkn(t_tkn **head)
 {
 	t_tkn	*tmp;
 	t_tkn	*tmp1;
 	int		i;
 
-	tmp = *head;
+	tmp = NULL;
+	if (head)
+		tmp = *head;
 	while (tmp)
 	{
 		free(tmp->cmd);

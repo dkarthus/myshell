@@ -129,5 +129,6 @@ void	ft_sig_handle_ch(int sig);
 int		ft_frees(t_inst *inst, int mode, char *err);
 int		ft_fr_pipe(int **pipe_fd, int pipe_cnt);
 void	ft_free_env(t_env **head);
+void	ft_free_tkn(t_tkn **head);
 
 #endif

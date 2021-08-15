@@ -79,11 +79,17 @@ int	ft_create_token(t_src *src, t_tkn **head, int *arg_iter, int *tkn_cnt)
 	while (src->args[*arg_iter])
 	{
 		if (ft_util_create_tkn(new, src, arg_iter))
+		{
+			ft_tkn_add_back(new, head);
 			return (1);
+		}
 		if (src->args[*arg_iter] && src->args[*arg_iter][0] == '|')
 		{
 			if (ft_is_pipe_tkn(new, src, arg_iter))
+			{
+				ft_tkn_add_back(new, head);
 				return (1);
+			}
 			break ;
 		}
 	}
