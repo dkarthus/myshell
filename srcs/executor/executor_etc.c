@@ -41,14 +41,17 @@ int	ft_find_builtin(char *str)
 		return (1);
 	if (!ft_strncmp(str, "exit", 5))
 		return (1);
-	if (!ft_strncmp(str, "echo", 5))
-		return (1);
 	if (!ft_strncmp(str, "unset", 6))
 		return (1);
 	if (!ft_strncmp(str, "export", 7))
 		return (1);
 	return (0);
 }
+/*
+ * patches for dushils
+ */
+/*	if (!ft_strncmp(str, "echo", 5))
+		return (1);*/
 
 /*
  *

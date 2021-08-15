@@ -48,8 +48,11 @@ static void	ft_thor_odinson(t_inst *inst, t_tkn *tkn, int **pipe_fd)
 		close(pipe_fd[i][1]);
 		i++;
 	}
-	if (command_executor(inst, tkn) != -1)
+	i = command_executor(inst, tkn);
+	if (i == 1)
 		exit (1);
+	else if (i == 0)
+		exit (0);
 	if (ft_process_bin(inst, tkn))
 		exit(1);
 	exit (0);

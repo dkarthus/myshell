@@ -99,6 +99,7 @@ int	ft_first_token(t_inst *inst, t_tkn **tkn)
 	}
 	if (ft_exec_first_tkn(inst, tkn))
 		return (ft_frees(inst, 2, "Executor error!\n"));
+	g_exit_status = 0;
 	if (!(*tkn))
 		ft_frees(inst, 2, NULL);
 	return (0);

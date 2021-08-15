@@ -6,8 +6,7 @@
 int	ft_proc_pipe(t_src *src)
 {
 	if (src->args_cnt == 0 && src->args[src->args_cnt] == NULL)
-		return (ft_err_parser("minishell: "
-				  "Syntax error", src, NULL, NULL));
+		return (ft_err_parser("Syntax error", src, NULL, NULL));
 	if (src->str[src->pos + 1] == '|')
 		return (ft_err_parser("Sorry, "
 				  "cant interpret ||", src, NULL, NULL));

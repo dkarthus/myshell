@@ -78,7 +78,7 @@ int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 	{
 		++(*arg_iter);
 		if (!src->args[*arg_iter] || ft_ch_symbl(src->args[*arg_iter][0]))
-			return (ft_err_parser("Error near token <", src, NULL, NULL));
+			return (ft_err_parser("Syntax error near <", src, NULL, NULL));
 		tkn->fd_in = ft_get_fd(src->args[*arg_iter], i, tkn);
 		if (tkn->fd_in == 1)
 			return (ft_err_parser(NULL, src, NULL, NULL));
@@ -86,7 +86,7 @@ int	ft_update_token_fdin(t_tkn *tkn, t_src *src, int *arg_iter)
 	else
 	{
 		if (ft_ch_symbl(src->args[*arg_iter][i]))
-			return (ft_err_parser("Parser error", src, NULL, NULL));
+			return (ft_err_parser("Syntax error", src, NULL, NULL));
 		tkn->fd_in = ft_get_fd(&src->args[*arg_iter][i], i, tkn);
 		if (tkn->fd_in == 1)
 			return (ft_err_parser(NULL, src, NULL, NULL));

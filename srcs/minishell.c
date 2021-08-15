@@ -29,9 +29,9 @@ static int	ft_update_shell_lvl(t_env **head)
 /*
  *
  */
-static int ft_kostil(char *line)
+static int	ft_last_resort_util(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -59,7 +59,7 @@ static void	ft_main_loop(t_inst *inst)
 		if (line == NULL)
 			ft_frees(inst, 3, "exit\n");
 		add_history(line);
-		if (ft_kostil(line))
+		if (ft_last_resort_util(line))
 		{
 			free(line);
 			continue ;
