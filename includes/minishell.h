@@ -114,17 +114,12 @@ char	*ft_get_bin_path(char *name, t_inst *inst);
 int		ft_process_bin(t_inst *inst, t_tkn *tkn);
 int		ft_manage_fds(t_tkn *tkn, int **pipe_fd);
 int		ft_closefd(char *err, int *pipe_fd, int fd);
-//Exec_v3 upds
-//int		ft_exec_multi_tkn(t_inst *inst, t_tkn *tkn, int **pipe_fd);
 int		ft_first_token(t_inst *inst, t_tkn **tkn);
-//int		ft_exec_first_tkn(t_inst *inst, t_tkn **tkn);
-//int		**ft_init_pipe(t_inst *inst, t_tkn *fst_tkn);
 
 //Env vars utils
 char	**ft_group_envs(t_env **head);
 int		ft_unset_env_var(char *key, t_env **head);
 char	*ft_get_env_value(char *key, t_env **head);
-void	ft_free_env(t_env **head);
 
 //Signals
 void	ft_sig_handle(int sig);
@@ -132,5 +127,7 @@ void	ft_sig_handle_ch(int sig);
 
 //Free&Exit
 int		ft_frees(t_inst *inst, int mode, char *err);
+int		ft_fr_pipe(int **pipe_fd, int pipe_cnt);
+void	ft_free_env(t_env **head);
 
 #endif

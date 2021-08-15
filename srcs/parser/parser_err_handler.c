@@ -15,7 +15,7 @@ int	ft_err_parser(const char *str, t_src *src, char *to_free1, char *to_free2)
 		free(src->str);
 		src->str = NULL;
 		i = 0;
-		while (src->args[i])
+		while (i < 255)
 		{
 			free(src->args[i]);
 			src->args[i] = NULL;

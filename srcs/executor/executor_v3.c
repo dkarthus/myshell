@@ -138,5 +138,5 @@ int	ft_executor(t_inst *inst)
 	if (!pipe_fd && inst->pipes_cnt)
 		return (ft_frees(inst, 2, "Executor error!\n"));
 	ft_exec_multi_tkn(inst, tkn, pipe_fd);
-	return (0);
+	return (ft_frees(inst, 2, NULL) && ft_fr_pipe(pipe_fd, inst->pipes_cnt));
 }

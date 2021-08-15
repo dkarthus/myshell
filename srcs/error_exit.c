@@ -42,7 +42,7 @@ static void	ft_free_tkn(t_tkn **head)
 		tmp->cmd = NULL;
 		tmp->stop_word = NULL;
 		i = 0;
-		while (tmp->args[i])
+		while (i < 255)
 			free((tmp->args[i++]));
 		free(tmp->args);
 		tmp->args = NULL;
