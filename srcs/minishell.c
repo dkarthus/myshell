@@ -29,9 +29,9 @@ static int	ft_update_shell_lvl(t_env **head)
 /*
  *
  */
-static int ft_kostil(char *line)
+static int	ft_kostil(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
