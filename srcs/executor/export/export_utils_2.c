@@ -58,39 +58,15 @@ void	split_the_line_for_key_and_value(t_u_e *e, int fd_out_save, char *arg)
 
 	if (ft_strchr(arg, '=') != NULL)
 	{
-		if (ft_strchr(arg, '+') != NULL)
-		{
-			i = 0;
-			while (arg[i] != '+')
-				i++;
-			if (arg[i + 1] == '=')
-			{
-				free_key_and_value(e);
-				e->key = ft_substr(arg, 0, i);
-				if (e->key == NULL)
-					error_exit(fd_out_save, -6);
-				e->value = ft_substr(arg, i + 1, ft_strlen(arg));
-				if (e->value == NULL)
-					error_exit(fd_out_save, -6);
-			}
-			else
-			{
-				free_key_and_value(e);
-				return ;
-			}
-		}
-		else
-		{
-			i = 0;
-			while (arg[i] != '=')
-				i++;
-			free_key_and_value(e);
-			e->key = ft_substr(arg, 0, i);
-			if (e->key == NULL)
-				error_exit(fd_out_save, -6);
-			e->value = ft_substr(arg, i + 1, ft_strlen(arg));
-			if (e->value == NULL)
-				error_exit(fd_out_save, -6);
-		}
+		i = 0;
+		while (arg[i] != '=')
+			i++;
+		free_key_and_value(e);
+		e->key = ft_substr(arg, 0, i);
+		if (e->key == NULL)
+			error_exit(fd_out_save, -6);
+		e->value = ft_substr(arg, i + 1, ft_strlen(arg));
+		if (e->value == NULL)
+			error_exit(fd_out_save, -6);
 	}
 }
