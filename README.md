@@ -11,7 +11,9 @@ to english.
 With Minishell, you’ll be able to travel through time and come back to problems
 people faced when Windows didn’t exist.
   
-	
+
+
+
   -Install-
   
 make all  
