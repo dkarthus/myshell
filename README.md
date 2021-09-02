@@ -17,3 +17,5 @@ people faced when Windows didn’t exist.
   -Install-
   
 make all  
+
+![alt_text](https://github.com/dkarthus/myshell/blob/b768ef69947f6d5b626ebc36a92a6931f2e045c4/gr_sc.png)
